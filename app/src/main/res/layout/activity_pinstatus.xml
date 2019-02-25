@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppLayout">
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="カードをタッチして暗証番号ステータスを確認できます。個人番号カードと免許証のどちらでも読み取れます。"
+        android:textSize="20sp" />
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp">
+      <TextView
+          android:id="@+id/message"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textSize="12sp" />
+    </ScrollView>
+</LinearLayout>

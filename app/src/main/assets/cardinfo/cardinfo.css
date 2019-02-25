@@ -1,0 +1,578 @@
+
+* {
+  margin : 0;
+  padding : 0;
+}
+
+body {
+  font-size: medium;
+}
+
+h1 {
+  margin: 2px;
+  padding: 2px;
+}
+
+hr {
+  border: 0px;
+  border-bottom: 1px solid #000000;
+}
+
+
+.cardinfo-block {
+  display: block;
+  width: 640px;
+  margin: 0px;
+  padding: 10px;
+  //border: 1px solid #000000;
+  word-wrap: break-word;
+}
+
+.cardinfo-entries {
+  width: 640px;
+  min-height: 400px;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #aaaaaa;
+  font-size: 20px;
+  font-family: "Noto Sans"
+}
+
+.cardinfo-head {
+  display: inline-block;
+  width: 100%;
+  padding: 0px;
+}
+
+.cardinfo-head-left {
+  display: inline-block;
+  float: left;
+  width: 550px;
+  margin-top: 2px;
+  margin-right: 1px;
+}
+
+
+.cardinfo-label {
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  //text-align: center;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.cardinfo-name-wrap {
+  display: inline-block;
+  width: 545px;
+  margin-top: 2px;
+  margin-left: 0px;
+}
+
+.cardinfo-name-label-wrap {
+  display: inline-block;
+  padding-left: 4px;
+  padding-top: 3px;
+  vertical-align: top;
+}
+
+.cardinfo-name {
+  display: inline-block;
+  width: 490px;
+  margin-left: 5px;
+  padding: 0px;
+  text-align: left;
+  letter-spacing: 0px;
+  font-size: 28px;
+  line-height: 35px;
+}
+
+.cardinfo-addr-wrap {
+  display: inline-block;
+  width: 545px;
+  padding-top: 28px;
+}
+
+.cardinfo-addr-label-wrap {
+  display: inline-block;
+  padding-left: 4px;
+  padding-top: 3px;
+  vertical-align: top;
+}
+
+.cardinfo-addr {
+  display: inline-block;
+  width: 490px;
+  height: 55px;
+  margin-left: 5px;
+  padding: 0px;
+  background-color: #ffffff; //for old android bug
+  white-space: nowrap; 
+  font-size: 22px;
+  line-height: 27px;
+}
+
+.cardinfo-head-right {
+  display: inline-block;
+  float: right;
+  width: 87px;
+}
+
+.cardinfo-logo {
+  display: block;
+  float: right;
+  width: 70px;
+  height: 70px;
+  margin-top: 4px;
+  margin-right: 4px;
+  border: 1px solid #a0a0a0;
+  border-radius: 15px;
+}
+
+img#cardinfo-rabbit {
+  display: block;
+  width: 42px;
+  height: 42px;
+  margin-left: 14px;
+}
+
+.cardinfo-logo-label {
+  display: block;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 13px;
+}
+
+.cardinfo-sex-wrap {
+  display: inline-block;
+  width: 100%;
+  margin-top: 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.cardinfo-sex-label-wrap {
+  display: inline-block;
+  width: 32px;
+}
+
+.cardinfo-sex {
+  display: inline-block;
+  margin: 5px: 
+  text-align: left;
+  letter-spacing: 0px;
+  font-size: 19px;
+  line-height: 24px;
+}
+
+.cardinfo-body {
+  display: block;
+  height: 265px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.cardinfo-left {
+  display: inline-block;
+  float: left;
+  width: 180px;
+  height: 100%;
+  margin-left: 10px;
+}
+
+img#cardinfo-photo {
+  display: block;
+  width: 170px;
+  height: 210px;
+  margin-top: 10px;
+  border-radius: 32px;
+}
+
+.cardinfo-left-bottom {
+  display: inline-block;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.cardinfo-serial-number {
+  display: inline-block;
+  float: left;
+  margin-top: 8px;
+  color: #808080;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.cardinfo-security-code {
+  display: inline-block;
+  float: right;
+  margin-top: 2px;
+  font-size: 18px;
+  line-height: 23px;
+}
+
+.cardinfo-right {
+  display: inline-block;
+  float: right;
+  width: 415px;
+  height: 100%;
+  margin-right: 4px;
+}
+
+.cardinfo-birth {
+  display: inline-block;
+  float: left;
+  width: 170px;
+  padding-left: 5px;
+  text-align: right;
+  font-size: 18px;
+  line-height: 23px;
+}
+
+.cardinfo-expire {
+  display: inline-block;
+  float: right;
+  width: 220px;
+  margin-right: 5px;
+  padding: 0px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 23px;
+}
+
+.cardinfo-mayor {
+  display: inline-block;
+  float: left;
+  width: 172px;
+  height: 35px;
+  padding-top: 7px;
+  text-align: right;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.cardinfo-cert-expire-wrap {
+  display: inline-block;
+  float: right;
+  width: 220px;
+  margin-right: 5px;
+  margin-top: 14px;
+  background-color: #ffffff;
+  line-height: 25px;
+}
+
+.cardinfo-cert-expire-label {
+  display: inline-block;
+  float: left;
+  width: 65px;
+  height: 26px;
+  padding: 2px;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.cardinfo-cert-expire {
+  display: inline-block;
+  float: right;
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 23px;
+}
+
+.cardinfo-matter {
+  display: inline-block;
+  width: 410px;
+  height: 120px;
+  margin-top: 5px;
+  border: 3px solid #baffff;
+  background: repeating-linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,0) 29px, #baffff 29px, #baffff 31px);
+  background-color: #effffc;
+  line-height: 31px;
+  font-size: 20px;
+}
+
+.cardinfo-organ-donation-wrap {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  padding-left: 5px;
+  font-size: 0px;
+}
+
+.cardinfo-organ-donation-intention-label {
+  display: inline-block;
+  padding: 0px;
+  margin-right: 2px;
+  font-size: 12px;
+  white-space: nowrap;
+  line-height: 15px;
+}
+
+.cardinfo-organ-donation-intention {
+  display: inline-block;
+  padding: 0px;
+  white-space: nowrap;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.cardinfo-organ-donation-sign {
+  width: 230px;
+  float: right;
+  margin-top: 6px;
+  margin-right: 8px;
+  border-bottom: 1px solid #000000;
+  text-align: left;
+  font-size: 18px;
+  line-height: 23px;
+}
+
+.cardinfo-organ-donation-sign-date {
+  width: 170px;
+  margin-top: 2px;
+  margin-left: 2px;
+  border-bottom: 1px solid #000000;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: right;
+}
+
+.cardinfo-organ-donation-sign-date-label {
+  float: left;
+}
+
+.cardinfo-organ-donation-sign-special {
+  width: 170px;
+  padding-left: 2px;
+  padding-top: 2px;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.cardinfo-organ-donation-sign-special-prefix {
+  float: left;
+}
+
+.cardinfo-organ-donation-sign-special-suffix {
+  float: right;
+}
+
+.cardinfo-backside-head {
+  width: 100%;
+  height: 45px;
+  margin-top: -10px;
+  padding: 0px;
+}
+
+.cardinfo-call-center-wrap {
+  display: inline-block;
+  width: 560px;
+  margin-top: 5px;
+  margin-left: 40px;
+  margin-right: -10px;
+  font-size: 0px;
+}
+
+.cardinfo-call-center {
+  display: inline-block;
+  margin-top: 0px;
+  padding: 0px;
+  white-space: nowrap;
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.cardinfo-triangle {
+  display: inline-block;
+  float: left;
+  width: 0px;
+  height: 0px;
+  margin-top: 15px;
+  margin-left: 5px;
+  border-top: 7px solid #ffffff;
+  border-right: 20px solid #000000;
+  border-bottom: 7px solid #ffffff;
+}
+
+.cardinfo-magnetic-stripe {
+  display: block;
+  width: 660px;
+  height: 50px;
+  margin-left: -10px;
+  margin-right: -10px;
+  background-color: #000000;
+}
+
+.cardinfo-backside-body {
+  display: block;
+  width: 100%;
+  height: 310px;
+  margin-top: 0px;
+  margin-bottom: -10px;
+  padding: 0px;
+}
+
+.cardinfo-backside-left {
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 100%;
+  margin-left: 10px;
+}
+
+img#ic-chip {
+  display: inline-block;
+  width: 98px;
+  height: 88px;
+  margin-top: 45px;
+  margin-left: 40px;
+  padding: 0px;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  background-color: #e0c050;
+  font-size: 0px;
+}
+
+.cardinfo-backside-left-bottom {
+  display: inline-block;
+  float: left;
+  width: 100%;
+  height: 170px;
+}
+
+.cardinfo-qr-code {
+  display: inline-block;
+  width: 95px;
+  height: 95px;
+  margin-top: 65px;
+  background-color: #ffffff;
+}
+
+img#qr-code {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  margin-top: 15px;
+  margin-left: 8px;
+  padding: 0px;
+  border: 1px solid #ffffff;
+}
+
+.cardinfo-law {
+  display: inline-block;
+  float: right;
+  width: 100px;
+  height: 155px;
+  margin-top: 10px;
+  font-size: 0px;
+}
+
+.cardinfo-law-line {
+  display: block;
+  width: auto;
+  margin-right: -20px;
+  font-size: 12px;
+  line-height: 17px;
+}
+
+.cardinfo-backside-right {
+  display: inline-block;
+  float: right;
+  width: 400px;
+  height: 100%;
+  margin-left: 10px;
+  font-size: 0px;
+}
+
+.cardinfo-mynumber-wrap {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  padding: 0px;
+}
+
+.cardinfo-mynumber-label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  background-color: #0090ff;
+  color: #ffffff;
+  text-align: center;
+  font-size: 13px;
+  vertical-align: bottom;
+  line-height: 15px;
+}
+
+.cardinfo-mynumber-cell {
+  display: inline-block;
+  height: 38px;
+  width: 95px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #a0a0a0;
+  color: #404040;
+  text-align: center;
+  font-size: 38px;
+  line-height: 38px;
+  vertical-align: bottom;
+}
+
+.cardinfo-backside-name-wrap {
+  display: inline-block;
+  width: 100%;
+  height: 25px;
+  margin-top: 10px;
+  padding: 0px;
+  vertical-align: bottom;
+}
+
+.cardinfo-backside-name-label {
+  display: inline-block;
+  padding: 0px;
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align: bottom;
+}
+
+.cardinfo-backside-name {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 0px;
+  font-size: 20px;
+  line-height: 20px;
+  vertical-align: bottom;
+}
+
+.cardinfo-backside-birth {
+  display: inline-block;
+  width: 380px;
+  height: 30px;
+  margin-top: 30px;
+  padding-right: 20px;
+  font-size: 20px;
+  text-align: right;
+  line-height: 25px;
+}
+
+table.cardinfo-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.cardinfo-table td {
+  padding: 4px;
+  border: 1px solid #000000;
+  background-color: #fff;
+}

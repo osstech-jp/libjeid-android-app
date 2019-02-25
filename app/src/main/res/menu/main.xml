@@ -1,0 +1,15 @@
+<!--?xml version="1.0" encoding="utf-8"?-->
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/nfc_status_icon"
+      app:showAsAction="ifRoom"
+      android:icon="@drawable/ic_nfc_off"
+      android:title="NFC Status" />
+  <item
+      android:id="@+id/nfc_settings_button"
+      app:showAsAction="ifRoom"
+      android:icon="@drawable/ic_settings"
+      android:title="NFC Settings" />
+</menu>

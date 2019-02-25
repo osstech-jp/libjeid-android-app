@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "jp.co.osstech.jeidreader"
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 12
+        versionName "1.0.12"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    signingConfigs {
+        release {
+            def local = new Properties()
+            local.load(project.rootProject.file('local.properties').newDataInputStream())
+            storeFile project.rootProject.file('release.keystore')
+            storePassword local.getProperty("release.storePassword")
+            keyAlias local.getProperty("release.keyAlias")
+            keyPassword local.getProperty("release.keyPassword")
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    lintOptions {
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'
+        disable 'SetTextI18n'
+        disable 'HardcodedText'
+        disable 'InflateParams'
+        disable 'IconLocation'
+        disable 'TextFields'
+        disable 'SetJavaScriptEnabled'
+        disable 'InvalidPackage'
+    }
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                exceptionFormat 'full'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'jp.co.osstech:libjeid-free:20190225@aar'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.madgag.spongycastle:core:1.58.0.0'
+    implementation 'com.madgag.spongycastle:prov:1.58.0.0'
+}

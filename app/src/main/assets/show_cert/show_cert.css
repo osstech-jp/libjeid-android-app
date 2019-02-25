@@ -1,0 +1,161 @@
+
+* {
+  margin : 0;
+  padding : 0;
+  background-color: #ffffff; //for old android bug
+}
+
+body {
+  font-size: medium;
+  background-color: #ffffff; //for old android bug
+}
+
+h1 {
+  margin: 2px;
+  padding: 2px;
+}
+
+hr {
+  border: 0px;
+  border-bottom: 1px solid #000000;
+}
+
+.cert-entries {
+  width: 640px;
+  min-height: 400px;
+  margin: 0px;
+  padding: 10px;
+  font-size: 20px;
+  font-family: "Noto Sans"
+}
+
+.cert-tabs {
+  width: 640px;
+  margin: 0px;
+  padding: 0px;
+  word-wrap: break-word;
+}
+
+.cert-tabs input[name="cert-tab"] {
+  display: none;
+}
+
+.cert-tab {
+  display: inline-block;
+  float: left;
+  width: 100px;
+  height: 35px;
+  padding-top: 4px;
+  border-top: 1px solid #aaaaaa;
+  border-left: 1px solid #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+  background-color: #cccccc;
+  color: #606060;
+  font-size: 30px;
+  text-align: center;
+  line-height: 35px;
+}
+
+.cert-tabs input:checked + .cert-tab {
+  height: 36px;
+  padding-top: 4px;
+  padding-left: 0px;
+  border: none;
+  border-top: 1px solid #aaaaaa;
+  border-left: 1px solid #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+  background-color: #ffffff;
+  color: #202020;
+}
+
+.cert-tab:hover {
+  color: #202020;
+}
+
+.cert-tab-blank {
+  display: inline-block;
+  float: left;
+  width: 436px;
+  height: 35px;
+  margin-top: 0px;
+  margin-right: -1px;
+  padding-top: 5px;
+  border-bottom: solid 1px #aaaaaa;
+}
+
+.cert-tab-content {
+  display: none;
+  width: 638px;
+  padding: 0px;
+  margin: 0px;
+  border-left: 1px solid #aaaaaa;
+  border-right: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+  font-size: 25px;
+  line-height: 30px;
+}
+
+.cert-fields {
+  display: inline-block;
+  width: 616px;
+  margin: 10px;
+  padding-bottom: 10px;
+}
+
+.cert-field {
+  display: block;
+  margin: 5px;
+  margin-top: 25px;
+  border: 1px solid #aaaaaa;
+}
+
+.cert-field-label {
+  display: block;
+  padding-top: 5px;
+  padding-left: 5px;
+  word-wrap: normal;
+}
+
+.cert-field-value {
+  display: inline-block;
+  width: 520px;
+  margin-top: 5px;
+  margin-left: 70px;
+  margin-right: -1px;
+  margin-bottom: -1px;
+  padding-top: 3px;
+  padding-left: 8px;
+  padding-right: 5px;
+  border: 1px solid #aaaaaa;
+}
+
+.cert-field.cert-field-reversible {
+}
+
+.cert-field-label.cert-field-reversible-label {
+}
+
+.cert-field-reversible-label:hover {
+  color: #505050;
+}
+
+.cert-field-reversible-label::after {
+  color: #606060;
+  font-size: 22px;
+  line-height: 25px;
+  content: attr(suffix);
+}
+
+.cert-field-reversible input{
+   display: none;
+}
+
+.cert-field-value.cert-field-reversible-value-hidden {
+  display: none;
+}
+
+.cert-field-value.cert-field-reversible-value-short {
+  display: block;
+}
+

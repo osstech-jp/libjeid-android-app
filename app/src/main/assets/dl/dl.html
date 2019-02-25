@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=640,user-scalable=yes">
+  </head>
+  <script type="text/javascript" src="dl.js"></script>
+  <!--script type="text/javascript" src="dummy.js"></script-->
+  <link rel="stylesheet" type="text/css" href="normalize.css" />
+  <link rel="stylesheet" type="text/css" href="dl.css" />
+  <body>
+    <div class="dl-entries">
+      <div class="dl-head">
+        <div class="dl-label">氏名</div>
+        <div class="dl-name" id="dl-name">&nbsp;</div>
+        <div class="dl-birth" id="dl-birth">&nbsp;</div>
+      </div>
+      <div class="dl-body">
+        <div class="dl-label">住所</div>
+        <div class="dl-addr" id="dl-addr">&nbsp;</div>
+        <hr/>
+        <div class="dl-right">
+          <img id="dl-photo"/>
+          <div class="dl-sc">
+            <div class="dl-sc-name">
+              <div id="dl-sc">&nbsp;</div>
+              公安委員会
+            </div>
+            <img id="dl-verified" class="dl-verified" src="verify-failed.png"></img>
+          </div>
+
+        </div>
+        <div class="dl-label">交付</div>
+        <div class="dl-issue" id="dl-issue">&nbsp;</div>
+        <div class="dl-ref" id="dl-ref">&nbsp;</div>
+        <hr/>
+        <div class="dl-title">運転免許証</div>
+        <div class="dl-expire" id="dl-expire">&nbsp;</div>
+        <div id="dl-is-expired"></div>
+        <div class="dl-condition-box">
+          <div class="dl-condition-row">
+            <div class="dl-condition-label">免許の</div>
+            <div class="dl-condition-value" id="dl-condition1">&nbsp;</div>
+          </div>
+          <div class="dl-condition-row">
+            <div class="dl-condition-label">条件等</div>
+            <div class="dl-condition-value" id="dl-condition2">&nbsp;</div>
+          </div>
+          <div class="dl-condition-row">
+            <div class="dl-color-class" id="dl-color-class">優良</div>
+            <div class="dl-condition-label"></div>
+            <div class="dl-condition-value" id="dl-condition3">&nbsp;</div>
+          </div>
+          <div class="dl-condition-row">
+            <div class="dl-condition-label"></div>
+            <div class="dl-condition-value" id="dl-condition4">&nbsp;</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="dl-foot-row">
+            <div class="dl-foot-left-label dl-foot-left-number-label">番号</div>
+            <div class="dl-foot-left-number" id="dl-number"></div>
+          </div>
+          <div class="dl-foot-left">
+            <div class="dl-foot-left-row">
+              <div class="dl-foot-left-label">二･小･原</div>
+              <div class="dl-foot-left-date" id="dl-cat-22-date"></div>
+            </div>
+            <div class="dl-foot-left-row">
+              <div class="dl-foot-left-label">他</div>
+              <div class="dl-foot-left-date" id="dl-cat-23-date"></div>
+            </div>
+            <div class="dl-foot-left-row">
+              <div class="dl-foot-left-label">二種</div>
+              <div class="dl-foot-left-date" id="dl-cat-24-date"></div>
+            </div>
+          </div>
+          <div class="dl-cat">
+            <div class="dl-cat-col">
+              <div class="dl-cat-label">種<br/><br/>類</div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-25-text">大型</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-2a-text">小特</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-31-text">中型</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-2b-text">原付</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-3" id="dl-cat-33-text">準中型</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-2d-text">大二</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-26-text">普通</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-32-text">中二</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-27-text">大特</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-2" id="dl-cat-2e-text">普二</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-3" id="dl-cat-28-text">大自二</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-3" id="dl-cat-2f-text">大特二</div>
+              </div>
+            </div>
+            <div class="dl-cat-col">
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-3" id="dl-cat-29-text">普自二</div>
+              </div>
+              <div class="dl-cat-cell">
+                <div class="dl-cat-cell-3" id="dl-cat-30-text">引引二</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="dl-entries">
+      <div class="dl-remarks">
+        <div class="dl-remarks-label">備　考</div>
+        <div class="dl-remarks-content" id="dl-remarks">&nbsp;</div>
+      </div>
+    </div>
+    <br><br>
+    <div class="dl-block">
+      <table id="dl-name-etc" class="dl-table">
+      </table>
+    </div>
+    <h1>免許の年月日</h1>
+    <div class="dl-block">
+      <table id="dl-categories" class="dl-table">
+      </table>
+    </div>
+    <h1>電子署名</h1>
+    <div class="dl-block">
+      <table id="dl-signature" class="dl-table">
+      </table>
+    </div>
+    <!--
+    <h1>Debug</h1>
+    <div id="msg" class="dl-block">
+    </div>
+    -->
+  </body>
+</html>

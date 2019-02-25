@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=640,user-scalable=yes">
+  </head>
+  <script type="text/javascript" src="cardinfo.js"></script>
+  <!--script type="text/javascript" src="dummy.js"></script-->
+  <link rel="stylesheet" type="text/css" href="normalize.css" />
+  <link rel="stylesheet" type="text/css" href="cardinfo.css" />
+  <body>
+    <div class="cardinfo-entries">
+      <div class="cardinfo-head">
+        <div class="cardinfo-head-left">
+          <div class="cardinfo-name-wrap">
+            <div class="cardinfo-name-label-wrap">
+              <div class="cardinfo-label">氏名</div>
+            </div>
+            <div class="cardinfo-name" id="cardinfo-name">&nbsp;</div>
+          </div>
+          <div class="cardinfo-addr-wrap">
+            <div class="cardinfo-addr-label-wrap">
+              <div class="cardinfo-label">住所</div>
+            </div>
+            <div class="cardinfo-addr" id="cardinfo-addr">&nbsp;</div>
+          </div>
+        </div>
+        <div class="cardinfo-head-right">
+          <div class="cardinfo-logo">
+            <img id="cardinfo-rabbit" src="usagi.png"/>
+            <div class="cardinfo-logo-label">個人番号<br>カード</div>
+          </div>
+          <div class="cardinfo-sex-wrap">
+            <div class="cardinfo-sex-label-wrap">
+              <div class="cardinfo-label">性別</div>
+            </div>
+            <div class="cardinfo-sex" id="cardinfo-sex">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cardinfo-body">
+        <div class="cardinfo-left">
+          <img id="cardinfo-photo"/>
+          <!--
+          <div class="cardinfo-left-bottom">
+            <div class="cardinfo-serial-number">
+                0123456789ABCDEF
+            </div>
+            <div class="cardinfo-security-code">
+                0000
+            </div>
+          </div>
+          -->
+        </div>
+        <div class="cardinfo-right">
+          <div class="cardinfo-birth" id="cardinfo-birth">&nbsp;</div>
+          <div class="cardinfo-expire" id="cardinfo-expire">0000年 0月 0日まで有効</div>
+          <div class="cardinfo-mayor">○○市長</div>
+          <div class="cardinfo-cert-expire-wrap">
+            <div class="cardinfo-cert-expire-label">電子証明書<br>の有効期限</div>
+            <div class="cardinfo-cert-expire" id="cardinfo-cert-expire">年　月　日</div>
+          </div>
+          <div class="cardinfo-matter">
+          &nbsp;
+          </div>
+          <div class="cardinfo-organ-donation-wrap">
+            <div class="cardinfo-organ-donation-intention-label">●臓器提供意思</div>
+            <div class="cardinfo-organ-donation-intention">【１脳死後及び心停止した死後／２心停止した死後のみ／３提供せず】</div>
+            <div class="cardinfo-organ-donation-intention">《１・２で提供したくない臓器があれば☓》【心臓・肺・肝臓・腎臓・膵臓・小腸・眼球】</div>
+            <div class="cardinfo-organ-donation-sign">署名</div>
+            <div class="cardinfo-organ-donation-sign-date">
+              <div class="cardinfo-organ-donation-sign-date-label">署名年月日</div>
+              年　　月　　日
+            </div>
+            <div class="cardinfo-organ-donation-sign-special">
+              <div class="cardinfo-organ-donation-sign-special-prefix">[特記欄:</div>
+              &nbsp;
+              <div class="cardinfo-organ-donation-sign-special-suffix">]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="cardinfo-entries">
+      <div class="cardinfo-backside-head">
+        <div class="cardinfo-triangle"></div>
+        <div class="cardinfo-call-center-wrap">
+          <div class="cardinfo-call-center">●このカードを拾得された方は、お手数ですが、下記連絡先までご連絡ください。</div>
+          <div class="cardinfo-call-center">&nbsp;《連絡先》　個人番号カードコールセンター　XXXX - XXX - XXX（24時間受付）</div>
+        </div>
+      </div>
+      <div class="cardinfo-magnetic-stripe"></div>
+      <div class="cardinfo-backside-body">
+        <div class="cardinfo-backside-left">
+          <img id="ic-chip" src="ic-chip.png"/>
+          <div class="cardinfo-backside-left-bottom">
+            <div class="cardinfo-qr-code">
+              <img id="qr-code"/>
+            </div>
+            <div class="cardinfo-law">
+              <div class="cardinfo-law-line">●法律で認められ</div>
+              <div class="cardinfo-law-line">た者以外の者が個</div>
+              <div class="cardinfo-law-line">人番号をコピーす</div>
+              <div class="cardinfo-law-line">ることは、法律で</div>
+              <div class="cardinfo-law-line">禁止されています。</div>
+              <div class="cardinfo-law-line">また、記載事項を</div>
+              <div class="cardinfo-law-line">改ざんした者は、</div>
+              <div class="cardinfo-law-line">法律により罰せら</div>
+              <div class="cardinfo-law-line">れます。</div>
+            </div>
+          </div>
+        </div>
+        <div class="cardinfo-backside-right">
+          <div class="cardinfo-mynumber-wrap">
+            <div class="cardinfo-mynumber-label">個人<br>番号</div>
+            <div class="cardinfo-mynumber-cell" id="cardinfo-mynumber-cell-1">&nbsp;</div>
+            <div class="cardinfo-mynumber-cell" id="cardinfo-mynumber-cell-2">&nbsp;</div>
+            <div class="cardinfo-mynumber-cell" id="cardinfo-mynumber-cell-3">&nbsp;</div>
+          </div>
+          <div class="cardinfo-backside-name-wrap">
+            <div class="cardinfo-backside-name-label">氏名</div>
+            <div class="cardinfo-backside-name" id="cardinfo-backside-name">&nbsp;</div>
+          </div>
+          <div class="cardinfo-backside-birth" id="cardinfo-backside-birth">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

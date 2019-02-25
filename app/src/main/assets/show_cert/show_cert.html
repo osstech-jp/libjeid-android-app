@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=640,user-scalable=yes">
+  </head>
+  <script type="text/javascript" src="show_cert.js"></script>
+  <!--script type="text/javascript" src="dummy.js"></script-->
+  <link rel="stylesheet" type="text/css" href="normalize.css" />
+  <link rel="stylesheet" type="text/css" href="show_cert.css" />
+  <body>
+    <div class="cert-entries">
+      <div class="cert-tabs">
+        <input id="tab_general" type="radio" name="cert-tab" onclick="displayTabContent('content_general')">
+        <label class="cert-tab" for="tab_general">全般</label>
+        <input id="tab_details" type="radio" name="cert-tab" onclick="displayTabContent('content_details')">
+        <label class="cert-tab" for="tab_details">詳細</label>
+        <label class="cert-tab-blank">&nbsp;</label>
+
+        <div class="cert-tab-content" id="content_general">
+          <div class="cert-fields" id="cert-fields-general"></div>
+        </div>
+        <div class="cert-tab-content" id="content_details">
+          <div class="cert-fields" id="cert-fields-details"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
