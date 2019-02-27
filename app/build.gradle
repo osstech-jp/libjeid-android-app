@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    implementation 'jp.co.osstech:libjeid-free:20190225@aar'
+    implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.madgag.spongycastle:core:1.58.0.0'
