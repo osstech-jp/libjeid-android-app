@@ -1,0 +1,9 @@
+configurations.create("default")
+artifacts.add("default", file('libjeid-full-release.aar'))
+
+configurations.create("full")
+artifacts.add("full", file('libjeid-full-release.aar'))
+
+configurations.create("free")
+artifacts.add("free", file('libjeid-free-release.aar'))
+task testClasses {}

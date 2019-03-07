@@ -55,10 +55,14 @@ android {
 }
 
 dependencies {
-    // LibJeid$B:G?7HG$rMxMQ(B
+    // LibJeid最新版を利用
     // implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'
-    // LibJeid$B%j%j!<%9HG$rMxMQ(B
+    // LibJeidリリース版を利用
     implementation 'jp.co.osstech:libjeid-free:20190308@aar'
+
+    // ダウンロードしたaarファイルを利用することもできます
+    //implementation project(path: ':libjeid', configuration: 'free')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.madgag.spongycastle:core:1.58.0.0'
