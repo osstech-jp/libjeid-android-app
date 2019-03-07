@@ -98,13 +98,13 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             ap.startBAC(mrz);
             publishProgress("BAC end");
             publishProgress("CommonData読み取り開始");
-            EPCommonData commonData = ap.getCommonData();
+            EPCommonData commonData = ap.readCommonData();
             publishProgress(commonData.toString());
             publishProgress("DG1読み取り開始");
-            EPDataGroup1 dg1 = ap.getDataGroup1();
+            EPDataGroup1 dg1 = ap.readDataGroup1();
             publishProgress(dg1.getMRZ());
             publishProgress("DG2読み取り開始");
-            EPDataGroup2 dg2 = ap.getDataGroup2();
+            EPDataGroup2 dg2 = ap.readDataGroup2();
             byte[] jpeg = dg2.getFaceJpeg();
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             publishProgress("読み取り完了");
