@@ -23,58 +23,58 @@ function htmlEscape(str) {
 }
 
 function displayTabContent(id) {
-  var page = document.getElementById(id);
-  var currentPage;
-  if (id === 'content_general') {
-    currentPage = document.getElementById('content_details');
-  } else if (id === 'content_details') {
-    currentPage = document.getElementById('content_general');
-  }
-  currentPage.style.display = 'none';
-  page.style.display = 'block';
+    var page = document.getElementById(id);
+    var currentPage;
+    if (id === 'content_general') {
+       currentPage = document.getElementById('content_details');
+    } else if (id === 'content_details') {
+        currentPage = document.getElementById('content_general');
+    }
+    currentPage.style.display = 'none';
+    page.style.display = 'block';
 }
 
 function displayFieldContent(id) {
-  var hiddenEle = document.getElementById(id + '-hidden');
-  var dummyEle = document.getElementById(id + '-short');
-  var labelEle = document.getElementById(id + '-label');
-  if (document.getElementById(id).checked) {
-    dummyEle.style.display = 'none';
-    hiddenEle.style.display = 'block';
-    labelEle.setAttribute('suffix', ' [全表示中]');
-  } else {
-    hiddenEle.style.display = 'none';
-    dummyEle.style.display = 'block';
-    labelEle.setAttribute('suffix', ' [タップで全表示]');
-  }
+    var hiddenEle = document.getElementById(id + '-hidden');
+    var dummyEle = document.getElementById(id + '-short');
+    var labelEle = document.getElementById(id + '-label');
+    if (document.getElementById(id).checked) {
+        dummyEle.style.display = 'none';
+        hiddenEle.style.display = 'block';
+        labelEle.setAttribute('suffix', ' [全表示中]');
+    } else {
+        hiddenEle.style.display = 'none';
+        dummyEle.style.display = 'block';
+        labelEle.setAttribute('suffix', ' [タップで全表示]');
+    }
 }
 
 function generateFieldLine(id, label, value, prefix) {
-  var omitLength = 128;
-  var line;
-  if (value.length > omitLength) {
-    line = '<div class=\"cert-field cert-field-reversible\">'
-        + '<input id="' + prefix + id + '" name="' + prefix + id + '" '
-        + 'type="checkbox" onchange="displayFieldContent(\'' + prefix + id + '\')">'
-        + '<label class="cert-field-label cert-field-reversible-label" for="' + prefix + id + '" '
-        + 'id="' + prefix + id + '-label" suffix=" [タップで全表示]">' + label + '</label>'
-        + '<div class="cert-field-value cert-field-reversible-value-hidden" id="' + prefix + id + '-hidden' + '">'
-        + value
-        + '</div>'
-        + '<div class="cert-field-value cert-field-reversible-value-short" for="' + prefix + id + '" '
-        + 'id="' + prefix + id + '-short' + '">'
-        + value.substr(0, omitLength) + ' . . .'
-        + '</div></div>';
-  } else {
-    line = '<div class=\"cert-field\">'
-        + '<div class=\"cert-field-label\">'
-        + label
-        + '</div>'
-        + '<div class=\"cert-field-value\">'
-        + value
-        + '</div></div>';
-  }
-  return line;
+    var omitLength = 128;
+    var line;
+    if (value.length > omitLength) {
+        line = '<div class=\"cert-field cert-field-reversible\">'
+            + '<input id="' + prefix + id + '" name="' + prefix + id + '" '
+            + 'type="checkbox" onchange="displayFieldContent(\'' + prefix + id + '\')">'
+            + '<label class="cert-field-label cert-field-reversible-label" for="' + prefix + id + '" '
+            + 'id="' + prefix + id + '-label" suffix=" [タップで全表示]">' + label + '</label>'
+            + '<div class="cert-field-value cert-field-reversible-value-hidden" id="' + prefix + id + '-hidden' + '">'
+            + value
+            + '</div>'
+            + '<div class="cert-field-value cert-field-reversible-value-short" for="' + prefix + id + '" '
+            + 'id="' + prefix + id + '-short' + '">'
+            + value.substr(0, omitLength) + ' . . .'
+            + '</div></div>';
+    } else {
+        line = '<div class=\"cert-field\">'
+            + '<div class=\"cert-field-label\">'
+            + label
+            + '</div>'
+            + '<div class=\"cert-field-value\">'
+            + value
+            + '</div></div>';
+    }
+    return line;
 }
 
 function render(json) {
@@ -125,31 +125,31 @@ function render(json) {
     var id, label, value;
     var unsupportedOidIndex = 0;
     for (var i in general_list) {
-      if (general_list[i] in data && data[general_list[i]]) {
-        id = general_list[i];
-        label = htmlEscape(labels[general_list[i]]);
-        value = htmlEscape(data[general_list[i]]);
-        general_str += '\n' + generateFieldLine(id, label, value, 'general_');
-      }
+        if (general_list[i] in data && data[general_list[i]]) {
+            id = general_list[i];
+            label = htmlEscape(labels[general_list[i]]);
+            value = htmlEscape(data[general_list[i]]);
+            general_str += '\n' + generateFieldLine(id, label, value, 'general_');
+        }
     }
     for (var i in details_list) {
-      if (details_list[i] in data && data[details_list[i]]) {
-        id = details_list[i];
-        label = htmlEscape(labels[details_list[i]]);
-        value = htmlEscape(data[details_list[i]]);
-        details_str += '\n' + generateFieldLine(id, label, value, 'details_');
-      }
+        if (details_list[i] in data && data[details_list[i]]) {
+            id = details_list[i];
+            label = htmlEscape(labels[details_list[i]]);
+            value = htmlEscape(data[details_list[i]]);
+            details_str += '\n' + generateFieldLine(id, label, value, 'details_');
+        }
     }
     while ('showcert-unsupported-oid' + unsupportedOidIndex in data
             && data['showcert-unsupported-oid' + unsupportedOidIndex]) {
-      id = 'showcert-unsupported-oid' + unsupportedOidIndex;
-      label = htmlEscape(data['showcert-unsupported-oid' + unsupportedOidIndex]);
-      if ('showcert-unsupported-oid' + unsupportedOidIndex + '-value' in data
-              && data['showcert-unsupported-oid' + unsupportedOidIndex + '-value']) {
-        value = htmlEscape(data['showcert-unsupported-oid' + unsupportedOidIndex + '-value']);
-        details_str += '\n' + generateFieldLine(id, label, value, 'details_');      
-      }
-      unsupportedOidIndex++;
+        id = 'showcert-unsupported-oid' + unsupportedOidIndex;
+        label = htmlEscape(data['showcert-unsupported-oid' + unsupportedOidIndex]);
+        if ('showcert-unsupported-oid' + unsupportedOidIndex + '-value' in data
+                && data['showcert-unsupported-oid' + unsupportedOidIndex + '-value']) {
+            value = htmlEscape(data['showcert-unsupported-oid' + unsupportedOidIndex + '-value']);
+            details_str += '\n' + generateFieldLine(id, label, value, 'details_');      
+        }
+        unsupportedOidIndex++;
     }
 
     document.getElementById('cert-fields-general').innerHTML = general_str;
