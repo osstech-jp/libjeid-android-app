@@ -24,7 +24,7 @@ import jp.co.osstech.libjeid.in.CardInputHelperEntries;
 
 import org.json.JSONObject;
 
-public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
+public class INReaderTask extends AsyncTask<Void, String, JSONObject>
 {
     private static final String TAG = MainActivity.TAG;
     private WeakReference mRef;
@@ -33,14 +33,14 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
     private ProgressDialogFragment mProgress;
     private InvalidPinException ipe;
 
-    public CardInfoTask(CardInfoActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<CardInfoActivity>(activity);
+    public INReaderTask(INReaderActivity activity, Tag nfcTag) {
+        mRef = new WeakReference<INReaderActivity>(activity);
         mNfcTag = nfcTag;
     }
 
     @Override
     protected void onPreExecute() {
-        CardInfoActivity activity = (CardInfoActivity)mRef.get();
+        INReaderActivity activity = (INReaderActivity)mRef.get();
         if (activity == null) {
             return;
         }
@@ -74,8 +74,12 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
                 return null;
             }
             JSONObject obj = new JSONObject();
-            String mynumber = ap.getMyNumber();
-            obj.put("cardinfo-mynumber", mynumber);
+            try {
+                String mynumber = ap.getMyNumber();
+                obj.put("cardinfo-mynumber", mynumber);
+            } catch (UnsupportedOperationException uoe) {
+                // 無償版では取得出来ません。
+            }
             CardInputHelperEntries entries = ap.getEntries();
             obj.put("cardinfo-name", entries.getName());
             obj.put("cardinfo-birth", entries.getBirth());
@@ -83,17 +87,9 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-addr", entries.getAddr());
             publishProgress(entries.toString());
 
-            JPKIAP jpkiAP = reader.selectJPKIAP();
-            JPKICertificate cert = jpkiAP.getAuthCert();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-            String certExpireDate = sdf.format(cert.getNotAfter());
-            obj.put("cardinfo-cert-expire", certExpireDate);
-            //publishProgress("認証用証明書の有効期限: " + certExpireDate);
-
             publishProgress("券面の読み取り中...");
             CardEntriesAP ap2 = reader.selectCardEntriesAP();
-            ap2.verifyPinA(mynumber);
+            ap2.verifyPin(mPin);
             CardFrontEntries front = ap2.getFrontEntries();
             String expire = front.getExpire();
             obj.put("cardinfo-expire", expire);
@@ -106,6 +102,14 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("cardinfo-photo", src);
 
+            publishProgress("ユーザー認証用証明書の有効期限を取得...");
+            JPKIAP jpkiAP = reader.selectJPKIAP();
+            JPKICertificate cert = jpkiAP.getAuthCert();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+            String certExpireDate = sdf.format(cert.getNotAfter());
+            obj.put("cardinfo-cert-expire", certExpireDate);
+
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error at CardInfoTask#doInBackground()", e);
@@ -115,7 +119,7 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
     }
 
     protected void onProgressUpdate(String... values) {
-        CardInfoActivity activity = (CardInfoActivity)mRef.get();
+        INReaderActivity activity = (INReaderActivity)mRef.get();
         if (activity == null) {
             return;
         }
@@ -125,7 +129,7 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
     @Override
     protected void onPostExecute(JSONObject obj) {
         mProgress.dismiss();
-        CardInfoActivity activity = (CardInfoActivity)mRef.get();
+        INReaderActivity activity = (INReaderActivity)mRef.get();
         if (activity == null) {
             return;
         }
@@ -151,7 +155,7 @@ public class CardInfoTask extends AsyncTask<Void, String, JSONObject>
             return;
         }
 
-        Intent intent = new Intent(activity, CardInfoViewerActivity.class);
+        Intent intent = new Intent(activity, INViewerActivity.class);
         intent.putExtra("json", obj.toString());
         activity.startActivity(intent);
     }

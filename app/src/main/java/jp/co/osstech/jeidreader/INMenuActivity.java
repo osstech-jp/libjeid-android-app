@@ -26,7 +26,7 @@ public class INMenuActivity
         Intent intent;
         switch (view.getId()) {
         case R.id.cardinfo_button:
-            intent = new Intent(getApplication(), CardInfoActivity.class);
+            intent = new Intent(getApplication(), INReaderActivity.class);
             startActivity(intent);
             break;
         case R.id.selectcert_button:

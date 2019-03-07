@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-public class CardInfoViewerActivity
+public class INViewerActivity
     extends BaseActivity
 {
     private static final String TAG = MainActivity.TAG;

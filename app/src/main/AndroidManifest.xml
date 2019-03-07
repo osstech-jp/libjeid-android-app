@@ -26,12 +26,12 @@
         android:screenOrientation="portrait">
     </activity>
     <activity
-        android:name=".CardInfoActivity"
+        android:name=".INReaderActivity"
         android:label="@string/in_reader"
         android:screenOrientation="portrait">
     </activity>
     <activity
-        android:name=".CardInfoViewerActivity"
+        android:name=".INViewerActivity"
         android:label="@string/in_viewer"
         android:screenOrientation="portrait">
     </activity>

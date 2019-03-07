@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class CardInfoActivity
+public class INReaderActivity
     extends BaseActivity
 {
     boolean isShowingDialog = false;
@@ -30,7 +30,7 @@ public class CardInfoActivity
             Log.d(TAG, getClass().getSimpleName() + "showing dialog");
             return;
         }
-        CardInfoTask task = new CardInfoTask(this, tag);
+        INReaderTask task = new INReaderTask(this, tag);
         task.execute();
     }
 
