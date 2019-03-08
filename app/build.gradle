@@ -54,6 +54,24 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url 'https://www.osstech.co.jp/download/libjeid/m2/'
+        def local = new Properties()
+        local.load(project.rootProject.file('local.properties').newDataInputStream())
+        if (local.getProperty("libjeid.username") &&
+            local.getProperty("libjeid.password")) {
+            credentials {
+                username local.getProperty("libjeid.username")
+                password local.getProperty("libjeid.password")
+            }
+        }
+        content {
+            includeGroup "jp.co.osstech"
+        }
+    }
+}
+
 dependencies {
     // LibJeid無償版を利用
     implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'

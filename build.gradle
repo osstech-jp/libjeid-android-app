@@ -17,12 +17,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'https://www.osstech.co.jp/download/libjeid/m2/'
-            content {
-                includeGroup "jp.co.osstech"
-            }
-        }
         google()
         jcenter()
     }
