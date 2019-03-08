@@ -55,13 +55,11 @@ android {
 }
 
 dependencies {
-    // LibJeid最新版を利用
-    // implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'
-    // LibJeidリリース版を利用
-    implementation 'jp.co.osstech:libjeid-free:20190308@aar'
+    // LibJeid無償版を利用
+    implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'
 
-    // ダウンロードしたaarファイルを利用することもできます
-    //implementation project(path: ':libjeid', configuration: 'free')
+    // ダウンロードしたaarファイルを利用
+    // implementation project(path: ':libjeid', configuration: 'free')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
