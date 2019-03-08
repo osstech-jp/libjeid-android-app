@@ -13,7 +13,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:text="旅券番号"
+      android:text="旅券番号(9桁)"
       android:textSize="20sp" />
   <EditText
       android:id="@+id/edit_ep_passport_number"
@@ -23,13 +23,14 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="text"
+      android:maxLength="9"
       />
   <TextView
       android:id="@+id/text_ep_birth_date"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:text="生年月日(6桁)"
+      android:text="生年月日(8桁)"
       android:textSize="20sp" />
   <EditText
       android:id="@+id/edit_ep_birth_date"
@@ -39,13 +40,14 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="text"
-      android:maxLength="6" />
+      android:maxLength="8"
+      android:hint="YYYYMMDD" />
   <TextView
       android:id="@+id/text_ep_expire_date"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:text="有効期限(6桁)"
+      android:text="有効期限(8桁)"
       android:textSize="20sp" />
   <EditText
       android:id="@+id/edit_ep_expire_date"
@@ -55,7 +57,8 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="text"
-      android:maxLength="6" />
+      android:maxLength="8"
+      android:hint="YYYYMMDD" />
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"

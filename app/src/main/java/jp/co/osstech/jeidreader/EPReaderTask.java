@@ -66,12 +66,20 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
         if (birthDate.isEmpty()) {
             publishProgress("生年月日を設定してください");
             return null;
+        } else if (birthDate.length() != 8) {
+            publishProgress("生年月日が8桁ではありません");
+            return null;
         }
 
         if (expireDate.isEmpty()) {
             publishProgress("有効期限を設定してください");
             return null;
+        } else if (expireDate.length() != 8) {
+            publishProgress("有効期限が8桁ではありません");
+            return null;
         }
+        birthDate = birthDate.substring(2);
+        expireDate = expireDate.substring(2);
         MRZ mrz = new MRZ(passportNumber, birthDate, expireDate);
 
         long start = System.currentTimeMillis();
