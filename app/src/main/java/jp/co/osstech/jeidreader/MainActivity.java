@@ -17,7 +17,6 @@ public class MainActivity
         findViewById(R.id.dl_reader_button).setOnClickListener(this);
         findViewById(R.id.ep_reader_button).setOnClickListener(this);
         findViewById(R.id.pinstatus_button).setOnClickListener(this);
-        findViewById(R.id.in_test_button).setOnClickListener(this);
     }
 
     @Override
@@ -38,10 +37,6 @@ public class MainActivity
             break;
         case R.id.pinstatus_button:
             intent = new Intent(getApplication(), PinStatusActivity.class);
-            startActivity(intent);
-            break;
-        case R.id.in_test_button:
-            intent = new Intent(getApplication(), INTestActivity.class);
             startActivity(intent);
             break;
         }

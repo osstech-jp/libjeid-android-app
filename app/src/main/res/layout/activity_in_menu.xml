@@ -20,4 +20,22 @@
       android:text="@string/sign_jpki_sign"
       android:visibility="gone"
       style="@style/MenuButton" />
+  <Button
+      android:id="@+id/in_test_button"
+      android:text="@string/in_test"
+      android:visibility="gone"
+      style="@style/MenuButton" />
+  <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:gravity="right|bottom" >
+    <Button
+        android:id="@+id/in_dev_button"
+        android:text="@string/in_dev"
+        android:layout_width="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginBottom="0dp"
+        android:alpha="0"
+        style="@style/MenuButton" />
+  </LinearLayout>
 </LinearLayout>

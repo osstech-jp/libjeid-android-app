@@ -28,4 +28,5 @@
     <string name="ep_viewer">パスポートビューア</string>
     <string name="acs_reader">ACSカードリーダー</string>
     <string name="in_test">個人番号カードテスト</string>
+    <string name="in_dev">開発者用\n機能</string>
 </resources>
