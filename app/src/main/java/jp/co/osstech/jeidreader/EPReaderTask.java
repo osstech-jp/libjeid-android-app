@@ -1,30 +1,30 @@
 package jp.co.osstech.jeidreader;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.ref.WeakReference;
-import java.security.MessageDigest;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.security.Signature;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.util.TimeZone;
-
-import android.util.Base64;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
-import org.json.JSONObject;
-import org.json.JSONArray;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.security.KeyFactory;
+import java.security.MessageDigest;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.ep.*;
 import jp.co.osstech.libjeid.util.Hex;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 {
