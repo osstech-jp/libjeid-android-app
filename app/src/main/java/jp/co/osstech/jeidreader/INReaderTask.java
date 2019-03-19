@@ -10,6 +10,7 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import jp.co.osstech.libjeid.CardEntriesAP;
@@ -105,7 +106,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("ユーザー認証用証明書の有効期限を取得...");
             JPKIAP jpkiAP = reader.selectJPKIAP();
             JPKICertificate cert = jpkiAP.getAuthCert();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
             sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
             String certExpireDate = sdf.format(cert.getNotAfter());
             obj.put("cardinfo-cert-expire", certExpireDate);
