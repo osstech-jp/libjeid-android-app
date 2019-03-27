@@ -106,16 +106,20 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             }
 
             PassportAP ap = reader.selectPassportAP();
-            publishProgress("BAC start");
+            publishProgress("Basic Access Control開始");
             ap.startBAC(mrz);
-            publishProgress("BAC end");
-            publishProgress("CommonData読み取り開始");
+            publishProgress("Basic Access Control完了");
+
+            publishProgress("読み取り開始");
+            EPDataGroups dgs = ap.readDataGroups();
+
+            publishProgress("CommonDataの表示");
             EPCommonData commonData = ap.readCommonData();
             publishProgress(commonData.toString());
 
             JSONObject obj = new JSONObject();
             publishProgress("DG1読み取り開始");
-            EPDataGroup1 dg1 = ap.readDataGroup1();
+            EPDataGroup1 dg1 = dgs.getDataGroup1();
             publishProgress(dg1.getMRZ());
 
             MRZ dg1Mrz = new MRZ(dg1.getMRZ());
@@ -135,11 +139,18 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("ep-mrz", dg1.getMRZ());
 
             publishProgress("DG2読み取り開始");
-            EPDataGroup2 dg2 = ap.readDataGroup2();
+            EPDataGroup2 dg2 = dgs.getDataGroup2();
             byte[] jpeg = dg2.getFaceJpeg();
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("ep-photo", src);
             publishProgress("読み取り完了");
+
+            publishProgress("Passive Authentication開始");
+            PA pa = new PA(dgs);
+            boolean paResult = pa.verify();
+            obj.put("ep-pa-result", paResult);
+            publishProgress("検証結果: " + paResult);
+
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
