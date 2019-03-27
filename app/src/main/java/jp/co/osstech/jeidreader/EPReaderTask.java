@@ -146,10 +146,14 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("読み取り完了");
 
             publishProgress("Passive Authentication開始");
-            PA pa = new PA(dgs);
-            boolean paResult = pa.verify();
-            obj.put("ep-pa-result", paResult);
-            publishProgress("検証結果: " + paResult);
+            try {
+                PA pa = new PA(dgs);
+                boolean paResult = pa.verify();
+                obj.put("ep-pa-result", paResult);
+                publishProgress("検証結果: " + paResult);
+            } catch (UnsupportedOperationException e) {
+                publishProgress("libjeid-freeでは検証をスキップします");
+            }
 
             return obj;
         } catch (Exception e) {
