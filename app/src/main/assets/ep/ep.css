@@ -395,6 +395,31 @@ table.ep-mrz-table td {
   line-height: 21px;
 }
 
+table.ep-authenticity-table {
+  display: inline-block;
+  width: auto;
+  margin-top : 0px;
+  margin-left: 20px;
+  font-size: 0;
+  border-collapse: collapse;
+  //border: 1px solid black;
+}
+
+table.ep-authenticity-table td {
+  width: auto;
+  height: 40px;
+  background-color: #fff;
+  font-size: 27px;
+  line-height: 25px;
+}
+
+img.ep-authenticity-verified {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  padding-right: 20px;
+}
+
 table.ep-table {
   width: 100%;
   border-collapse: collapse;
