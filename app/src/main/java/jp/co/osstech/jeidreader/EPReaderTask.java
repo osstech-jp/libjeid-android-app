@@ -145,10 +145,19 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("ep-photo", src);
             publishProgress("読み取り完了");
 
+            obj.put("ep-bac-result", true);
+            publishProgress("Active Authentication開始");
+            try {
+                boolean aaResult = ap.activeAuthentication(dgs);
+                obj.put("ep-aa-result", aaResult);
+                publishProgress("検証結果: " + aaResult);
+            } catch (UnsupportedOperationException e) {
+                publishProgress("libjeid-freeでは検証をスキップします");
+            }
+
             publishProgress("Passive Authentication開始");
             try {
-                PA pa = new PA(dgs);
-                boolean paResult = pa.verify();
+                boolean paResult = ap.passiveAuthentication(dgs);
                 obj.put("ep-pa-result", paResult);
                 publishProgress("検証結果: " + paResult);
             } catch (UnsupportedOperationException e) {
