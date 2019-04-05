@@ -16,12 +16,12 @@ import java.util.TimeZone;
 import jp.co.osstech.libjeid.CardEntriesAP;
 import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
+import jp.co.osstech.libjeid.INCardFrontEntries;
+import jp.co.osstech.libjeid.INCardInputHelperEntries;
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
-import jp.co.osstech.libjeid.in.CardFrontEntries;
-import jp.co.osstech.libjeid.in.CardInputHelperEntries;
 
 import org.json.JSONObject;
 
@@ -81,7 +81,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             } catch (UnsupportedOperationException uoe) {
                 // 無償版では取得出来ません。
             }
-            CardInputHelperEntries entries = ap.getEntries();
+            INCardInputHelperEntries entries = ap.getEntries();
             obj.put("cardinfo-name", entries.getName());
             obj.put("cardinfo-birth", entries.getBirth());
             obj.put("cardinfo-sex", entries.getSexString());
@@ -91,7 +91,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("券面の読み取り中...");
             CardEntriesAP ap2 = reader.selectCardEntriesAP();
             ap2.verifyPin(mPin);
-            CardFrontEntries front = ap2.getFrontEntries();
+            INCardFrontEntries front = ap2.getFrontEntries();
             String expire = front.getExpire();
             obj.put("cardinfo-expire", expire);
 

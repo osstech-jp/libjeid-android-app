@@ -67,7 +67,7 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
             ap.verifyPin(authPin);
             String mynumber = ap.getMyNumber();
             publishProgress("マイナンバー: " + mynumber);
-            CardInputHelperEntries entries = ap.getEntries();
+            INCardInputHelperEntries entries = ap.getEntries();
             publishProgress("氏名: " + entries.getName());
             publishProgress("性別: " + entries.getSexString());
             publishProgress("生年月日: " + entries.getBirth());
