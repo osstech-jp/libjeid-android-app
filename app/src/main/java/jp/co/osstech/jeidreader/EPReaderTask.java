@@ -83,7 +83,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("有効期限が8桁ではありません");
             return null;
         }
-        MRZ mrz = new MRZ(passportNumber, birthDate, expireDate);
+        EPMRZ mrz = new EPMRZ(passportNumber, birthDate, expireDate);
 
         long start = System.currentTimeMillis();
         JeidReader reader;
@@ -121,7 +121,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             EPDataGroup1 dg1 = dgs.getDataGroup1();
             publishProgress(dg1.getMRZ());
 
-            MRZ dg1Mrz = new MRZ(dg1.getMRZ());
+            EPMRZ dg1Mrz = new EPMRZ(dg1.getMRZ());
             if (!"JPN".equals(dg1Mrz.getIssuingCountry())) {
                 publishProgress("日本発行のパスポートではありません");
                 return null;
