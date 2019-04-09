@@ -32,6 +32,7 @@ import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
 import org.bouncycastle.asn1.x509.Certificate;
 import org.bouncycastle.asn1.x509.CertificatePolicies;
+import org.bouncycastle.asn1.x509.CRLDistPoint;
 import org.bouncycastle.asn1.x509.DistributionPoint;
 import org.bouncycastle.asn1.x509.DistributionPointName;
 import org.bouncycastle.asn1.x509.GeneralName;
@@ -361,12 +362,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
         }
 
         List<String> list = new ArrayList<>();
-        ASN1Sequence asn1Sequence = (ASN1Sequence) X509ExtensionUtil.fromExtensionValue(bytes);
-
-        for (ASN1Encodable encodable : asn1Sequence) {
-            DistributionPoint distributionPoint = DistributionPoint.getInstance(encodable);
-
-            DistributionPointName distributionPointName = distributionPoint.getDistributionPoint();
+        CRLDistPoint crlDistPoint = CRLDistPoint.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+        for (DistributionPoint distPoint : crlDistPoint.getDistributionPoints()) {
+            DistributionPointName distributionPointName = distPoint.getDistributionPoint();
             String distributionPointNameStr;
             if (distributionPointName != null) {
                 if (distributionPointName.getType() == DistributionPointName.FULL_NAME) {
@@ -380,7 +378,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                 distributionPointNameStr = "null";
             }
 
-            ReasonFlags reasons = distributionPoint.getReasons();
+            ReasonFlags reasons = distPoint.getReasons();
             String reasonsStr;
             if (reasons != null) {
                 reasonsStr = reasons.toString();
@@ -388,7 +386,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                 reasonsStr = "null";
             }
 
-            GeneralNames crlIssuer = distributionPoint.getCRLIssuer();
+            GeneralNames crlIssuer = distPoint.getCRLIssuer();
             String crlIssuerStr = generalNamesToString(crlIssuer);
 
             list.add("{distributionPoint:" + distributionPointNameStr + ", reasons:" + reasonsStr
