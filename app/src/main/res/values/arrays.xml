@@ -1,0 +1,8 @@
+<resources>
+  <string-array name="inputs_ep_reader">
+    <!--
+    <item>設定なし,,,</item>
+    <item>NIHON,TRXXXXXXX,750601,170601</item>
+    -->
+  </string-array>
+</resources>
