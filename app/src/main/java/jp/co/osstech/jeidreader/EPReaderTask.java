@@ -106,7 +106,13 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 
             PassportAP ap = reader.selectPassportAP();
             publishProgress("Basic Access Control開始");
-            ap.startBAC(mrz);
+            try {
+                ap.startBAC(mrz);
+            } catch (InvalidBACKeyException e) {
+                publishProgress("Basic Access Control失敗\n"
+                        + "旅券番号、生年月日または有効期限が間違っています");
+                return null;
+            }
             publishProgress("Basic Access Control完了");
 
             publishProgress("読み取り開始");
