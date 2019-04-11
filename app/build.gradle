@@ -78,9 +78,10 @@ dependencies {
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
+    //implementation project(path: ':libjeid', configuration: 'full')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.58'
-    implementation 'org.bouncycastle:bcpkix-jdk15on:1.58'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.60'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.60'
 }
