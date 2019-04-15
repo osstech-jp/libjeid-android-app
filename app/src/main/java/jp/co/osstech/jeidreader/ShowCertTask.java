@@ -19,7 +19,6 @@ import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.util.Hex;
 
-import org.json.JSONObject;
 import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Sequence;
@@ -43,7 +42,8 @@ import org.bouncycastle.asn1.x509.ReasonFlags;
 import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.asn1.x509.X509ObjectIdentifiers;
-import org.bouncycastle.x509.extension.X509ExtensionUtil;
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.json.JSONObject;
 
 public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
 {
@@ -342,7 +342,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
         }
 
         SubjectKeyIdentifier subjectKeyIdentifier
-                = SubjectKeyIdentifier.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+                = SubjectKeyIdentifier.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         byte[] keyId = subjectKeyIdentifier.getKeyIdentifier();
         return Hex.encode(keyId, ":");
     }
@@ -352,7 +352,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
             return "";
         }
 
-        GeneralNames generalNames = GeneralNames.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+        GeneralNames generalNames = GeneralNames.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         return generalNamesToString(generalNames);
     }
 
@@ -362,7 +362,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
         }
 
         List<String> list = new ArrayList<>();
-        CRLDistPoint crlDistPoint = CRLDistPoint.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+        CRLDistPoint crlDistPoint = CRLDistPoint.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         for (DistributionPoint distPoint : crlDistPoint.getDistributionPoints()) {
             DistributionPointName distributionPointName = distPoint.getDistributionPoint();
             String distributionPointNameStr;
@@ -402,7 +402,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
 
         List<String> list = new ArrayList<>();
         CertificatePolicies cpObject
-                = CertificatePolicies.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+                = CertificatePolicies.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         PolicyInformation[] policyInformations = cpObject.getPolicyInformation();
 
         for (PolicyInformation information : policyInformations) {
@@ -441,7 +441,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
         }
 
         AuthorityKeyIdentifier akiObject
-                = AuthorityKeyIdentifier.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+                = AuthorityKeyIdentifier.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         String keyIdStr;
         byte[] keyId = akiObject.getKeyIdentifier();
         if (keyId != null) {
@@ -470,7 +470,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
 
         List<String> list = new ArrayList<>();
         AuthorityInformationAccess aiaObject
-                = AuthorityInformationAccess.getInstance(X509ExtensionUtil.fromExtensionValue(bytes));
+                = AuthorityInformationAccess.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
         AccessDescription[] accessDescriptions = aiaObject.getAccessDescriptions();
 
         for (AccessDescription accessDescription : accessDescriptions) {
