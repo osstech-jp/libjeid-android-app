@@ -45,7 +45,7 @@ function render(json) {
         } else if (19890108 <= birth && birth < 20190501) {
             eraYear = '平成' + (year - 1988) + '年';
         } else {
-            eraYear = year + '年';
+            eraYear = '令和' + (year - 2018) + '年';
         }
         var wareki = eraYear + month + '月' + day + '日';
         wareki = wareki.replace(/(\D)1年/g, '$1元年')
