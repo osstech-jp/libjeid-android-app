@@ -36,6 +36,7 @@
       android:textSize="20sp"
       android:inputType="text"
       android:maxLength="9"
+      android:hint="@null"
       />
   <TextView
       android:id="@+id/text_ep_birth_date"

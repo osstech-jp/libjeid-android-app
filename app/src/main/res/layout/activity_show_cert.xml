@@ -31,7 +31,8 @@
       android:textSize="20sp"
       android:inputType="textPassword"
       android:maxLength="16"
-      android:visibility="gone" />
+      android:visibility="gone"
+      android:hint="@null" />
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"

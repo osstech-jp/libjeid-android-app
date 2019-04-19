@@ -23,7 +23,8 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="numberPassword"
-      android:maxLength="4" />
+      android:maxLength="4"
+      android:hint="@null" />
   <TextView
       android:id="@+id/text_jpki_sign_pin"
       android:layout_width="fill_parent"
@@ -39,7 +40,8 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="textPassword"
-      android:maxLength="16" />
+      android:maxLength="16"
+      android:hint="@null" />
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"

@@ -23,7 +23,8 @@
       android:ems="10"
       android:textSize="20sp"
       android:inputType="numberPassword"
-      android:maxLength="4" />
+      android:maxLength="4"
+      android:hint="@null" />
   <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:text="hello"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:hint="@null" />
     <Spinner
         android:id="@+id/sign_algo_spinner"
         android:layout_weight="1"
