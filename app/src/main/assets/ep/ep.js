@@ -97,47 +97,15 @@ function render(json) {
         document.getElementById("ep-photo").src = data['ep-photo'];
     }
 
-    var elm = document.getElementById("ep-authenticity-table");
-    elm.innerHTML = '<tr><th></th><th></th></tr>\n';
-    var tableLine;
-    var successImg = '<img class="ep-authenticity-verified" src="verify-success.png"/>';
-    var failedImg = '<img class="ep-authenticity-verified" src="verify-failed.png"/>';
-    var unexecutedImg = '<img class="ep-authenticity-verified" src="verify-unexecuted.png"/>';
-    tableLine = '<tr><td>';
-    if ('ep-bac-result' in data) {
-        if (data['ep-bac-result']) {
-            tableLine += successImg;
-        } else {
-            tableLine += failedImg;
+    var items = ['ep-bac-result', 'ep-aa-result', 'ep-pa-result'];
+    for (var i = 0; i < items.length; i++) {
+        if (items[i] in data) {
+            if (data[items[i]]) {
+                document.getElementById(items[i]).src = 'verify-success.png';
+            } else {
+                document.getElementById(items[i]).src = 'verify-failed.png';
+            }
         }
-    } else {
-        tableLine += unexecutedImg;
     }
-    tableLine += '</td><td>Basic Access Control</td></tr>\n';
-    elm.innerHTML += tableLine;
-    tableLine = '<tr><td>';
-    if ('ep-aa-result' in data) {
-        if (data['ep-aa-result']) {
-            tableLine += successImg;
-        } else {
-            tableLine += failedImg;
-        }
-    } else {
-        tableLine += unexecutedImg;
-    }
-    tableLine += '</td><td>Active Authentication</td></tr>\n';
-    elm.innerHTML += tableLine;
-    tableLine = '<tr><td>';
-    if ('ep-pa-result' in data) {
-        if (data['ep-pa-result']) {
-            tableLine += successImg;
-        } else {
-            tableLine += failedImg;
-        }
-    } else {
-        tableLine += unexecutedImg;
-    }
-    tableLine += '</td><td>Passive Authentication</td></tr>\n';
-    elm.innerHTML += tableLine;
 }
 
