@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppLayout">
   <TextView
       android:id="@+id/info"
@@ -24,7 +25,9 @@
       android:textSize="20sp"
       android:inputType="numberPassword"
       android:maxLength="4"
-      android:hint="@null" />
+      android:hint="@null"
+      android:importantForAutofill="no"
+      tools:targetApi="o" />
   <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -38,7 +41,9 @@
         android:inputType="text"
         android:text="hello"
         android:textSize="12sp"
-        android:hint="@null" />
+        android:hint="@null"
+        android:importantForAutofill="no"
+        tools:targetApi="o" />
     <Spinner
         android:id="@+id/sign_algo_spinner"
         android:layout_weight="1"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppLayout">
   <TextView
       android:id="@+id/info"
@@ -37,6 +38,8 @@
       android:inputType="text"
       android:maxLength="9"
       android:hint="@null"
+      android:importantForAutofill="no"
+      tools:targetApi="o"
       />
   <TextView
       android:id="@+id/text_ep_birth_date"
@@ -54,7 +57,9 @@
       android:textSize="20sp"
       android:inputType="text"
       android:maxLength="8"
-      android:hint="YYYYMMDD" />
+      android:hint="YYYYMMDD"
+      android:importantForAutofill="no"
+      tools:targetApi="o" />
   <TextView
       android:id="@+id/text_ep_expire_date"
       android:layout_width="fill_parent"
@@ -71,7 +76,9 @@
       android:textSize="20sp"
       android:inputType="text"
       android:maxLength="8"
-      android:hint="YYYYMMDD" />
+      android:hint="YYYYMMDD"
+      android:importantForAutofill="no"
+      tools:targetApi="o" />
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"
