@@ -1,0 +1,50 @@
+
+* {
+  margin : 0;
+  padding : 0;
+}
+
+body {
+  font-size: medium;
+}
+
+h1 {
+  margin: 2px;
+  padding: 2px;
+}
+
+hr {
+  border: 0px;
+  border-bottom: 1px solid #000000;
+}
+
+.rc-block {
+  display: block;
+  width: 640px;
+  margin: 0px;
+  padding: 10px;
+  word-wrap: break-word;
+}
+
+.rc-entries {
+  width: 640px;
+  min-height: 450px;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #aaaaaa;
+  font-size: 20px;
+  font-family: "Noto Sans"
+}
+
+
+table.rc-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.rc-table td {
+  padding: 4px;
+  border: 1px solid #000000;
+  background-color: #fff;
+}

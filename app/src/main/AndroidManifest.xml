@@ -85,5 +85,15 @@
         android:label="@string/ep_viewer"
         android:screenOrientation="portrait">
     </activity>
+    <activity
+        android:name=".RCReaderActivity"
+        android:label="@string/rc_reader"
+        android:screenOrientation="portrait">
+    </activity>
+    <activity
+        android:name=".RCViewerActivity"
+        android:label="@string/rc_viewer"
+        android:screenOrientation="portrait">
+    </activity>
   </application>
 </manifest>

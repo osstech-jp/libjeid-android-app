@@ -16,6 +16,7 @@ public class MainActivity
         findViewById(R.id.in_menu_button).setOnClickListener(this);
         findViewById(R.id.dl_reader_button).setOnClickListener(this);
         findViewById(R.id.ep_reader_button).setOnClickListener(this);
+        findViewById(R.id.rc_reader_button).setOnClickListener(this);
         findViewById(R.id.pinstatus_button).setOnClickListener(this);
     }
 
@@ -33,6 +34,10 @@ public class MainActivity
             break;
         case R.id.ep_reader_button:
             intent = new Intent(getApplication(), EPReaderActivity.class);
+            startActivity(intent);
+            break;
+        case R.id.rc_reader_button:
+            intent = new Intent(getApplication(), RCReaderActivity.class);
             startActivity(intent);
             break;
         case R.id.pinstatus_button:
