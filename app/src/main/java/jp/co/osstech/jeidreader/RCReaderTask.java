@@ -13,6 +13,10 @@ import java.lang.ref.WeakReference;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.InvalidBACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.ResidenceCardAP;
+import jp.co.osstech.libjeid.RCCommonData;
+import jp.co.osstech.libjeid.RCCardType;
+
 
 public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 {
@@ -61,13 +65,16 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
         try {
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
-            /*
             if (type != CardType.RC) {
                 publishProgress("在留カード等ではありません");
                 return null;
             }
-
-            PassportAP ap = reader.selectPassportAP();
+            ResidenceCardAP ap = reader.selectResidenceCardAP();
+            RCCommonData commonData = ap.readCommonData();
+            publishProgress("commonData: " + commonData);
+            RCCardType cardType = ap.readCardType();
+            publishProgress("cardType: " + cardType);
+            /*
             publishProgress("Basic Access Control開始");
             try {
                 ap.startBAC(mrz);
