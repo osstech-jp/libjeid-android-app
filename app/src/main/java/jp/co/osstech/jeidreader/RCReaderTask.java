@@ -16,7 +16,7 @@ import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.RCCommonData;
 import jp.co.osstech.libjeid.RCCardType;
-
+import jp.co.osstech.libjeid.RCKey;
 
 public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 {
@@ -50,6 +50,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("在留カード番号または特別永住者証明書番号を設定してください");
             return null;
         }
+        RCKey rckey = new RCKey(rcNumber);
 
         long start = System.currentTimeMillis();
         JeidReader reader;
@@ -74,17 +75,24 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("commonData: " + commonData);
             RCCardType cardType = ap.readCardType();
             publishProgress("cardType: " + cardType);
-            /*
             publishProgress("Basic Access Control開始");
             try {
-                ap.startBAC(mrz);
+                ap.startBAC(rckey, false, false);
             } catch (InvalidBACKeyException e) {
                 publishProgress("Basic Access Control失敗\n"
-                        + "在留カード等番号または有効期限が間違っています");
+                        + "在留カード番号または特別永住者証明書番号が間違っています");
                 return null;
             }
             publishProgress("Basic Access Control完了");
-            */
+            publishProgress("Verify SM開始");
+            try {
+                ap.verifySM(rckey);
+            } catch (IOException e) {
+                publishProgress("Verify SM失敗\n"
+                        + e.getMessage());
+                return null;
+            }
+            publishProgress("Verify SM完了");
             JSONObject obj = new JSONObject();
             return obj;
         } catch (Exception e) {
