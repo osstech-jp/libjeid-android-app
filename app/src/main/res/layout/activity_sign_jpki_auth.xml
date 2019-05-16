@@ -3,55 +3,64 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppLayout">
-  <TextView
-      android:id="@+id/info"
+  <ScrollView
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="JPKI認証用鍵で署名します。PINを入力してカードをタッチしてください。"
-      android:textSize="20sp" />
-  <TextView
-      android:id="@+id/text_pin"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:text="JPKI認証用PIN(4桁)"
-      android:textSize="20sp" />
-  <EditText
-      android:id="@+id/edit_pin"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:ems="10"
-      android:textSize="20sp"
-      android:inputType="numberPassword"
-      android:maxLength="4"
-      android:hint="@null"
-      android:importantForAutofill="no"
-      tools:targetApi="o" />
-  <LinearLayout
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:orientation="horizontal">
-    <EditText
-        android:id="@+id/edit_text"
-        android:layout_weight="1"
-        android:layout_width="0dp"
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="hello"
-        android:textSize="12sp"
-        android:hint="@null"
-        android:importantForAutofill="no"
-        tools:targetApi="o" />
-    <Spinner
-        android:id="@+id/sign_algo_spinner"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/sign_algo_list"
-        android:textSize="12sp" />
-  </LinearLayout>
+        android:orientation="vertical">
+      <TextView
+          android:id="@+id/info"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="JPKI認証用鍵で署名します。PINを入力してカードをタッチしてください。"
+          android:textSize="20sp" />
+      <TextView
+          android:id="@+id/text_pin"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="JPKI認証用PIN(4桁)"
+          android:textSize="20sp" />
+      <EditText
+          android:id="@+id/edit_pin"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:ems="10"
+          android:textSize="20sp"
+          android:inputType="numberPassword"
+          android:maxLength="4"
+          android:hint="@null"
+          android:importantForAutofill="no"
+          tools:targetApi="o" />
+      <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="hello"
+            android:textSize="12sp"
+            android:hint="@null"
+            android:importantForAutofill="no"
+            tools:targetApi="o" />
+        <Spinner
+            android:id="@+id/sign_algo_spinner"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/sign_algo_list"
+            android:textSize="12sp" />
+      </LinearLayout>
+    </LinearLayout>
+  </ScrollView>
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"

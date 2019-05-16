@@ -53,7 +53,8 @@
     <activity
         android:name=".SignActivity"
         android:label="@string/sign"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize">
     </activity>
     <activity
         android:name=".PinStatusActivity"
@@ -63,12 +64,14 @@
     <activity
         android:name=".INTestActivity"
         android:label="@string/in_test"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize">
     </activity>
     <activity
         android:name=".DLReaderActivity"
         android:label="@string/dl_reader"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize">
     </activity>
     <activity
         android:name=".DLViewerActivity"
@@ -78,7 +81,8 @@
     <activity
         android:name=".EPReaderActivity"
         android:label="@string/ep_reader"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize">
     </activity>
     <activity
         android:name=".EPViewerActivity"
