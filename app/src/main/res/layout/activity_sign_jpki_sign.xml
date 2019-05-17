@@ -33,8 +33,7 @@
           android:inputType="textPassword"
           android:maxLength="16"
           android:hint="@null"
-          android:importantForAutofill="no"
-          tools:targetApi="o" />
+          tools:ignore="Autofill" />
       <LinearLayout
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
@@ -49,8 +48,7 @@
             android:text="hello"
             android:textSize="12sp"
             android:hint="@null"
-            android:importantForAutofill="no"
-            tools:targetApi="o" />
+            tools:ignore="Autofill" />
         <Spinner
             android:id="@+id/sign_algo_spinner"
             android:layout_weight="1"

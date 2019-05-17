@@ -26,8 +26,7 @@
       android:inputType="text"
       android:maxLength="12"
       android:hint="@null"
-      android:importantForAutofill="no"
-      tools:targetApi="o"/>
+      tools:ignore="Autofill"/>
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"

@@ -34,8 +34,7 @@
       android:maxLength="16"
       android:visibility="gone"
       android:hint="@null"
-      android:importantForAutofill="no"
-      tools:targetApi="o" />
+      tools:ignore="Autofill" />
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"
