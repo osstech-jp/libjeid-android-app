@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import jp.co.osstech.libjeid.*;
+import jp.co.osstech.libjeid.ep.*;
 import jp.co.osstech.libjeid.util.Hex;
 
 import org.json.JSONArray;
