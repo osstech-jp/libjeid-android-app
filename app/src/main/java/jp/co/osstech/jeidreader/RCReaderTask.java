@@ -99,24 +99,26 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("Verify SM完了");
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
-            publishProgress("券面（表）イメージ読み取り開始");
+            publishProgress("券面（表）イメージの読み取り中...");
             RCCardFrontEntries cardFrontEntries = ap.readCardFrontEntries();
             byte[] png = cardFrontEntries.toPng();
             String src = "data:image/png;base64," + Base64.encodeToString(png, Base64.DEFAULT);
             obj.put("rc-front-image", src);
 
-            publishProgress("顔写真読み取り開始");
+            publishProgress("顔写真の読み取り中...");
             RCFacePhoto photo = ap.readFacePhoto();
             BitmapARGB argb = photo.getPhotoARGB();
-            Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
-                                                argb.getWidth(),
-                                                argb.getHeight(),
-                                                Bitmap.Config.ARGB_8888);
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-            byte[] jpeg = os.toByteArray();
-            src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
-            obj.put("rc-photo", src);
+            if (argb != null) {
+                Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
+                        argb.getWidth(),
+                        argb.getHeight(),
+                        Bitmap.Config.ARGB_8888);
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                byte[] jpeg = os.toByteArray();
+                src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
+                obj.put("rc-photo", src);
+            }
             publishProgress("住居地（裏面追記）の読み取り開始");
             RCAddress address = ap.readAddress();
             publishProgress(address.toString());
