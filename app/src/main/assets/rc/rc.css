@@ -28,7 +28,7 @@ hr {
 
 .rc-entries {
   width: 640px;
-  min-height: 450px;
+  min-height: 400px;
   margin: 0px;
   padding: 10px;
   border-radius: 10px;
@@ -37,6 +37,280 @@ hr {
   font-family: "Noto Sans"
 }
 
+.rc-card-style {
+  position: relative;
+  width: 640px;
+  min-height: 400px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 10px;
+  border: 1px solid #aaaaaa;
+  font-size: 20px;
+  font-family: "Noto Sans"
+}
+
+img.rc-card-photo {
+  display: block;
+  position: absolute;
+  top: 110px;
+  left: 450px;
+  width: 180px;
+  max-height: 200px;
+}
+
+.rc-labels-wrapper {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  //border: 1px solid #0000FF;
+}
+
+.rc-header {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 100%;
+  height: 38px;
+  background-color: rgba(0,180,255,0.25);
+}
+
+.rc-header.type-sprc {
+  background-color: rgba(255,220,0,0.25);
+}
+
+.rc-government-wrapper {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  height: 100%;
+  //border: 1px solid #0000FF;
+}
+
+.rc-government-jp {
+  position: static;
+  display: block;
+  height: 24px;
+  font-size: 20px;
+  //font-weight: bold;
+  white-space: nowrap;
+  line-height: 20px;
+  letter-spacing: 2px;
+  //border: 1px solid #FF00FF;
+}
+
+.rc-government-en {
+  position: static;
+  display: block;
+  height: 15px;
+  font-size: 15px;
+  //font-weight: bold;
+  white-space: nowrap;
+  line-height: 15px;
+  letter-spacing: -1px;
+  font-family: monospace;
+}
+
+.rc-card-name-wrapper {
+  position: static
+  height: 100%;
+  text-align: center;
+  //border: 1px solid #0000FF;
+}
+
+.rc-card-name-jp {
+  position: static;
+  display: block;
+  height: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 24px;
+  letter-spacing: 5px;
+  //border: 1px solid #FF00FF;
+}
+
+.rc-card-name-jp.type-sprc {
+  letter-spacing: 0px;
+}
+
+.rc-card-name-en {
+  position: static;
+  display: block;
+  height: 15px;
+  font-size: 15px;
+  //font-weight: bold;
+  white-space: nowrap;
+  line-height: 15px;
+  letter-spacing: -1px;
+  word-spacing: -2px;
+  font-family: monospace;
+}
+
+.rc-card-name-en.type-sprc {
+  font-size: 14px;
+}
+
+.rc-number-wrapper {
+  position: absolute;
+  top: 0px;
+  right: 160px;
+  height: 100%;
+  //border: 1px solid #0000FF;
+}
+
+.rc-number-jp {
+  position: static;
+  display: block;
+  height: 16px;
+  margin-top: 6px;
+  font-size: 16px;
+  //font-weight: bold;
+  white-space: nowrap;
+  line-height: 16px;
+  letter-spacing: 1px;
+  //border: 1px solid #FF00FF;
+}
+
+.rc-number-en {
+  position: static;
+  float: right;
+  display: block;
+  height: 15px;
+  margin-right: 2px;
+  font-size: 15px;
+  //font-weight: bold;
+  white-space: nowrap;
+  line-height: 15px;
+  letter-spacing: -1px;
+  font-family: monospace;
+}
+
+.rc-block {
+  //border: 1px solid #000000;
+  display: block;
+  width: 640px;
+  padding: 10px;
+  margin: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.rc-image-label {
+  margin-bottom: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 30px;
+  letter-spacing: 2px;
+}
+
+img.rc-front-image {
+  display: block;
+  max-width: 638px;
+  border: 1px solid #AAAAAA;
+}
+
+img.rc-photo {
+  display: block;
+  max-width: 638px;
+  border: 1px solid #AAAAAA;
+}
+
+
+.rc-help-button {
+  display: inline-block;
+  position: relative;
+  width: 26px;
+  height: 26px;
+  margin: 0px;
+  margin-left: 3px;
+  border-radius: 50%;
+  background-image: url("help.png");
+  background-size: contain;
+  vertical-align: bottom;
+  content: "";
+}
+
+.rc-help-button.birth {
+  top: -2px;
+}
+
+.rc-help-button.authenticity {
+  top: -1px;
+  left: -5px
+}
+
+.rc-help-button:hover:before {
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 26px;
+  height: 26px;
+  background-color: #ffffff;
+  content: "";
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.rc-tooltip {
+  display: inline-block;
+  position: relative;
+}
+
+.rc-tooltip-content {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: -200px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 2px solid #aaaaaa;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-size: 30px;
+  white-space: normal;
+  line-height: 30px;
+  box-shadow: 5px 5px 4px rgba(176, 176, 176, 0.5);
+  word-break: normal;
+  word-wrap: break-word;
+  z-index: 1;
+}
+
+.rc-tooltip-content.center {
+  margin-left: -200px;
+}
+
+.rc-tooltip-content.upper {
+  bottom: 100%;
+}
+
+.rc-tooltip-content.left {
+  right: 0px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.rc-tooltip-content.right {
+  left: 0px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.rc-tooltip-content.lower {
+  top: 100%;
+}
+
+.rc-tooltip:hover > .rc-tooltip-content {
+  display: inline-block;
+}
 
 table.rc-table {
   width: 100%;

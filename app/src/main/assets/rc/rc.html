@@ -7,10 +7,55 @@
   <script type="text/javascript" src="rc.js"></script>
   <!--script type="text/javascript" src="dummy.js"></script-->
   <link rel="stylesheet" type="text/css" href="normalize.css" />
-  <link rel="stylesheet" type="text/css" href="ep.css" />
+  <link rel="stylesheet" type="text/css" href="rc.css" />
   <body>
-    <div class="rc-entries">
-TODO
+    <div class="rc-block">
+      <div class="rc-image-label">券面風表示<div class="rc-help-button rc-tooltip">
+        <div class="rc-tooltip-content lower right">券面（表）イメージと顔写真を実際の券面に似せて表示しています</div>
+      </div></div>
+      <div class="rc-card-style" id="rc-card-style">
+        <img class="rc-card-photo" id="rc-card-photo"/>
+        <div class="rc-labels-wrapper" id="rc-rc-labels">
+          <div class="rc-header">
+            <div class="rc-government-wrapper">
+              <div class="rc-government-jp">日本国政府</div>
+              <div class="rc-government-en">GOVERNMENT OF JAPAN</div>
+            </div>
+            <div class="rc-card-name-wrapper">
+              <div class="rc-card-name-jp">在留カード</div>
+              <div class="rc-card-name-en">RESIDENCE CARD</div>
+            </div>
+            <div class="rc-number-wrapper">
+              <div class="rc-number-jp">番号</div>
+              <div class="rc-number-en">No.</div>
+            </div>
+          </div>
+        </div>
+        <div class="rc-labels-wrapper" id="rc-sprc-labels">
+          <div class="rc-header type-sprc">
+            <div class="rc-government-wrapper">
+              <div class="rc-government-jp">日本国政府</div>
+              <div class="rc-government-en">GOVERNMENT OF JAPAN</div>
+            </div>
+            <div class="rc-card-name-wrapper">
+              <div class="rc-card-name-jp type-sprc">特別永住者証明書</div>
+              <div class="rc-card-name-en type-sprc">SPECIAL PERMANENT RESIDENT CERTIFICATE</div>
+            </div>
+            <div class="rc-number-wrapper">
+              <div class="rc-number-jp">番号</div>
+              <div class="rc-number-en">No.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rc-block">
+      <div class="rc-image-label">券面（表）イメージ</div>
+      <img class="rc-front-image" id="rc-front-image"/>
+    </div>
+    <div class="rc-block">
+      <div class="rc-image-label">顔写真</div>
+      <img class="rc-photo" id="rc-photo"/>
     </div>
   </body>
 </html>

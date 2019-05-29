@@ -1,22 +1,28 @@
 package jp.co.osstech.jeidreader;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.nfc.Tag;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.InvalidBACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.RCCardFrontEntries;
 import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.RCCommonData;
 import jp.co.osstech.libjeid.RCCardType;
 import jp.co.osstech.libjeid.RCKey;
+import jp.co.osstech.libjeid.rc.RCFacePhoto;
+import jp.co.osstech.libjeid.util.BitmapARGB;
 
 public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 {
@@ -94,6 +100,25 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             }
             publishProgress("Verify SM完了");
             JSONObject obj = new JSONObject();
+            obj.put("rc-card-type", cardType.getType());
+            publishProgress("券面（表）イメージ読み取り開始");
+            RCCardFrontEntries cardFrontEntries = ap.readCardFrontEntries();
+            byte[] png = cardFrontEntries.toPng();
+            String src = "data:image/png;base64," + Base64.encodeToString(png, Base64.DEFAULT);
+            obj.put("rc-front-image", src);
+
+            publishProgress("顔写真読み取り開始");
+            RCFacePhoto photo = ap.readFacePhoto();
+            BitmapARGB argb = photo.getPhotoARGB();
+            Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
+                                                argb.getWidth(),
+                                                argb.getHeight(),
+                                                Bitmap.Config.ARGB_8888);
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            byte[] jpeg = os.toByteArray();
+            src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
+            obj.put("rc-photo", src);
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
