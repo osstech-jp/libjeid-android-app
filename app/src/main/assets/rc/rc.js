@@ -25,20 +25,23 @@ function htmlEscape(str) {
 function render(json) {
     data = JSON.parse(json);
     if ('rc-front-image' in data) {
-        document.getElementById("rc-front-image").src = data['rc-front-image'];
-        document.getElementById("rc-card-style").style.backgroundImage = "url(" + data['rc-front-image'] + ")";
-        document.getElementById("rc-card-style").style.backgroundSize = "contain";
+        document.getElementById("rc-card-front").src = data['rc-front-image'];
     }
     if ('rc-photo' in data) {
-        document.getElementById("rc-photo").src = data['rc-photo'];
         document.getElementById("rc-card-photo").src = data['rc-photo'];
+    } else {
+        document.getElementById("rc-card-photo").classList.add("null-image");
     }
     if ('rc-card-type' in data) {
-      if (data['rc-card-type'] == '1') {
-        document.getElementById("rc-rc-labels").style.display = "block";
-      } else if (data['rc-card-type'] == '2') {
-        document.getElementById("rc-sprc-labels").style.display = "block";
-      }
+        switch(data['rc-card-type']) {
+            case '1':
+                document.getElementById("rc-rc-labels").style.display = "block";
+                document.getElementById("rc-sprc-labels").style.display = "none";
+                break;
+            case '2':
+                document.getElementById("rc-rc-labels").style.display = "none";
+                document.getElementById("rc-sprc-labels").style.display = "block";
+        }
     }
 }
 

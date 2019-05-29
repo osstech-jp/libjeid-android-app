@@ -49,13 +49,30 @@ hr {
   font-family: "Noto Sans"
 }
 
+img.rc-card-front {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 10px;
+}
+
 img.rc-card-photo {
   display: block;
   position: absolute;
-  top: 110px;
+  top: 120px;
   left: 450px;
-  width: 180px;
-  max-height: 200px;
+  width: 178px;
+  max-height:225px;
+}
+
+img.rc-card-photo.null-image {
+  height: 225px;
+  border: 1px solid #AAAAAA;
 }
 
 .rc-labels-wrapper {
@@ -75,11 +92,13 @@ img.rc-card-photo {
   left: 0px;
   width: 100%;
   height: 38px;
-  background-color: rgba(0,180,255,0.25);
+  background-color: rgba(0,180,255,0.3);
 }
 
 .rc-header.type-sprc {
-  background-color: rgba(255,220,0,0.25);
+  //background-color: rgba(255,220,0,0.3);
+  //background-color: rgba(240,240,0,0.3);
+  background-color: rgba(255, 196, 8 ,0.3);
 }
 
 .rc-government-wrapper {
