@@ -125,8 +125,8 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress(address.toString());
 
             publishProgress("裏面資格外活動包括許可欄の読み取り開始");
-            RCInclusivePermission inclusivePermission = ap.readInclusivePermission();
-            publishProgress(inclusivePermission.toString());
+            RCComprehensivePermission comprehensivePermission = ap.readComprehensivePermission();
+            publishProgress(comprehensivePermission.toString());
 
             publishProgress("裏面資格外活動個別許可欄の読み取り開始");
             RCIndividualPermission individualPermission = ap.readIndividualPermission();
