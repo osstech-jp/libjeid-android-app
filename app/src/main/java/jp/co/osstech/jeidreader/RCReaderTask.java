@@ -99,7 +99,6 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("Verify SM完了");
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
-            /*
             publishProgress("券面（表）イメージ読み取り開始");
             RCCardFrontEntries cardFrontEntries = ap.readCardFrontEntries();
             byte[] png = cardFrontEntries.toPng();
@@ -118,8 +117,6 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             byte[] jpeg = os.toByteArray();
             src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("rc-photo", src);
-            */
-
             publishProgress("住居地（裏面追記）の読み取り開始");
             RCAddress address = ap.readAddress();
             publishProgress(address.toString());
