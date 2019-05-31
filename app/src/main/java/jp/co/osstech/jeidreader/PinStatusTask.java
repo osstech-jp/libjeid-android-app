@@ -6,11 +6,13 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
+import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.DriverLicenseAP;
 import jp.co.osstech.libjeid.JPKIAP;
-import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.ResidenceCardAP;
+import jp.co.osstech.libjeid.rc.RCCardType;
 
 public class PinStatusTask extends AsyncTask<Void, String, Exception>
 {
@@ -72,6 +74,17 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
                 break;
             case EP:
                 publishProgress("カード種別: パスポート");
+                break;
+            case RC:
+                ResidenceCardAP rcAP = reader.selectResidenceCardAP();
+                RCCardType rcCardType = rcAP.readCardType();
+                if (rcCardType.getType().equals("1")) {
+                    publishProgress("カード種別: 在留カード");
+                } else if (rcCardType.getType().equals("2")) {
+                    publishProgress("カード種別: 特別永住者証明書");
+                } else {
+                    publishProgress("カード種別: 在留カード等(不明)");
+                }
                 break;
             default:
                 publishProgress("カード種別: 不明");
