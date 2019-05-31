@@ -22,6 +22,7 @@ import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.util.BitmapARGB;
 
 import org.json.JSONObject;
 
@@ -96,7 +97,11 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-expire", expire);
 
             publishProgress("写真のデコード中...");
-            Bitmap bitmap = front.getPhotoBitmap();
+            BitmapARGB argb = front.getPhotoARGB();
+            Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
+                                                argb.getWidth(),
+                                                argb.getHeight(),
+                                                Bitmap.Config.ARGB_8888);
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
             byte[] jpeg = os.toByteArray();

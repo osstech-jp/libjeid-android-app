@@ -19,6 +19,7 @@ import java.util.TimeZone;
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.dl.*;
 import jp.co.osstech.libjeid.util.Hex;
+import jp.co.osstech.libjeid.util.BitmapARGB;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -181,7 +182,11 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("写真の読み取り中...");
                 DriverLicensePhoto photo = ap.getPhoto();
                 publishProgress("写真のデコード中...");
-                Bitmap bitmap = photo.getBitmap();
+                BitmapARGB argb = photo.getPhotoARGB();
+                Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
+                                                    argb.getWidth(),
+                                                    argb.getHeight(),
+                                                    Bitmap.Config.ARGB_8888);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
                 byte[] jpeg = os.toByteArray();
