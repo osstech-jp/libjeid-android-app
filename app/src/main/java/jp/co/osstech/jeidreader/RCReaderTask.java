@@ -16,12 +16,10 @@ import java.lang.ref.WeakReference;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.InvalidBACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
-import jp.co.osstech.libjeid.RCCardFrontEntries;
 import jp.co.osstech.libjeid.ResidenceCardAP;
-import jp.co.osstech.libjeid.RCCommonData;
-import jp.co.osstech.libjeid.RCCardType;
 import jp.co.osstech.libjeid.RCKey;
-import jp.co.osstech.libjeid.rc.RCFacePhoto;
+import jp.co.osstech.libjeid.rc.*;
+import jp.co.osstech.libjeid.rc.RCAddress;
 import jp.co.osstech.libjeid.util.BitmapARGB;
 
 public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
@@ -101,6 +99,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("Verify SM完了");
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
+            /*
             publishProgress("券面（表）イメージ読み取り開始");
             RCCardFrontEntries cardFrontEntries = ap.readCardFrontEntries();
             byte[] png = cardFrontEntries.toPng();
@@ -119,6 +118,28 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             byte[] jpeg = os.toByteArray();
             src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("rc-photo", src);
+            */
+
+            publishProgress("住居地（裏面追記）の読み取り開始");
+            RCAddress address = ap.readAddress();
+            publishProgress(address.toString());
+
+            publishProgress("裏面資格外活動包括許可欄の読み取り開始");
+            RCInclusivePermission inclusivePermission = ap.readInclusivePermission();
+            publishProgress(inclusivePermission.toString());
+
+            publishProgress("裏面資格外活動個別許可欄の読み取り開始");
+            RCIndividualPermission individualPermission = ap.readIndividualPermission();
+            publishProgress(individualPermission.toString());
+
+            publishProgress("裏面在留期間等更新申請欄の読み取り開始");
+            RCUpdateStatus updateStatus = ap.readUpdateStatus();
+            publishProgress(updateStatus.toString());
+
+            publishProgress("電子署名の読み取り開始");
+            RCSignature signature = ap.readSignature();
+            publishProgress(signature.toString());
+
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
