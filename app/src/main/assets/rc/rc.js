@@ -28,9 +28,8 @@ function render(json) {
         document.getElementById("rc-card-front").src = data['rc-front-image'];
     }
     if ('rc-photo' in data) {
-        document.getElementById("rc-card-photo").src = data['rc-photo'];
-    } else {
-        document.getElementById("rc-card-photo").classList.add("null-image");
+        document.getElementById("rc-photo").src = data['rc-photo'];
+        document.getElementById("rc-photo").classList.add("img-exists");
     }
     if ('rc-card-type' in data) {
         switch(data['rc-card-type']) {

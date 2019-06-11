@@ -38,6 +38,7 @@ hr {
 }
 
 .rc-card-style {
+  display: block;
   position: relative;
   width: 640px;
   min-height: 400px;
@@ -61,18 +62,50 @@ img.rc-card-front {
   border-radius: 10px;
 }
 
-img.rc-card-photo {
+img.rc-photo {
   display: block;
   position: absolute;
-  top: 120px;
-  left: 450px;
-  width: 178px;
-  max-height:225px;
-}
-
-img.rc-card-photo.null-image {
+  top: 118px;
+  left: 455px;
+  width: 174px;
   height: 225px;
   border: 1px solid #AAAAAA;
+}
+
+img.rc-photo.img-exists {
+  height: auto;
+  max-height:225px;
+  border: 0px;
+}
+
+img.rc-moj {
+  display: block;
+  position: absolute;;
+  width: 80px;
+  height: auto;
+  opacity: 0.6;
+}
+
+img.rc-moj.type-rc {
+  top: 303px;
+  left: 360px;
+}
+
+img.rc-moj.type-sprc {
+  top: 180px;
+  left: 360px;
+}
+
+.rc-minister-of-justice {
+  position: absolute;
+  top: 362px;
+  left: 485px;
+  height: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 20px;
+  letter-spacing: 1px;
 }
 
 .rc-labels-wrapper {
@@ -82,74 +115,85 @@ img.rc-card-photo.null-image {
   left: 0px;
   width: 100%;
   height: 100%;
-  //border: 1px solid #0000FF;
+  margin: 0px;
+  padding: 0px;
 }
 
 .rc-header {
-  display: inline-block;
+  display: block;
   position: absolute;
-  top: 10px;
+  top: 14px;
   left: 0px;
   width: 100%;
-  height: 38px;
-  background-color: rgba(0,180,255,0.3);
+  height: 35px;
+}
+
+.rc-header.type-rc {
+  background-color: rgba(0,180,255,0.25);
 }
 
 .rc-header.type-sprc {
-  //background-color: rgba(255,220,0,0.3);
-  //background-color: rgba(240,240,0,0.3);
-  background-color: rgba(255, 196, 8 ,0.3);
+  top: 18px;
+  background-color: rgba(255, 235, 10 ,0.25);
 }
 
 .rc-government-wrapper {
+  display: inline-block;
   position: absolute;
   top: 0px;
   left: 15px;
   height: 100%;
-  //border: 1px solid #0000FF;
+  font-size: 0;
 }
 
 .rc-government-jp {
+  display: block;
   position: static;
   display: block;
-  height: 24px;
+  height: 20px;
+  margin-top: 1px;
   font-size: 20px;
-  //font-weight: bold;
   white-space: nowrap;
   line-height: 20px;
   letter-spacing: 2px;
-  //border: 1px solid #FF00FF;
 }
 
 .rc-government-en {
+  display: block;
   position: static;
   display: block;
-  height: 15px;
-  font-size: 15px;
-  //font-weight: bold;
+  height: 14px;
+  margin-top: 2px;
+  margin-left: 2px;
+  font-size: 14px;
   white-space: nowrap;
-  line-height: 15px;
+  line-height: 14px;
   letter-spacing: -1px;
+  word-spacing: -2px;
   font-family: monospace;
 }
 
 .rc-card-name-wrapper {
-  position: static
+  display: inline-block;
+  position: static;
+  width: 100%;
   height: 100%;
   text-align: center;
-  //border: 1px solid #0000FF;
+  font-size: 0;
 }
 
 .rc-card-name-jp {
-  position: static;
   display: block;
+  position: static;
   height: 24px;
   font-size: 24px;
   font-weight: bold;
   white-space: nowrap;
   line-height: 24px;
+}
+
+.rc-card-name-jp.type-rc {
   letter-spacing: 5px;
-  //border: 1px solid #FF00FF;
 }
 
 .rc-card-name-jp.type-sprc {
@@ -157,59 +201,253 @@ img.rc-card-photo.null-image {
 }
 
 .rc-card-name-en {
+  display: block;
   position: static;
   display: block;
-  height: 15px;
-  font-size: 15px;
-  //font-weight: bold;
+  height: 11px;
   white-space: nowrap;
-  line-height: 15px;
+  line-height: 12px;
   letter-spacing: -1px;
   word-spacing: -2px;
   font-family: monospace;
 }
 
-.rc-card-name-en.type-sprc {
+.rc-card-name-en.type-rc {
+  margin-left: -18px;
   font-size: 14px;
 }
 
+.rc-card-name-en.type-sprc {
+  font-size: 13px;
+}
+
 .rc-number-wrapper {
+  display: inline-block;
   position: absolute;
-  top: 0px;
-  right: 160px;
   height: 100%;
-  //border: 1px solid #0000FF;
+  font-size: 0;
+}
+
+.rc-number-wrapper.type-rc {
+  top: 0px;
+  right: 155px;
+}
+
+.rc-number-wrapper.type-sprc {
+  top: 0px;
+  right: 148px;
 }
 
 .rc-number-jp {
+  display: block;
   position: static;
   display: block;
-  height: 16px;
-  margin-top: 6px;
-  font-size: 16px;
-  //font-weight: bold;
+  height: 18px;
+  margin-top: 7px;
+  font-size: 18px;
   white-space: nowrap;
-  line-height: 16px;
+  line-height: 18px;
   letter-spacing: 1px;
-  //border: 1px solid #FF00FF;
 }
 
 .rc-number-en {
-  position: static;
-  float: right;
   display: block;
-  height: 15px;
-  margin-right: 2px;
-  font-size: 15px;
-  //font-weight: bold;
+  position: static;
+  display: block;
+  height: 14px;
+  font-size: 14px;
   white-space: nowrap;
-  line-height: 15px;
+  line-height: 14px;
   letter-spacing: -1px;
   font-family: monospace;
 }
 
+.rc-number-en.type-rc {
+  float: right;
+  margin: 0px;
+  margin-top: -2px;
+  margin-right: 2px;
+}
+
+.rc-number-en.type-sprc {
+  float: none;
+  margin: 0px;
+  margin-top: -2px;
+  margin-left: 2px;
+  text-align: center;
+}
+
+.rc-label-jp {
+  display: block;
+  position: static;
+  height: 14px;
+  margin: 0px;
+  font-size: 14px;
+  white-space: nowrap;
+  line-height: 14px;
+  letter-spacing: 0px;
+}
+
+.rc-label-en {
+  display: block;
+  position: static;
+  height: 13px;
+  margin-top: 5px;
+  font-size: 13px;
+  white-space: nowrap;
+  line-height: 13px;
+  letter-spacing: -1px;
+  word-spacing: -1px;
+  font-family: monospace;
+}
+
+.rc-label-en.center {
+  text-align: center;
+}
+
+.rc-label-set-wrapper {
+  display: inline-block;
+  position: absolute;
+  font-size: 0;
+}
+
+.rc-label-set-wrapper.rc-name {
+  top: 59px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-date-of-birth {
+  top: 102px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-sex {
+  top: 102px;
+  left: 237px;
+}
+
+.rc-label-set-wrapper.rc-nationality {
+  top: 102px;
+  left: 317px;
+}
+
+.rc-label-set-wrapper.rc-address {
+  top: 146px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-status {
+  top: 188px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-employment-restriction {
+  top: 208px;
+  left: 161px;
+  width: 283px;
+  height: 48px;
+  background-color: rgba(0,180,255,0.25);
+}
+
+.rc-label-jp.rc-employment-restriction {
+  display: inline-block;
+  position: static;
+  height: 100%;
+  margin-left: 2px;
+  margin-top: 19px;
+}
+
+.rc-label-set-wrapper.rc-period-of-stay {
+  top: 254px;
+  left: 17px;
+}
+
+.rc-label-en.rc-period-of-stay {
+  margin-top: 2px;
+  line-height: 14px;
+}
+
+.rc-label-set-wrapper.rc-kind-of-permission {
+  top: 309px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-date-of-approval {
+  top: 335px;
+  left: 17px;
+}
+
+.rc-label-set-wrapper.rc-date-of-issue {
+  top: 335px;
+  left: 228px;
+}
+
+.rc-label-set-wrapper.rc-period-of-validity {
+  top: 356px;
+  left: 0px;
+  width: 465px;
+  height: 30px;
+  background-color: rgba(0,180,255,0.25);
+}
+
+.rc-label-jp.rc-period-of-validity-prefix {
+  position: absolute;
+  top: 9px;
+  left: 15px;
+}
+
+.rc-label-jp.rc-period-of-validity-suffix {
+  position: absolute;
+  top: 9px;
+  right: 4px;
+}
+
+.rc-label-set-wrapper.sprc-name {
+  top: 84px;
+  left: 20px;
+}
+
+.rc-label-set-wrapper.sprc-date-of-birth {
+  top: 135px;
+  left: 20px;
+}
+
+.rc-label-set-wrapper.sprc-sex {
+  top: 135px;
+  left: 306px;
+}
+
+.rc-label-set-wrapper.sprc-nationality {
+  top: 190px;
+  left: 20px;
+}
+
+.rc-label-set-wrapper.sprc-address {
+  top: 243px;
+  left: 20px;
+}
+
+.rc-label-set-wrapper.sprc-period-of-validity {
+  top: 307px;
+  left: 0px;
+  width: 450px;
+  height: 57px;
+  background-color: rgba(255, 235, 10 ,0.25);
+}
+
+.rc-label-jp.sprc-period-of-validity-prefix {
+  position: absolute;
+  top: 22px;
+  left: 15px;
+}
+
+.rc-label-jp.sprc-period-of-validity-suffix {
+  position: absolute;
+  top: 22px;
+  right: -2px;
+}
+
 .rc-block {
-  //border: 1px solid #000000;
   display: block;
   width: 640px;
   padding: 10px;
@@ -217,118 +455,6 @@ img.rc-card-photo.null-image {
   margin-top: 10px;
   margin-bottom: 10px;
   word-wrap: break-word;
-}
-
-.rc-image-label {
-  margin-bottom: 5px;
-  font-size: 30px;
-  font-weight: bold;
-  white-space: nowrap;
-  line-height: 30px;
-  letter-spacing: 2px;
-}
-
-img.rc-front-image {
-  display: block;
-  max-width: 638px;
-  border: 1px solid #AAAAAA;
-}
-
-img.rc-photo {
-  display: block;
-  max-width: 638px;
-  border: 1px solid #AAAAAA;
-}
-
-
-.rc-help-button {
-  display: inline-block;
-  position: relative;
-  width: 26px;
-  height: 26px;
-  margin: 0px;
-  margin-left: 3px;
-  border-radius: 50%;
-  background-image: url("help.png");
-  background-size: contain;
-  vertical-align: bottom;
-  content: "";
-}
-
-.rc-help-button.birth {
-  top: -2px;
-}
-
-.rc-help-button.authenticity {
-  top: -1px;
-  left: -5px
-}
-
-.rc-help-button:hover:before {
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 26px;
-  height: 26px;
-  background-color: #ffffff;
-  content: "";
-  opacity: 0.4;
-  z-index: 0;
-}
-
-.rc-tooltip {
-  display: inline-block;
-  position: relative;
-}
-
-.rc-tooltip-content {
-  display: none;
-  position: absolute;
-  width: 400px;
-  height: auto;
-  margin-top: 10px;
-  margin-left: -200px;
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 2px solid #aaaaaa;
-  border-radius: 10px;
-  background-color: #ffffff;
-  font-size: 30px;
-  white-space: normal;
-  line-height: 30px;
-  box-shadow: 5px 5px 4px rgba(176, 176, 176, 0.5);
-  word-break: normal;
-  word-wrap: break-word;
-  z-index: 1;
-}
-
-.rc-tooltip-content.center {
-  margin-left: -200px;
-}
-
-.rc-tooltip-content.upper {
-  bottom: 100%;
-}
-
-.rc-tooltip-content.left {
-  right: 0px;
-  margin-left: -10px;
-  margin-right: -10px;
-}
-
-.rc-tooltip-content.right {
-  left: 0px;
-  margin-left: -10px;
-  margin-right: -10px;
-}
-
-.rc-tooltip-content.lower {
-  top: 100%;
-}
-
-.rc-tooltip:hover > .rc-tooltip-content {
-  display: inline-block;
 }
 
 table.rc-table {
