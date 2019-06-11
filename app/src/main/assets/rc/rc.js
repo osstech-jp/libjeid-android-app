@@ -34,12 +34,12 @@ function render(json) {
     if ('rc-card-type' in data) {
         switch(data['rc-card-type']) {
             case '1':
-                document.getElementById("rc-rc-labels").style.display = "block";
-                document.getElementById("rc-sprc-labels").style.display = "none";
+                document.getElementById("rc-labels").style.display = "block";
+                document.getElementById("sprc-labels").style.display = "none";
                 break;
             case '2':
-                document.getElementById("rc-rc-labels").style.display = "none";
-                document.getElementById("rc-sprc-labels").style.display = "block";
+                document.getElementById("rc-labels").style.display = "none";
+                document.getElementById("sprc-labels").style.display = "block";
         }
     }
 }

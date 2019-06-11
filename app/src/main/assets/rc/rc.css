@@ -37,7 +37,7 @@ hr {
   font-family: "Noto Sans"
 }
 
-.rc-card-style {
+.rc-entries {
   display: block;
   position: relative;
   width: 640px;
@@ -445,16 +445,6 @@ img.rc-moj.type-sprc {
   position: absolute;
   top: 22px;
   right: -2px;
-}
-
-.rc-block {
-  display: block;
-  width: 640px;
-  padding: 10px;
-  margin: 5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  word-wrap: break-word;
 }
 
 table.rc-table {
