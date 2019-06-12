@@ -124,7 +124,7 @@ function render(json) {
     
     var id, label, value;
     var unsupportedOidIndex = 0;
-    for (var i in general_list) {
+    for (var i = 0; i < general_list.length; i++) {
         if (general_list[i] in data && data[general_list[i]]) {
             id = general_list[i];
             label = htmlEscape(labels[general_list[i]]);
@@ -132,7 +132,7 @@ function render(json) {
             general_str += '\n' + generateFieldLine(id, label, value, 'general_');
         }
     }
-    for (var i in details_list) {
+    for (var i = 0; i < details_list.length; i++) {
         if (details_list[i] in data && data[details_list[i]]) {
             id = details_list[i];
             label = htmlEscape(labels[details_list[i]]);
