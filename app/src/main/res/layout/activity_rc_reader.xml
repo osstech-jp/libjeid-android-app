@@ -3,30 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppLayout">
-  <TextView
-      android:id="@+id/info"
+  <ScrollView
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="在留カード等の番号を入力し、在留カードまたは特別永住者証明書を読み取ります。"
-      android:textSize="20sp" />
-  <TextView
-      android:id="@+id/text_rc_number"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:text="在留カード等の番号"
-      android:textSize="20sp" />
-  <EditText
-      android:id="@+id/edit_rc_number"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="8dp"
-      android:ems="10"
-      android:textSize="20sp"
-      android:inputType="text"
-      android:maxLength="12"
-      android:hint="@null"
-      tools:ignore="Autofill"/>
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+      <TextView
+          android:id="@+id/info"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="在留カード等の番号を入力し、在留カードまたは特別永住者証明書を読み取ります。"
+          android:textSize="20sp" />
+      <TextView
+          android:id="@+id/text_rc_number"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="在留カード等の番号"
+          android:textSize="20sp" />
+      <EditText
+          android:id="@+id/edit_rc_number"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:ems="10"
+          android:textSize="20sp"
+          android:inputType="text"
+          android:maxLength="12"
+          android:hint="@null"
+          tools:ignore="Autofill"/>
+    </LinearLayout>
+  </ScrollView>
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"
