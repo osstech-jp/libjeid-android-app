@@ -139,6 +139,16 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             RCSignature signature = ap.readSignature();
             publishProgress(signature.toString());
 
+            // チェックコードの検証
+            boolean checkcodeVerified = false;
+            try {
+                checkcodeVerified = ap.verifySignature(signature, cardFrontEntries, photo);
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                publishProgress("チェックコードの検証中にエラー: " + e);
+            }
+            publishProgress("チェックコードの検証: " + checkcodeVerified);
+
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
