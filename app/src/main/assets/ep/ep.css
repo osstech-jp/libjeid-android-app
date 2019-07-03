@@ -1,0 +1,407 @@
+
+* {
+  margin : 0;
+  padding : 0;
+}
+
+body {
+  font-size: medium;
+}
+
+h1 {
+  margin: 2px;
+  padding: 2px;
+}
+
+hr {
+  border: 0px;
+  border-bottom: 1px solid #000000;
+}
+
+.ep-block {
+  display: block;
+  width: 640px;
+  margin: 0px;
+  padding: 10px;
+  word-wrap: break-word;
+}
+
+.ep-entries {
+  width: 640px;
+  min-height: 450px;
+  margin: 0px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #aaaaaa;
+  font-size: 20px;
+  font-family: "Noto Sans"
+}
+
+.ep-head {
+  display: inline-block;
+  width: 100%;
+  height: 45px;
+  padding: 0px;
+  margin-top: -5px;
+}
+
+.ep-head-left {
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 100%;
+  font-size: 0;
+}
+
+img.ep-sakura-a {
+  display: inline-block;
+  width: 107px;
+  height: 32px;
+  margin-top: 5px;
+  margin-left: 30px;
+}
+
+img.ep-sakura-b {
+  display: inline-block;
+  width: 45px;
+  height: 32px;
+  margin-top: 5px;
+  margin-left: 2px;
+}
+
+.ep-head-center {
+  display: inline-block;
+  width: 215px;
+  height: 100%;
+  margin-left: 15px;
+}
+
+img.ep-sakura-c {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+img.ep-sakura-c.left {
+  float: left;
+}
+
+img.ep-sakura-c.right {
+  float: right;
+}
+
+.ep-nipponkoku-wrapper {
+  display: inline-block;
+  width: 115px;
+  margin-top: 4px;
+  margin-left: 10px;
+  text-align: center;
+  font-size: 0;
+}
+
+.ep-nipponkoku {
+  width: 100%;
+  height: 25px;
+  margin-top: 3px;
+  margin-bottom: 1px;
+  font-size: 23px;
+  white-space: nowrap;
+  line-height: 25px;
+  text-indent: -2px;
+  text-align: center;
+}
+
+.ep-japanpassport-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #808080;
+  background-repeat : repeat-x;
+  background-image: url("japanpassport.png");
+  background-size: contain;
+}
+
+.ep-head-right {
+  display: inline-block;
+  float: right;
+  width: 180px;
+  height: 100%;
+}
+
+.ep-japan {
+  display: inline-block;
+  width: 80px;
+  height: 17px;
+  margin-top: 13px;
+  margin-left: 20px;
+  text-align: center;
+  text-indent: 2px;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+img.ep-toukamon-a {
+  display: inline-block;
+  float: right;
+  width: 60px;
+  height: 60px;
+  margin-top: 5px;
+}
+
+.ep-body {
+  display: block;
+  height: 320px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.ep-left {
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 320px;
+  margin-left: 8px;
+}
+
+.ep-ryoken-passport {
+  display: block;
+  width: 180px;
+  height: 26px;
+  margin-top: 19px;
+  margin-left: 7px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 21px;
+}
+
+.ep-photo-wrapper {
+  display: block;
+  position: relative;
+  width: 198px;
+  height: 255px;
+  margin-top: 12px;
+}
+
+.ep-photo-shadow {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ep-photo-shadow::after {
+  position: absolute;
+  content: '';
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  border-radius: 55px;
+  box-shadow: 0px 0px 1px 1px #ffffff inset;
+}
+
+img.ep-photo {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-radius: 55px;
+}
+
+.ep-photo-frame {
+  display: inline-block;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 180px;
+  height: 237px;
+  border-radius: 55px;
+  border: 10px solid #ffffff;
+  opacity: 0.6;
+}
+
+.ep-photo-frame::after {
+  position: absolute;
+  content: '';
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  border-radius: 46px;
+  box-shadow: 0px 0px 4px 4px #ffffff inset;
+}
+
+img.ep-toukamon-b {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+}
+
+img.ep-toukamon-b.upper-right {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+img.ep-toukamon-b.lower-left {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+}
+
+.ep-right {
+  display: inline-block;
+  float: right;
+  width: 420px;
+  height: 100%;
+  margin-right: 4px;
+}
+
+.ep-label {
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin-left: 2px;
+  font-size: 12px;
+  white-space: nowrap;
+  line-height: 12px;
+}
+
+.ep-label.top {
+  height: 17px;
+}
+
+.ep-label.signature {
+  text-align: center;
+}
+
+.ep-attr {
+  display: block;
+  width: 100%;
+  height: 17px;
+  margin-top: 2px;
+  margin-bottom: 6px;
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 20px;
+  letter-spacing: 2px;
+  font-family: monospace;
+}
+
+.ep-attr.issuing-country {
+  text-indent: 24px;
+}
+
+.ep-attr.signature {
+  height: 100px;
+  border-bottom: 2px solid #e0e060;
+  text-align: center;
+}
+
+.ep-attr.authority {
+  width: 100%;
+  font-size: 14px;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 13px;
+  letter-spacing: 2px;
+}
+
+.ep-info-wrapper {
+  display: block;
+  width: 100%;
+  margin-top: 1px;
+  margin-left: 0px;
+  font-size: 0px;
+}
+
+.ep-info {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.ep-info.ep-type {
+  width: 60px;
+}
+
+.ep-info.ep-issuing-country {
+  width: 155px;
+}
+
+.ep-info.ep-nationality {
+  width: 125px;
+}
+
+.ep-info.ep-sex {
+  width: 125px;
+}
+
+.ep-info.ep-dates-and-authority {
+  width: 160px;
+}
+
+.ep-date-of-issue {
+  display: block;
+  width: 100%;
+}
+
+.ep-date-of-expiry {
+  display: block;
+  width: 100%;
+}
+
+.ep-authority {
+  display: block;
+  width: 100%;
+}
+
+.ep-signature-of-bearer {
+  display: inline-block;
+  width: 250px;
+  vertical-align: top;
+}
+
+.ep-footer {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ep-mrz {
+  display: inline-block;
+  width: 100%;
+  margin-top: 5px;
+  text-align: center;
+  font-family: monospace;
+}
+
+table.ep-mrz-table {
+  display: inline-block;
+  width: auto;
+  margin-top : 0px;
+  font-size: 0;
+  border-collapse: collapse;
+}
+
+table.ep-mrz-table td {
+  width: 14px;
+  height: 32px;
+  background-color: #fff;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 21px;
+}
+
+table.ep-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.ep-table td {
+  padding: 4px;
+  border: 1px solid #000000;
+  background-color: #fff;
+}

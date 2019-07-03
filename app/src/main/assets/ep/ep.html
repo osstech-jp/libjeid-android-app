@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=640,user-scalable=yes">
+  </head>
+  <script type="text/javascript" src="ep.js"></script>
+  <!--script type="text/javascript" src="dummy.js"></script-->
+  <link rel="stylesheet" type="text/css" href="normalize.css" />
+  <link rel="stylesheet" type="text/css" href="ep.css" />
+  <body>
+    <div class="ep-entries">
+      <div class="ep-head">
+        <div class="ep-head-left">
+          <img class="ep-sakura-a" src="sakuraA.png"/>
+          <img class="ep-sakura-b" src="sakuraB.png"/>
+        </div>
+        <div class="ep-head-center">
+          <img class="ep-sakura-c left" src="sakuraC.png"/>
+          <div class="ep-nipponkoku-wrapper">
+            <div class="ep-japanpassport-bar"></div>
+            <div class="ep-nipponkoku">日<span style="margin-right: 21px;"></span>本<span style="margin-right: 21px;"></span>国</div>
+            <div class="ep-japanpassport-bar"></div>
+          </div>
+          <img class="ep-sakura-c right" src="sakuraC.png"/>
+        </div>
+        <div class="ep-head-right">
+          <div class="ep-japan">JAPAN</div>
+          <img class="ep-toukamon-a" src="toukamonA.png"/>
+        </div>
+      </div>
+      <div class="ep-body">
+        <div class="ep-left">
+          <div class="ep-ryoken-passport">旅券<span style="margin-right: 15px;"></span>PASSPORT</div>
+          <div class="ep-photo-wrapper">
+            <div class="ep-photo-shadow">
+              <img class="ep-photo" id="ep-photo"/>
+              <div class="ep-photo-frame">
+              </div>
+            </div>
+            <img class="ep-toukamon-b upper-right" src="toukamonB.png"/>
+            <img class="ep-toukamon-b lower-left" src="toukamonB.png"/>
+          </div>
+        </div>
+        <div class="ep-right">
+          <div class="ep-info-wrapper">
+            <div class="ep-info ep-type">
+              <div class="ep-label top">型/Type</div>
+              <div class="ep-attr" id="ep-type"></div>
+            </div>
+            <div class="ep-info ep-issuing-country">
+              <div class="ep-label top">発行国/Issuing country</div>
+              <div class="ep-attr issuing-country" id="ep-issuing-country"></div>
+            </div>
+            <div class="ep-info">
+              <div class="ep-label top">旅券番号/Passport No.</div>
+              <div class="ep-attr" id="ep-passport-number"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+            <div class="ep-info">
+              <div class="ep-label">姓/Surname</div>
+              <div class="ep-attr" id="ep-surname"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+            <div class="ep-info">
+              <div class="ep-label">名/Given name</div>
+              <div class="ep-attr" id="ep-given-name"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+            <div class="ep-info ep-nationality">
+              <div class="ep-label">国　籍/Nationality</div>
+              <div class="ep-attr" id="ep-nationality"></div>
+            </div>
+            <div class="ep-info">
+              <div class="ep-label">生年月日/Date of birth</div>
+              <div class="ep-attr" id="ep-date-of-birth"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+            <div class="ep-info ep-sex">
+              <div class="ep-label">性別/Sex</div>
+              <div class="ep-attr" id="ep-sex"></div>
+            </div>
+            <div class="ep-info">
+              <div class="ep-label">本　籍/Registered Domicile</div>
+              <div class="ep-attr" id="ep-registered-domicile"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+            <div class="ep-info ep-dates-and-authority">
+              <div class="ep-date-of-issue">
+                <div class="ep-label">発行年月日/Date of issue</div>
+                <div class="ep-attr" id="ep-date-of-issue"></div>
+              </div>
+              <div class="ep-date-of-expiry">
+                <div class="ep-label">有効期間満了日/Date of expiry</div>
+                <div class="ep-attr" id="ep-date-of-expiry"></div>
+              </div>
+              <div class="ep-ahtority">
+                <div class="ep-label">発行官庁/Authority</div>
+                <div class="ep-attr authority" id="ep-authority"></div>
+              </div>
+            </div>
+            <div class="ep-signature-of-bearer">
+              <div class="ep-label signature">所持人自署/Signature of bearer</div>
+              <div class="ep-attr signature"></div>
+            </div>
+          </div>
+          <div class="ep-info-wrapper">
+          </div>
+        </div>
+      </div>
+      <div class="ep-footer">
+        <div class="ep-mrz" id="ep-mrz">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

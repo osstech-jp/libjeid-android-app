@@ -35,7 +35,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
     private String birthDate;
     private String expireDate;
 
-    public EPReaderTask(EPReaderActivity activity, Tag nfcTag){
+    public EPReaderTask(EPReaderActivity activity, Tag nfcTag) {
         mRef = new WeakReference<EPReaderActivity>(activity);
         mNfcTag = nfcTag;
     }
@@ -78,7 +78,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
         JeidReader reader;
         try {
             reader = new JeidReader(mNfcTag);
-        }catch(IOException e){
+        } catch (IOException e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
             return null;
@@ -100,16 +100,36 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("CommonData読み取り開始");
             EPCommonData commonData = ap.readCommonData();
             publishProgress(commonData.toString());
+
+            JSONObject obj = new JSONObject();
             publishProgress("DG1読み取り開始");
             EPDataGroup1 dg1 = ap.readDataGroup1();
             publishProgress(dg1.getMRZ());
+
+            MRZ dg1Mrz = new MRZ(dg1.getMRZ());
+            if (!"JPN".equals(dg1Mrz.getIssuingCountry())) {
+                publishProgress("日本発行のパスポートではありません");
+                return null;
+            }
+            obj.put("ep-type", dg1Mrz.getDocumentCode());
+            obj.put("ep-issuing-country", dg1Mrz.getIssuingCountry());
+            obj.put("ep-passport-number", dg1Mrz.getPassportNumber());
+            obj.put("ep-surname", dg1Mrz.getSurname());
+            obj.put("ep-given-name", dg1Mrz.getGivenName());
+            obj.put("ep-nationality", dg1Mrz.getNationality());
+            obj.put("ep-date-of-birth", dg1Mrz.getBirthDate());
+            obj.put("ep-sex", dg1Mrz.getSex());
+            obj.put("ep-date-of-expiry", dg1Mrz.getExpirationDate());
+            obj.put("ep-mrz", dg1.getMRZ());
+
             publishProgress("DG2読み取り開始");
             EPDataGroup2 dg2 = ap.readDataGroup2();
             byte[] jpeg = dg2.getFaceJpeg();
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
+            obj.put("ep-photo", src);
             publishProgress("読み取り完了");
-            return null;
-        } catch(Exception e) {
+            return obj;
+        } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
             return null;
@@ -134,13 +154,11 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             return;
         }
 
-        if (obj == null){
+        if (obj == null) {
             return;
         }
-        /*
         Intent intent = new Intent(activity, EPViewerActivity.class);
         intent.putExtra("json", obj.toString());
         activity.startActivity(intent);
-        */
     }
 }
