@@ -4,10 +4,10 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "jp.co.osstech.jeidreader"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
-        versionCode 14
-        versionName "1.0.14"
+        versionCode 15
+        versionName "1.0.15"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -75,8 +75,8 @@ repositories {
 }
 
 dependencies {
-    // LibJeid無償版を利用
-    implementation 'jp.co.osstech:libjeid-free:latest.integration@aar'
+    // LibJeID無償版を利用
+    implementation 'jp.co.osstech:libjeid-free:20190719@aar'
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
