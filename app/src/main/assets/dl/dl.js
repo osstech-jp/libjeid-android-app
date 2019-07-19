@@ -219,6 +219,17 @@ function render(json) {
     var elm = document.getElementById('dl-remarks');
     if ('dl-remarks' in data) {
         var remarks = data['dl-remarks'];
+        remarks.sort(function(a, b) {
+            var aDate = a['text'].substr(0, 7);
+            var bDate = b['text'].substr(0, 7);
+            if (aDate > bDate) {
+                return 1;
+            } else if (aDate < bDate) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
         for(var i=0; i<remarks.length; i++) {
             var label = remarks[i]['label'];
             var text = remarks[i]['text'];
