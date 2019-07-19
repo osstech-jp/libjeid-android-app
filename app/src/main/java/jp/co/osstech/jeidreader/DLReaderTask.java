@@ -182,7 +182,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("写真の読み取り中...");
                 DriverLicensePhoto photo = ap.getPhoto();
                 publishProgress("写真のデコード中...");
-                BitmapARGB argb = photo.getPhotoARGB();
+                BitmapARGB argb = photo.getPhotoBitmapARGB();
                 Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
                                                     argb.getWidth(),
                                                     argb.getHeight(),
