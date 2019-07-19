@@ -100,14 +100,14 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
             publishProgress("券面（表）イメージの読み取り中...");
-            RCCardFrontEntries cardFrontEntries = ap.readCardFrontEntries();
-            byte[] png = cardFrontEntries.toPng();
+            RCCardEntries cardEntries = ap.readCardEntries();
+            byte[] png = cardEntries.toPng();
             String src = "data:image/png;base64," + Base64.encodeToString(png, Base64.DEFAULT);
             obj.put("rc-front-image", src);
 
             publishProgress("顔写真の読み取り中...");
-            RCFacePhoto photo = ap.readFacePhoto();
-            BitmapARGB argb = photo.getPhotoARGB();
+            RCPhoto photo = ap.readPhoto();
+            BitmapARGB argb = photo.getPhotoBitmapARGB();
             if (argb != null) {
                 Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
                         argb.getWidth(),
@@ -142,7 +142,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             // チェックコードの検証
             boolean checkcodeVerified = false;
             try {
-                checkcodeVerified = ap.verifySignature(signature, cardFrontEntries, photo);
+                checkcodeVerified = ap.verifySignature(signature, cardEntries, photo);
             } catch (IOException e) {
                 Log.e(TAG, e.toString());
                 publishProgress("チェックコードの検証中にエラー: " + e);
