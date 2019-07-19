@@ -97,7 +97,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-expire", expire);
 
             publishProgress("写真のデコード中...");
-            BitmapARGB argb = front.getPhotoARGB();
+            BitmapARGB argb = front.getPhotoBitmapARGB();
             Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
                                                 argb.getWidth(),
                                                 argb.getHeight(),
