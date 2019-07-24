@@ -258,6 +258,9 @@ function render(json) {
                     case 4:
                         eraName = '平成';
                         break;
+                    case 5:
+                        eraName = '令和';
+                        break;
                     default:
                         eraName = '○○';
                         break;
