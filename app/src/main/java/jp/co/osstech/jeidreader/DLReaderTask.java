@@ -148,6 +148,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 
             publishProgress(entries.toString());
 
+            // 記載事項変更等(本籍除く）を取得
             DriverLicenseChangedEntries changedEntries = ap.getChangedEntries();
             publishProgress(changedEntries.toString());
 
@@ -166,8 +167,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     remarks.put(remarkObj);
                 }
             }
-            obj.put("dl-remarks", remarks);
 
+            // 電子署名を取得
             DriverLicenseSignature signature = ap.getSignature();
             if (!pin2.isEmpty()) {
                 DriverLicenseRegisteredDomicile registeredDomicile = ap.getRegisteredDomicile();
@@ -194,6 +195,17 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 obj.put("dl-photo", src);
                 publishProgress(signature.toString());
 
+                // 記載事項変更（本籍）を取得
+                changedEntries = ap.getChangedRegisteredDomicile();
+                if (changedEntries.isChanged()) {
+                    for (String entry : changedEntries.getNewRegisteredDomiciles()) {
+                        JSONObject remarkObj = new JSONObject();
+                        remarkObj.put("label", "新本籍");
+                        remarkObj.put("text", entry);
+                        remarks.put(remarkObj);
+                    }
+                }
+
                 // 電子署名検証
                 boolean verified = false;
                 try {
@@ -211,6 +223,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 obj.put("dl-verified", verified);
                 publishProgress("署名検証: " + verified);
             }
+            obj.put("dl-remarks", remarks);
 
             String signatureSubject = signature.getSubject();
             publishProgress("Subject: " + signatureSubject);
