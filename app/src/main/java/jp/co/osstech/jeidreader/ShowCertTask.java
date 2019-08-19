@@ -25,6 +25,7 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.DERIA5String;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.pkcs.RSAPublicKey;
+import org.bouncycastle.asn1.util.ASN1Dump;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AccessDescription;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
@@ -153,7 +154,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     byte[] subjectKeyIdentifier = cert.getExtensionValue(oid);
                     if (subjectKeyIdentifier != null) {
                         obj.put("showcert-subject-key-identifier",
-                                subjectKeyIdentifierToString(subjectKeyIdentifier)
+                                ASN1Dump.dumpAsString(
+                                        SubjectKeyIdentifier.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(subjectKeyIdentifier)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -167,14 +170,20 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                 case "2.5.29.17":
                     byte[] subjectAlternativeName = cert.getExtensionValue(oid);
                     if (subjectAlternativeName != null) {
-                        obj.put("showcert-subject-alt-name", alternativeNameToString(subjectAlternativeName)
+                        obj.put("showcert-subject-alt-name",
+                                ASN1Dump.dumpAsString(
+                                        GeneralNames.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(subjectAlternativeName)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
                 case "2.5.29.18":
                     byte[] issuerAlternativeName = cert.getExtensionValue(oid);
                     if (issuerAlternativeName != null) {
-                        obj.put("showcert-issuer-alt-name", alternativeNameToString(issuerAlternativeName)
+                        obj.put("showcert-issuer-alt-name",
+                                ASN1Dump.dumpAsString(
+                                        GeneralNames.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(issuerAlternativeName)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -189,7 +198,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     byte[] crlDistributionPoint = cert.getExtensionValue(oid);
                     if (crlDistributionPoint != null) {
                         obj.put("showcert-crl-distribution-point",
-                                crlDistributionPointToString(crlDistributionPoint)
+                                ASN1Dump.dumpAsString(
+                                        CRLDistPoint.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(crlDistributionPoint)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -197,7 +208,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     byte[] certificatePolicies = cert.getExtensionValue(oid);
                     if (certificatePolicies != null) {
                         obj.put("showcert-certificate-policies",
-                                certificatePoliciesToString(certificatePolicies)
+                                ASN1Dump.dumpAsString(
+                                        CertificatePolicies.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(certificatePolicies)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -205,7 +218,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     byte[] authorityKeyIdentifier = cert.getExtensionValue(oid);
                     if (authorityKeyIdentifier != null) {
                         obj.put("showcert-authority-key-identifier",
-                                authorityKeyIdentifierToString(authorityKeyIdentifier)
+                                ASN1Dump.dumpAsString(
+                                        AuthorityKeyIdentifier.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(authorityKeyIdentifier)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -221,7 +236,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     byte[] authorityInformationAccess = cert.getExtensionValue(oid);
                     if (authorityInformationAccess != null) {
                         obj.put("showcert-authority-information-access",
-                                authorityInformationAccessToString(authorityInformationAccess)
+                                ASN1Dump.dumpAsString(
+                                        AuthorityInformationAccess.getInstance(
+                                                JcaX509ExtensionUtils.parseExtensionValue(authorityInformationAccess)))
                                 + " (" + getCriticalLabel(criticalExtensionOIDs.contains(oid)) + ")");
                     }
                     break;
@@ -334,247 +351,6 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
             }
         }
         return listToString(list);
-    }
-
-    private String subjectKeyIdentifierToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        SubjectKeyIdentifier subjectKeyIdentifier
-                = SubjectKeyIdentifier.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        byte[] keyId = subjectKeyIdentifier.getKeyIdentifier();
-        return Hex.encode(keyId, ":");
-    }
-
-    private String alternativeNameToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        GeneralNames generalNames = GeneralNames.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        return generalNamesToString(generalNames);
-    }
-
-    private String crlDistributionPointToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        List<String> list = new ArrayList<>();
-        CRLDistPoint crlDistPoint = CRLDistPoint.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        for (DistributionPoint distPoint : crlDistPoint.getDistributionPoints()) {
-            DistributionPointName distributionPointName = distPoint.getDistributionPoint();
-            String distributionPointNameStr;
-            if (distributionPointName != null) {
-                if (distributionPointName.getType() == DistributionPointName.FULL_NAME) {
-                    GeneralNames distributionPointNames = (GeneralNames) distributionPointName.getName();
-                    distributionPointNameStr = "(fullName=)" + generalNamesToString(distributionPointNames);
-                } else {
-                    distributionPointNameStr = "(nameRelativeToCRLIssuer=)"
-                            + distributionPointName.getName().toString();
-                }
-            } else {
-                distributionPointNameStr = "null";
-            }
-
-            ReasonFlags reasons = distPoint.getReasons();
-            String reasonsStr;
-            if (reasons != null) {
-                reasonsStr = reasons.toString();
-            } else {
-                reasonsStr = "null";
-            }
-
-            GeneralNames crlIssuer = distPoint.getCRLIssuer();
-            String crlIssuerStr = generalNamesToString(crlIssuer);
-
-            list.add("{distributionPoint:" + distributionPointNameStr + ", reasons:" + reasonsStr
-                    + ", cRLIssuer:" + crlIssuerStr + "}");
-        }
-        return listToString(list);
-    }
-
-    private String certificatePoliciesToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        List<String> list = new ArrayList<>();
-        CertificatePolicies cpObject
-                = CertificatePolicies.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        PolicyInformation[] policyInformations = cpObject.getPolicyInformation();
-
-        for (PolicyInformation information : policyInformations) {
-            String policyId = information.getPolicyIdentifier().getId();
-
-            ASN1Sequence policyQualifiers = information.getPolicyQualifiers();
-            String policyQualifiersStr;
-            if (policyQualifiers != null) {
-                List<String> policyInfoStrList = new ArrayList<>();
-                for (ASN1Encodable encodable : policyQualifiers) {
-                    PolicyQualifierInfo policyQualiferInfo = PolicyQualifierInfo.getInstance(encodable);
-                    String qualiferId = policyQualiferInfo.getPolicyQualifierId().getId();
-                    String qualifer;
-                    if ("1.3.6.1.5.5.7.2.1".equals(qualiferId)) {
-                        qualiferId = "CPS";
-                        qualifer = policyQualiferInfo.getQualifier().toString();
-                    } else {
-                        qualiferId = "userNotice";
-                        qualifer = policyQualiferInfo.getQualifier().toString();
-                    }
-                    policyInfoStrList.add("(" + qualiferId + "=)" + qualifer);
-                }
-                policyQualifiersStr = listToString(policyInfoStrList);
-            } else {
-                policyQualifiersStr = "null";
-            }
-
-            list.add("{policyId:" + policyId + ", policyQualifiers:" + policyQualifiersStr + "}");
-        }
-        return listToString(list);
-    }
-
-    private String authorityKeyIdentifierToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        AuthorityKeyIdentifier akiObject
-                = AuthorityKeyIdentifier.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        String keyIdStr;
-        byte[] keyId = akiObject.getKeyIdentifier();
-        if (keyId != null) {
-            keyIdStr = Hex.encode(keyId, ":");
-        } else {
-            keyIdStr = "null";
-        }
-
-        GeneralNames certIssuer = akiObject.getAuthorityCertIssuer();
-        String certIssuerStr = generalNamesToString(certIssuer);
-
-        BigInteger serialNumber = akiObject.getAuthorityCertSerialNumber();
-        String serialNumberStr;
-        if (serialNumber != null) {
-            serialNumberStr = serialNumber.toString();
-        } else {
-            serialNumberStr = "null";
-        }
-        return "{keyId:" + keyIdStr + ", issuer:" + certIssuerStr + ", serial:" + serialNumberStr + "}";
-    }
-
-    private String authorityInformationAccessToString(byte[] bytes) throws Exception {
-        if (bytes == null || bytes.length == 0) {
-            return "";
-        }
-
-        List<String> list = new ArrayList<>();
-        AuthorityInformationAccess aiaObject
-                = AuthorityInformationAccess.getInstance(JcaX509ExtensionUtils.parseExtensionValue(bytes));
-        AccessDescription[] accessDescriptions = aiaObject.getAccessDescriptions();
-
-        for (AccessDescription accessDescription : accessDescriptions) {
-            String methodStr;
-            String locationStr;
-            if (X509ObjectIdentifiers.ocspAccessMethod.equals(accessDescription.getAccessMethod())) {
-                methodStr = "OCSP";
-                GeneralName generalName = accessDescription.getAccessLocation();
-                locationStr = generalNameToString(generalName);
-            } else {
-                methodStr = accessDescription.getAccessMethod().getId();
-                locationStr = accessDescription.getAccessLocation().toString();
-            }
-            list.add("{method:" + methodStr + ", location:" + locationStr + "}");
-        }
-        return listToString(list);
-    }
-
-    private String generalNamesToString(GeneralNames generalNames) {
-        if (generalNames == null) {
-            return "null";
-        }
-
-        List<String> list = new ArrayList<>();
-        for (GeneralName generalName : generalNames.getNames()) {
-            list.add(generalNameToString(generalName));
-        }
-        return listToString(list);
-    }
-
-    private String generalNameToString(GeneralName generalName) {
-        if (generalName == null) {
-            return "null";
-        }
-
-        String tagStr;
-        String valueStr;
-        switch (generalName.getTagNo()) {
-        case GeneralName.otherName:
-            tagStr = "otherName";
-            valueStr = generalName.getName().toString();
-            break;
-        case GeneralName.rfc822Name:
-            tagStr = "rfc822";
-            valueStr = ((DERIA5String) generalName.getName()).getString();
-            break;
-        case GeneralName.dNSName:
-            tagStr = "dnsName";
-            valueStr = ((DERIA5String) generalName.getName()).getString();
-            break;
-        case GeneralName.x400Address:
-            tagStr = "x400Address";
-            valueStr = generalName.getName().toString();
-            break;
-        case GeneralName.directoryName:
-            tagStr = "dirName";
-            valueStr = (X500Name.getInstance(generalName.getName()).toString());
-            break;
-        case GeneralName.ediPartyName:
-            tagStr = "ediPartyName";
-            valueStr = generalName.getName().toString();
-            break;
-        case GeneralName.uniformResourceIdentifier:
-            tagStr = "uri";
-            valueStr = ((DERIA5String) generalName.getName()).getString();
-            break;
-        case GeneralName.iPAddress:
-            tagStr = "ipAddress";
-            byte[] ip = DEROctetString.getInstance(generalName.getName()).getOctets();
-            StringBuilder strBuilder = new StringBuilder();
-            if (ip.length == 4 || ip.length == 8) {
-                for (int i = 0; i < ip.length; i++) {
-                    if (i == 4) {
-                        strBuilder.append('/');
-                    }
-                    strBuilder.append(ip[i] & 0xff);
-                    if (i < 3 || (4 <= i && i < 7)) {
-                        strBuilder.append('.');
-                    }
-                }
-                valueStr = strBuilder.toString();
-            } else if (ip.length == 16) {
-                for (int i = 0; i < ip.length; i += 2) {
-                    strBuilder.append(String.format("%02X", ip[i]));
-                    strBuilder.append(String.format("%02X", ip[i + 1]));
-                    if (i < 13) {
-                        strBuilder.append(':');
-                    }
-                }
-                valueStr = strBuilder.toString();
-            } else {
-                valueStr = generalName.getName().toString();
-            }
-            break;
-        case GeneralName.registeredID:
-            tagStr = "registeredID";
-            valueStr = ASN1ObjectIdentifier.getInstance(generalName.getName()).getId();
-            break;
-        default:
-            tagStr = Integer.toString(generalName.getTagNo());
-            valueStr = generalName.getName().toString();
-            break;
-        }
-        return "(" + tagStr + "=)" + valueStr + "";
     }
 
     private String getCriticalLabel(boolean isCritical) {
