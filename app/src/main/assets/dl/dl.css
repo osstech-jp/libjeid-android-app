@@ -16,7 +16,7 @@ h1 {
 .dl-block {
   //border: 1px solid #000000;
   display: block;
-  width: 640px;
+  width: 620px;
   padding: 10px;
   margin: 0px;
   word-wrap: break-word;
@@ -24,8 +24,8 @@ h1 {
 
 .dl-entries {
   position: relative;
-  width: 640px;
-  min-height: 400px;
+  width: 618px;
+  min-height: 381px;
   border-radius: 10px;
   border: 1px solid #aaaaaa;
   padding: 10px;
@@ -49,7 +49,7 @@ h1 {
 }
 
 .dl-name {
-  width: 340px;
+  width: 320px;
   display: inline-block;
   padding: 4px;
   text-align: center;
@@ -77,7 +77,6 @@ h1 {
 
 .dl-addr {
   display: inline-block;
-  width: 560px;
   border-left: 1px solid #000000;
   padding: 4px;
   background-color: #fff; //for old android bug
@@ -103,7 +102,7 @@ hr {
 .dl-expire {
   padding-left: 20px;
   font-size: 26px;
-  width: 380px;
+  width: 360px;
 }
 
 .dl-color-gold {
@@ -221,7 +220,7 @@ img#dl-photo {
 
 .dl-foot-left {
   display: inline-block;
-  width: 210px;
+  width: 200px;
   vertical-align: bottom;
 }
 
@@ -258,6 +257,7 @@ img#dl-photo {
 
 .dl-foot-left-date {
   display: inline-block;
+  margin-right: -10px;
   padding-left: 5px;
   font-size: 18px;
   position: relative;
