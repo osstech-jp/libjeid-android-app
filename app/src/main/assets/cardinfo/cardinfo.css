@@ -21,7 +21,7 @@ hr {
 
 .cardinfo-block {
   display: block;
-  width: 640px;
+  width: 620px;
   margin: 0px;
   padding: 10px;
   //border: 1px solid #000000;
@@ -29,8 +29,8 @@ hr {
 }
 
 .cardinfo-entries {
-  width: 640px;
-  min-height: 400px;
+  width: 618px;
+  min-height: 381px;
   margin: 0px;
   padding: 10px;
   border-radius: 10px;
@@ -48,7 +48,7 @@ hr {
 .cardinfo-head-left {
   display: inline-block;
   float: left;
-  width: 550px;
+  width: 530px;
   margin-top: 2px;
   margin-right: 1px;
 }
@@ -65,7 +65,7 @@ hr {
 
 .cardinfo-name-wrap {
   display: inline-block;
-  width: 545px;
+  width: 525px;
   margin-top: 2px;
   margin-left: 0px;
 }
@@ -79,7 +79,7 @@ hr {
 
 .cardinfo-name {
   display: inline-block;
-  width: 490px;
+  width: 470px;
   margin-left: 5px;
   padding: 0px;
   text-align: left;
@@ -90,7 +90,7 @@ hr {
 
 .cardinfo-addr-wrap {
   display: inline-block;
-  width: 545px;
+  width: 525px;
   padding-top: 28px;
 }
 
@@ -103,20 +103,20 @@ hr {
 
 .cardinfo-addr {
   display: inline-block;
-  width: 490px;
+  width: 470px;
   height: 55px;
   margin-left: 5px;
   padding: 0px;
   background-color: #ffffff; //for old android bug
   white-space: nowrap; 
-  font-size: 22px;
-  line-height: 27px;
+  font-size: 21px;
+  line-height: 26px;
 }
 
 .cardinfo-head-right {
   display: inline-block;
   float: right;
-  width: 87px;
+  width: 80px;
 }
 
 .cardinfo-logo {
@@ -171,7 +171,7 @@ img#cardinfo-rabbit {
 
 .cardinfo-body {
   display: block;
-  height: 265px;
+  height: 253px;
   margin-top: 0px;
   margin-bottom: 0px;
   padding: 0px;
@@ -219,9 +219,9 @@ img#cardinfo-photo {
 .cardinfo-right {
   display: inline-block;
   float: right;
-  width: 415px;
+  width: 400px;
   height: 100%;
-  margin-right: 4px;
+  margin-right: 10px;
 }
 
 .cardinfo-birth {
@@ -238,7 +238,6 @@ img#cardinfo-photo {
   display: inline-block;
   float: right;
   width: 220px;
-  margin-right: 5px;
   padding: 0px;
   text-align: right;
   white-space: nowrap;
@@ -261,7 +260,6 @@ img#cardinfo-photo {
   display: inline-block;
   float: right;
   width: 220px;
-  margin-right: 5px;
   margin-top: 14px;
   background-color: #ffffff;
   line-height: 25px;
@@ -291,11 +289,11 @@ img#cardinfo-photo {
 
 .cardinfo-matter {
   display: inline-block;
-  width: 410px;
-  height: 120px;
+  width: 100%;
+  height: 116px;
   margin-top: 5px;
   border: 3px solid #baffff;
-  background: repeating-linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,0) 29px, #baffff 29px, #baffff 31px);
+  background: repeating-linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,0) 28px, #baffff 28px, #baffff 30px);
   background-color: #effffc;
   line-height: 31px;
   font-size: 20px;
@@ -304,16 +302,15 @@ img#cardinfo-photo {
 .cardinfo-organ-donation-wrap {
   display: block;
   width: 100%;
-  margin-top: 7px;
-  padding-left: 5px;
+  margin-top: 5px;
+  padding-left: 8px;
   font-size: 0px;
 }
 
 .cardinfo-organ-donation-intention-label {
   display: inline-block;
   padding: 0px;
-  margin-right: 2px;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   line-height: 15px;
 }
@@ -327,7 +324,7 @@ img#cardinfo-photo {
 }
 
 .cardinfo-organ-donation-sign {
-  width: 230px;
+  width: 220px;
   float: right;
   margin-top: 6px;
   margin-right: 8px;
@@ -378,7 +375,7 @@ img#cardinfo-photo {
   display: inline-block;
   width: 560px;
   margin-top: 5px;
-  margin-left: 40px;
+  margin-left: 32px;
   margin-right: -10px;
   font-size: 0px;
 }
@@ -388,7 +385,7 @@ img#cardinfo-photo {
   margin-top: 0px;
   padding: 0px;
   white-space: nowrap;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 18px;
 }
 
@@ -406,7 +403,7 @@ img#cardinfo-photo {
 
 .cardinfo-magnetic-stripe {
   display: block;
-  width: 660px;
+  width: 638px;
   height: 50px;
   margin-left: -10px;
   margin-right: -10px;
@@ -488,9 +485,8 @@ img#qr-code {
 .cardinfo-backside-right {
   display: inline-block;
   float: right;
-  width: 400px;
+  width: 390px;
   height: 100%;
-  margin-left: 10px;
   font-size: 0px;
 }
 
