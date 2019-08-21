@@ -20,15 +20,15 @@ hr {
 
 .ep-block {
   display: block;
-  width: 640px;
+  width: 620px;
   margin: 0px;
   padding: 10px;
   word-wrap: break-word;
 }
 
 .ep-entries {
-  width: 640px;
-  min-height: 450px;
+  width: 618px;
+  min-height: 428px;
   margin: 0px;
   padding: 10px;
   border-radius: 10px;
@@ -124,7 +124,7 @@ img.ep-sakura-c.right {
 .ep-head-right {
   display: inline-block;
   float: right;
-  width: 180px;
+  width: 175px;
   height: 100%;
 }
 
@@ -178,8 +178,8 @@ img.ep-toukamon-a {
 .ep-photo-wrapper {
   display: block;
   position: relative;
-  width: 198px;
-  height: 255px;
+  width: 194px;
+  height: 250px;
   margin-top: 12px;
 }
 
@@ -215,8 +215,8 @@ img.ep-photo {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 180px;
-  height: 237px;
+  width: 176px;
+  height: 232px;
   border-radius: 55px;
   border: 10px solid #ffffff;
   opacity: 0.6;
@@ -254,7 +254,7 @@ img.ep-toukamon-b.lower-left {
 .ep-right {
   display: inline-block;
   float: right;
-  width: 420px;
+  width: 400px;
   height: 100%;
   margin-right: 4px;
 }
@@ -361,7 +361,7 @@ img.ep-toukamon-b.lower-left {
 
 .ep-signature-of-bearer {
   display: inline-block;
-  width: 250px;
+  width: 240px;
   vertical-align: top;
 }
 
