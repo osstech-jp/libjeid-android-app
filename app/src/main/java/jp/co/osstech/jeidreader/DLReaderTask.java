@@ -173,7 +173,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             if (!pin2.isEmpty()) {
                 DriverLicenseRegisteredDomicile registeredDomicile = ap.getRegisteredDomicile();
                 if (registeredDomicile != null) {
-                    String value = registeredDomicile.getRegisteredDomicile();
+                    String value = registeredDomicile.getRegisteredDomicileHtml(extChars);
                     if (value != null) {
                         obj.put("dl-registered-domicile", value);
                     }
