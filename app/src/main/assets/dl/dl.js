@@ -75,28 +75,28 @@ function render(json) {
 
     var elm = document.getElementById('dl-condition1');
     if ('dl-condition1' in data) {
-        elm.innerHTML = htmlEscape(full2half(data['dl-condition1']));
+        elm.innerHTML = full2half(data['dl-condition1']);
     } else {
         elm.innerHTML = '';
     }
 
     var elm = document.getElementById('dl-condition2');
     if ('dl-condition2' in data) {
-        elm.innerHTML = htmlEscape(full2half(data['dl-condition2']));
+        elm.innerHTML = full2half(data['dl-condition2']);
     } else {
         elm.innerHTML = '';
     }
 
     var elm = document.getElementById('dl-condition3');
     if ('dl-condition3' in data) {
-        elm.innerHTML = htmlEscape(full2half(data['dl-condition3']));
+        elm.innerHTML = full2half(data['dl-condition3']);
     } else {
         elm.innerHTML = '';
     }
 
     var elm = document.getElementById('dl-condition4');
     if ('dl-condition4' in data) {
-        elm.innerHTML = htmlEscape(full2half(data['dl-condition4']));
+        elm.innerHTML = full2half(data['dl-condition4']);
     } else {
         elm.innerHTML = '';
     }
