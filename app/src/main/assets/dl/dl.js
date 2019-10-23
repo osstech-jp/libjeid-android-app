@@ -143,7 +143,7 @@ function render(json) {
     }
     if ('dl-registered-domicile' in data) {
         elm.innerHTML += "<tr><td>本籍</td><td>" +
-            htmlEscape(data['dl-registered-domicile']) +
+            data['dl-registered-domicile'] +
             "</td></tr>\n";
     }
 
