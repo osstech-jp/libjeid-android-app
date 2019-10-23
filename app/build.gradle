@@ -6,8 +6,8 @@ android {
         applicationId "jp.co.osstech.jeidreader"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 16
-        versionName "1.0.16"
+        versionCode 17
+        versionName "1.0.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -76,9 +76,9 @@ repositories {
 
 dependencies {
     // LibJeID無償版を利用
-    implementation 'jp.co.osstech:libjeid-free:20190719@aar'
+    implementation 'jp.co.osstech:libjeid-free:20191017@aar'
     // LibJeID製品版を利用
-    //implementation 'jp.co.osstech:libjeid-full:20190719@aar'
+    //implementation 'jp.co.osstech:libjeid-full:20191017@aar'
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
