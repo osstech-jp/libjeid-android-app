@@ -565,10 +565,40 @@ img#qr-code {
 table.cardinfo-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 20px;
+  line-height: 25px;
 }
 
 table.cardinfo-table td {
   padding: 4px;
   border: 1px solid #000000;
   background-color: #fff;
+}
+
+img#cardinfo-kenmen-name {
+  display: block;
+  width: 370px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+img#cardinfo-kenmen-address {
+  display: block;
+  width: 480px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+img#cardinfo-kenmen-mynumber {
+  display: block;
+  width: 144px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+img#cardinfo-kenmen-photo {
+  display: block;
+  width: 170px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

@@ -28,6 +28,7 @@ function render(json) {
     if ('cardinfo-name' in data) {
         document.getElementById("cardinfo-name").innerHTML = data['cardinfo-name'];
         document.getElementById("cardinfo-backside-name").innerHTML = data['cardinfo-name'];
+        document.getElementById("cardinfo-hojo-name").innerHTML = data['cardinfo-name'];
     }
     if ('cardinfo-birth' in data) {
         var birth = data['cardinfo-birth'];
@@ -54,9 +55,12 @@ function render(json) {
                        .replace(/(\D)(\d)日/g, '$1 $2日');
         document.getElementById("cardinfo-birth").innerHTML = wareki + '生';
         document.getElementById("cardinfo-backside-birth").innerHTML = wareki + '生';
+        document.getElementById("cardinfo-hojo-birth").innerHTML = birth;
     }
     if ('cardinfo-addr' in data) {
-        document.getElementById("cardinfo-addr").innerHTML = htmlEscape(data['cardinfo-addr']);
+        var address = htmlEscape(data['cardinfo-addr']);
+        document.getElementById("cardinfo-addr").innerHTML = address;
+        document.getElementById("cardinfo-hojo-address").innerHTML = address;
     }
     if ('cardinfo-sex' in data) {
         var sex = data['cardinfo-sex'];
@@ -71,13 +75,15 @@ function render(json) {
             elm.innerHTML = '不明';
         } else {
             elm.innerHTML = '不明';
-        } 
+        }
+        document.getElementById("cardinfo-hojo-sex").innerHTML = sex;
     }
     if ('cardinfo-mynumber' in data) {
         var mynumber = data['cardinfo-mynumber'];
         document.getElementById("cardinfo-mynumber-cell-1").innerHTML = htmlEscape(mynumber.substr(0, 4));
         document.getElementById("cardinfo-mynumber-cell-2").innerHTML = htmlEscape(mynumber.substr(4, 4));
         document.getElementById("cardinfo-mynumber-cell-3").innerHTML = htmlEscape(mynumber.substr(8, 4));
+        document.getElementById("cardinfo-hojo-mynumber").innerHTML = mynumber;
     }
     if ('cardinfo-cert-expire' in data) {
         var certExpire = data['cardinfo-cert-expire'];
@@ -95,10 +101,23 @@ function render(json) {
         expireDate = expireDate.replace(/年0(\d)月/g, '年 $1月')
                                .replace(/月0(\d)日/g, '月 $1日');
         document.getElementById("cardinfo-expire").innerHTML = htmlEscape(expireDate + "まで有効");
+        document.getElementById("cardinfo-kenmen-expire").innerHTML = expire;
+    }
+    if ('cardinfo-sex2' in data) {
+        document.getElementById("cardinfo-kenmen-sex").innerHTML = data['cardinfo-sex2'];
     }
     if ('cardinfo-photo' in data) {
         document.getElementById("cardinfo-photo").src = data['cardinfo-photo'];
+        document.getElementById("cardinfo-kenmen-photo").src = data['cardinfo-photo'];
     }
-
+    if ('cardinfo-name-image' in data) {
+        document.getElementById("cardinfo-kenmen-name").src = data['cardinfo-name-image'];
+    }
+    if ('cardinfo-address-image' in data) {
+        document.getElementById("cardinfo-kenmen-address").src = data['cardinfo-address-image'];
+    }
+    if ('cardinfo-mynumber-image' in data) {
+        document.getElementById("cardinfo-kenmen-mynumber").src = data['cardinfo-mynumber-image'];
+    }
 }
 
