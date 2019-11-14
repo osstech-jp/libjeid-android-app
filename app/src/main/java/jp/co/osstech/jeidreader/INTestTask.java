@@ -65,7 +65,7 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
         try {
             CardInputHelperAP ap = reader.selectCardInputHelperAP();
             ap.verifyPin(authPin);
-            String mynumber = ap.getMyNumber();
+            String mynumber = ap.getMyNumber().getMyNumber();
             publishProgress("マイナンバー: " + mynumber);
             INCardInputHelperEntries entries = ap.getEntries();
             publishProgress("氏名: " + entries.getName());
