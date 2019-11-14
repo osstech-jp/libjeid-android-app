@@ -103,6 +103,9 @@ function render(json) {
         document.getElementById("cardinfo-expire").innerHTML = htmlEscape(expireDate + "まで有効");
         document.getElementById("cardinfo-kenmen-expire").innerHTML = expire;
     }
+    if ('cardinfo-birth2' in data) {
+        document.getElementById("cardinfo-kenmen-birth").innerHTML = data['cardinfo-birth2'];
+    }
     if ('cardinfo-sex2' in data) {
         document.getElementById("cardinfo-kenmen-sex").innerHTML = data['cardinfo-sex2'];
     }

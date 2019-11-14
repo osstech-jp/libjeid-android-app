@@ -2,6 +2,7 @@
 var testData = {
     'cardinfo-name': '日本　花子',
     'cardinfo-birth': '19750601',
+    'cardinfo-birth2': '19750601',
     'cardinfo-addr': '東京都千代田区霞が関２−１−２',
     'cardinfo-sex': '女性',
     'cardinfo-sex2': '女性',
