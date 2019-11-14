@@ -6,11 +6,12 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
-import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.CardEntriesAP;
 import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.DriverLicenseAP;
 import jp.co.osstech.libjeid.JPKIAP;
+import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.rc.RCCardType;
 
@@ -49,17 +50,23 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
                 publishProgress("カード種別: マイナンバーカード");
                 CardInputHelperAP helperAP = reader.selectCardInputHelperAP();
                 counter = helperAP.getPin();
-                publishProgress("券面入力補助 暗証番号: " + counter);
+                publishProgress("券面入力補助AP 暗証番号: " + counter);
                 counter = helperAP.getPinA();
-                publishProgress("券面入力補助 照合番号A: " + counter);
+                publishProgress("券面入力補助AP 照合番号A: " + counter);
                 counter = helperAP.getPinB();
-                publishProgress("券面入力補助 照合番号B: " + counter);
+                publishProgress("券面入力補助AP 照合番号B: " + counter);
+
+                CardEntriesAP entriesAP = reader.selectCardEntriesAP();
+                counter = entriesAP.getPinA();
+                publishProgress("券面AP 照合番号A: " + counter);
+                counter = entriesAP.getPinB();
+                publishProgress("券面AP 照合番号B: " + counter);
 
                 JPKIAP jpkiAP = reader.selectJPKIAP();
                 counter = jpkiAP.getAuthPin();
-                publishProgress("JPKIユーザー認証PIN: " + counter);
+                publishProgress("JPKI-AP ユーザー認証PIN: " + counter);
                 counter = jpkiAP.getSignPin();
-                publishProgress("JPKIデジタル署名PIN: " + counter);
+                publishProgress("JPKI-AP デジタル署名PIN: " + counter);
                 return null;
             case DL:
                 publishProgress("カード種別: 運転免許証");
