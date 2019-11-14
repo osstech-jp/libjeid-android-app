@@ -18,6 +18,7 @@ import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.INCardFrontEntries;
 import jp.co.osstech.libjeid.INCardInputHelperEntries;
+import jp.co.osstech.libjeid.INCardInputHelperMyNumber;
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
@@ -77,8 +78,8 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             }
             JSONObject obj = new JSONObject();
             try {
-                String mynumber = ap.getMyNumber();
-                obj.put("cardinfo-mynumber", mynumber);
+                INCardInputHelperMyNumber mynumber = ap.getMyNumber();
+                obj.put("cardinfo-mynumber", mynumber.getMyNumber());
             } catch (UnsupportedOperationException uoe) {
                 // 無償版では取得出来ません。
             }
