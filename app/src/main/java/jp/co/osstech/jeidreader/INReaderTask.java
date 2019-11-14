@@ -97,6 +97,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             INCardFrontEntries front = ap2.getFrontEntries();
             String expire = front.getExpire();
             obj.put("cardinfo-expire", expire);
+            obj.put("cardinfo-sex2", front.getSexString());
             obj.put("cardinfo-name-image", "data:image/png;base64,"
                     + Base64.encodeToString(front.getName(), Base64.DEFAULT));
             obj.put("cardinfo-address-image", "data:image/png;base64,"
