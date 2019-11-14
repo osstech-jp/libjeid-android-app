@@ -19,6 +19,7 @@ import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.INCardFrontEntries;
 import jp.co.osstech.libjeid.INCardInputHelperEntries;
 import jp.co.osstech.libjeid.INCardInputHelperMyNumber;
+import jp.co.osstech.libjeid.INCardMyNumber;
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
@@ -96,6 +97,10 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             INCardFrontEntries front = ap2.getFrontEntries();
             String expire = front.getExpire();
             obj.put("cardinfo-expire", expire);
+            obj.put("cardinfo-name-image", "data:image/png;base64,"
+                    + Base64.encodeToString(front.getName(), Base64.DEFAULT));
+            obj.put("cardinfo-address-image", "data:image/png;base64,"
+                    + Base64.encodeToString(front.getAddr(), Base64.DEFAULT));
 
             publishProgress("写真のデコード中...");
             BitmapARGB argb = front.getPhotoBitmapARGB();
@@ -108,6 +113,11 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             byte[] jpeg = os.toByteArray();
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("cardinfo-photo", src);
+
+            publishProgress("個人番号画像の読み取り中...");
+            INCardMyNumber myNumberImage = ap2.getMyNumber();
+            obj.put("cardinfo-mynumber-image", "data:image/png;base64,"
+                    + Base64.encodeToString(myNumberImage.getMyNumber(), Base64.DEFAULT));
 
             publishProgress("ユーザー認証用証明書の有効期限を取得...");
             JPKIAP jpkiAP = reader.selectJPKIAP();
