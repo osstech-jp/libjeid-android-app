@@ -13,17 +13,17 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import jp.co.osstech.libjeid.CardEntriesAP;
-import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
-import jp.co.osstech.libjeid.INCardFrontEntries;
-import jp.co.osstech.libjeid.INCardInputHelperEntries;
-import jp.co.osstech.libjeid.INCardInputHelperMyNumber;
-import jp.co.osstech.libjeid.INCardMyNumber;
+import jp.co.osstech.libjeid.INTextAP;
+import jp.co.osstech.libjeid.INVisualAP;
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.in.INTextAttributes;
+import jp.co.osstech.libjeid.in.INTextMyNumber;
+import jp.co.osstech.libjeid.in.INVisualEntries;
+import jp.co.osstech.libjeid.in.INVisualMyNumber;
 import jp.co.osstech.libjeid.util.BitmapARGB;
 
 import org.json.JSONObject;
@@ -70,42 +70,42 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("マイナンバーカードではありません");
                 return null;
             }
-            CardInputHelperAP ap = reader.selectCardInputHelperAP();
+            INTextAP textAp = reader.selectINTextAP();
             try {
-                ap.verifyPin(mPin);
+                textAp.verifyPin(mPin);
             } catch (InvalidPinException e) {
                 ipe = e;
                 return null;
             }
             JSONObject obj = new JSONObject();
             try {
-                INCardInputHelperMyNumber mynumber = ap.getMyNumber();
-                obj.put("cardinfo-mynumber", mynumber.getMyNumber());
+                INTextMyNumber textMyNumber = textAp.readMyNumber();
+                obj.put("cardinfo-mynumber", textMyNumber.getMyNumber());
             } catch (UnsupportedOperationException uoe) {
                 // 無償版では取得出来ません。
             }
-            INCardInputHelperEntries entries = ap.getEntries();
-            obj.put("cardinfo-name", entries.getName());
-            obj.put("cardinfo-birth", entries.getBirth());
-            obj.put("cardinfo-sex", entries.getSexString());
-            obj.put("cardinfo-addr", entries.getAddr());
-            publishProgress(entries.toString());
+            INTextAttributes textAttrs = textAp.readAttributes();
+            obj.put("cardinfo-name", textAttrs.getName());
+            obj.put("cardinfo-birth", textAttrs.getBirth());
+            obj.put("cardinfo-sex", textAttrs.getSexString());
+            obj.put("cardinfo-addr", textAttrs.getAddr());
+            publishProgress(textAttrs.toString());
 
             publishProgress("券面の読み取り中...");
-            CardEntriesAP ap2 = reader.selectCardEntriesAP();
-            ap2.verifyPin(mPin);
-            INCardFrontEntries front = ap2.getFrontEntries();
-            String expire = front.getExpire();
+            INVisualAP visualAp = reader.selectINVisualAP();
+            visualAp.verifyPin(mPin);
+            INVisualEntries visualEntries = visualAp.readEntries();
+            String expire = visualEntries.getExpire();
             obj.put("cardinfo-expire", expire);
-            obj.put("cardinfo-birth2", front.getBirth());
-            obj.put("cardinfo-sex2", front.getSexString());
+            obj.put("cardinfo-birth2", visualEntries.getBirth());
+            obj.put("cardinfo-sex2", visualEntries.getSexString());
             obj.put("cardinfo-name-image", "data:image/png;base64,"
-                    + Base64.encodeToString(front.getName(), Base64.DEFAULT));
+                    + Base64.encodeToString(visualEntries.getName(), Base64.DEFAULT));
             obj.put("cardinfo-address-image", "data:image/png;base64,"
-                    + Base64.encodeToString(front.getAddr(), Base64.DEFAULT));
+                    + Base64.encodeToString(visualEntries.getAddr(), Base64.DEFAULT));
 
             publishProgress("写真のデコード中...");
-            BitmapARGB argb = front.getPhotoBitmapARGB();
+            BitmapARGB argb = visualEntries.getPhotoBitmapARGB();
             Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
                                                 argb.getWidth(),
                                                 argb.getHeight(),
@@ -117,9 +117,9 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-photo", src);
 
             publishProgress("個人番号画像の読み取り中...");
-            INCardMyNumber myNumberImage = ap2.getMyNumber();
+            INVisualMyNumber visualMyNumber = visualAp.readMyNumber();
             obj.put("cardinfo-mynumber-image", "data:image/png;base64,"
-                    + Base64.encodeToString(myNumberImage.getMyNumber(), Base64.DEFAULT));
+                    + Base64.encodeToString(visualMyNumber.getMyNumber(), Base64.DEFAULT));
 
             publishProgress("ユーザー認証用証明書の有効期限を取得...");
             JPKIAP jpkiAP = reader.selectJPKIAP();

@@ -63,15 +63,15 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
 
         publishProgress("## 券面事項入力補助APのテスト");
         try {
-            CardInputHelperAP ap = reader.selectCardInputHelperAP();
-            ap.verifyPin(authPin);
-            String mynumber = ap.getMyNumber().getMyNumber();
-            publishProgress("マイナンバー: " + mynumber);
-            INCardInputHelperEntries entries = ap.getEntries();
-            publishProgress("氏名: " + entries.getName());
-            publishProgress("性別: " + entries.getSexString());
-            publishProgress("生年月日: " + entries.getBirth());
-            publishProgress("住所: " + entries.getAddr());
+            INTextAP textAp = reader.selectINTextAP();
+            textAp.verifyPin(authPin);
+            INTextMyNumber textMyNumber = textAp.readMyNumber();
+            publishProgress("マイナンバー: " + textMyNumber.getMyNumber());
+            INTextAttributes textAttrs = textAp.readAttributes();
+            publishProgress("氏名: " + textAttrs.getName());
+            publishProgress("性別: " + textAttrs.getSexString());
+            publishProgress("生年月日: " + textAttrs.getBirth());
+            publishProgress("住所: " + textAttrs.getAddr());
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
