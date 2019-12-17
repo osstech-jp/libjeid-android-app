@@ -21,14 +21,14 @@
     <string name="show_auth_ca_cert">ユーザー認証用CA証明書</string>
     <string name="show_sign_ca_cert">デジタル署名用CA証明書</string>
 
-    <string name="jpki_menu">公的個人認証メニュー</string>
+    <!--<string name="jpki_menu">公的個人認証メニュー</string>-->
     <string name="dl_reader">運転免許証リーダー</string>
     <string name="dl_viewer">運転免許証ビューア</string>
     <string name="ep_reader">パスポートリーダー</string>
     <string name="ep_viewer">パスポートビューア</string>
     <string name="rc_reader">在留カードリーダー</string>
     <string name="rc_viewer">在留カードビューア</string>
-    <string name="acs_reader">ACSカードリーダー</string>
+    <!--<string name="acs_reader">ACSカードリーダー</string>-->
     <string name="in_test">個人番号カードテスト</string>
     <string name="in_dev">開発者用\n機能</string>
 </resources>
