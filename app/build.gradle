@@ -34,14 +34,12 @@ android {
     }
     lintOptions {
         abortOnError false
-        disable 'GoogleAppIndexingWarning'
         disable 'SetTextI18n'
         disable 'HardcodedText'
-        disable 'InflateParams'
         disable 'IconLocation'
         disable 'TextFields'
         disable 'SetJavaScriptEnabled'
-        disable 'InvalidPackage'
+        textReport true
     }
     testOptions {
         unitTests.all {
