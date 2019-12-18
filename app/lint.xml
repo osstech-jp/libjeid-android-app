@@ -1,0 +1,8 @@
+<lint>
+    <issue id="InvalidPackage">
+        <ignore regexp="bcpkix-jdk15on-.*\.jar" />
+    </issue>
+    <issue id="all">
+        <ignore path="org/bouncycastle" />
+    </issue>
+</lint>
