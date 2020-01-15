@@ -184,6 +184,7 @@ function render(json) {
             case 0x2f:
             case 0x31:
             case 0x32:
+            case 0x33:
                 if(cat['licensed']){
                     var id = 'dl-cat-' + cat['tag'].toString(16) + '-text';
                     var catElm = document.getElementById(id);
