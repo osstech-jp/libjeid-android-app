@@ -316,6 +316,18 @@ img#dl-photo {
   padding-top: 2px;
 }
 
+.dl-cat-dot {
+  width: 100%;
+  height: 2px;
+  margin: 0px;
+  padding: 0px;
+  line-height: 3px;
+}
+
+.dl-cat-dot::after {
+  content: "・";
+}
+
 .dl-remarks {
   height: auto;
   min-height: 155px;

@@ -151,6 +151,8 @@ function render(json) {
     elm.innerHTML = '<tr><th style="width: 30%"></th><th style="width: 70%"></th></tr>\n';
     if ('dl-categories' in data) {
         var categories = data['dl-categories'];
+        var traction = false;
+        var traction2 = false;
         for(var i=0; i<categories.length; i++) {
             var cat = categories[i];
             var html = "<tr><td>" +
@@ -177,11 +179,9 @@ function render(json) {
             case 0x29:
             case 0x2a:
             case 0x2b:
-            case 0x2c:
             case 0x2d:
             case 0x2e:
             case 0x2f:
-            case 0x30:
             case 0x31:
             case 0x32:
                 if(cat['licensed']){
@@ -192,6 +192,28 @@ function render(json) {
                     }
                 }
                 break;
+            case 0x2c:
+                traction = cat['licensed'];
+                break;
+            case 0x30:
+                traction2 = cat['licensed'];
+                break;
+            }
+        }
+        if (traction || traction2) {
+            var catElm = document.getElementById('dl-cat-30-text');
+            if (catElm) {
+                catElm.style.display = "block";
+                if (traction && !traction2) {
+                    catElm.className = "dl-cat-cell-2";
+                    catElm.innerHTML = "け引";
+                } else if (!traction && traction2) {
+                    catElm.className = "dl-cat-cell-3";
+                    catElm.innerHTML = "け引二";
+                } else if (traction && traction2) {
+                    catElm.className = "dl-cat-cell-3";
+                    catElm.innerHTML = "引<div class=\"dl-cat-dot\"></div>引二";
+                }
             }
         }
     }
