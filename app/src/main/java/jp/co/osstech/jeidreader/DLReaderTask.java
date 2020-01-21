@@ -166,6 +166,18 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     remarkObj.put("text", name);
                     remarks.put(remarkObj);
                 }
+                for (String condition : changedEntries.getNewConditions()) {
+                    JSONObject remarkObj = new JSONObject();
+                    remarkObj.put("label", "新条件");
+                    remarkObj.put("text", condition);
+                    remarks.put(remarkObj);
+                }
+                for (String cancellation : changedEntries.getConditionCancellations()) {
+                    JSONObject remarkObj = new JSONObject();
+                    remarkObj.put("label", "条件解除");
+                    remarkObj.put("text", cancellation);
+                    remarks.put(remarkObj);
+                }
             }
 
             // 電子署名を取得
