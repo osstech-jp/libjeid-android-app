@@ -154,28 +154,28 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 
             JSONArray remarks = new JSONArray();
             if (changedEntries.isChanged()) {
-                for (String addr : changedEntries.getNewAddrs()) {
+                for (String newAddr : changedEntries.getNewAddrs()) {
                     JSONObject remarkObj = new JSONObject();
                     remarkObj.put("label", "新住所");
-                    remarkObj.put("text", addr);
+                    remarkObj.put("text", newAddr);
                     remarks.put(remarkObj);
                 }
-                for (String name : changedEntries.getNewNames()) {
+                for (String newName : changedEntries.getNewNames()) {
                     JSONObject remarkObj = new JSONObject();
                     remarkObj.put("label", "新氏名");
-                    remarkObj.put("text", name);
+                    remarkObj.put("text", newName);
                     remarks.put(remarkObj);
                 }
-                for (String condition : changedEntries.getNewConditions()) {
+                for (String newCond : changedEntries.getNewConditions()) {
                     JSONObject remarkObj = new JSONObject();
                     remarkObj.put("label", "新条件");
-                    remarkObj.put("text", condition);
+                    remarkObj.put("text", newCond);
                     remarks.put(remarkObj);
                 }
-                for (String cancellation : changedEntries.getConditionCancellations()) {
+                for (String condCancel : changedEntries.getConditionCancellations()) {
                     JSONObject remarkObj = new JSONObject();
                     remarkObj.put("label", "条件解除");
-                    remarkObj.put("text", cancellation);
+                    remarkObj.put("text", condCancel);
                     remarks.put(remarkObj);
                 }
             }
@@ -210,10 +210,10 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 // 記載事項変更（本籍）を取得
                 changedEntries = ap.getChangedRegisteredDomicile();
                 if (changedEntries.isChanged()) {
-                    for (String entry : changedEntries.getNewRegisteredDomiciles()) {
+                    for (String newRegDomicile : changedEntries.getNewRegisteredDomiciles()) {
                         JSONObject remarkObj = new JSONObject();
                         remarkObj.put("label", "新本籍");
-                        remarkObj.put("text", entry);
+                        remarkObj.put("text", newRegDomicile);
                         remarks.put(remarkObj);
                     }
                 }
