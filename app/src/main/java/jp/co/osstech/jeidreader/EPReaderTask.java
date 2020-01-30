@@ -34,6 +34,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
     private String passportNumber;
     private String birthDate;
     private String expireDate;
+    private ProgressDialogFragment mProgress;
 
     public EPReaderTask(EPReaderActivity activity, Tag nfcTag) {
         mRef = new WeakReference<EPReaderActivity>(activity);
@@ -52,6 +53,8 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 
         activity.hideKeyboard();
         activity.setMessage("# 読み取り開始、カードを離さないでください");
+        mProgress = new ProgressDialogFragment();
+        mProgress.show(activity.getSupportFragmentManager(), "progress");
     }
 
     @Override
@@ -189,6 +192,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
+        mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         EPReaderActivity activity = (EPReaderActivity)mRef.get();
         if (activity == null) {

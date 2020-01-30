@@ -33,6 +33,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
     private String pin2;
     private InvalidPinException ipe1;
     private InvalidPinException ipe2;
+    private ProgressDialogFragment mProgress;
 
     public DLReaderTask(DLReaderActivity activity, Tag nfcTag) {
         mRef = new WeakReference<DLReaderActivity>(activity);
@@ -49,6 +50,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
         pin2 = activity.getPin2();
         activity.hideKeyboard();
         activity.setMessage("# 読み取り開始、カードを離さないでください");
+        mProgress = new ProgressDialogFragment();
+        mProgress.show(activity.getSupportFragmentManager(), "progress");
     }
 
     @Override
@@ -263,6 +266,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
+        mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         DLReaderActivity activity = (DLReaderActivity)mRef.get();
         if (activity == null) {

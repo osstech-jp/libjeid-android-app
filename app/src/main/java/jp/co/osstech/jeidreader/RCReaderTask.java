@@ -28,6 +28,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
     private WeakReference mRef;
     private Tag mNfcTag;
     private String rcNumber;
+    private ProgressDialogFragment mProgress;
 
     public RCReaderTask(RCReaderActivity activity, Tag nfcTag) {
         mRef = new WeakReference<RCReaderActivity>(activity);
@@ -44,6 +45,8 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 
         activity.hideKeyboard();
         activity.setMessage("# 読み取り開始、カードを離さないでください");
+        mProgress = new ProgressDialogFragment();
+        mProgress.show(activity.getSupportFragmentManager(), "progress");
     }
 
     @Override
@@ -169,6 +172,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
+        mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         RCReaderActivity activity = (RCReaderActivity)mRef.get();
         if (activity == null) {
