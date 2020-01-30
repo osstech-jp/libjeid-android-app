@@ -96,8 +96,8 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             return null;
         }
 
-        publishProgress("## パスポートの読み取り");
         try {
+            publishProgress("## カード種別");
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
             if (type != CardType.EP) {
@@ -106,26 +106,28 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             }
 
             PassportAP ap = reader.selectPassportAP();
-            publishProgress("Basic Access Control開始");
+            publishProgress("## Basic Access Control");
             try {
                 ap.startBAC(mrz);
             } catch (InvalidBACKeyException e) {
-                publishProgress("Basic Access Control失敗\n"
+                publishProgress("失敗\n"
                         + "旅券番号、生年月日または有効期限が間違っています");
                 return null;
             }
-            publishProgress("Basic Access Control完了");
+            publishProgress("完了");
 
-            publishProgress("読み取り開始");
-            EPDataGroups dgs = ap.readDataGroups();
+            publishProgress("## パスポートから情報を取得します");
+            publishProgress("パスポートを動かさないでください");
+            EPFiles files = ap.readFiles();
+            publishProgress("完了");
 
-            publishProgress("CommonDataの表示");
-            EPCommonData commonData = ap.readCommonData();
+            publishProgress("## Common Data");
+            EPCommonData commonData = files.getCommonData();
             publishProgress(commonData.toString());
 
             JSONObject obj = new JSONObject();
-            publishProgress("DG1読み取り開始");
-            EPDataGroup1 dg1 = dgs.getDataGroup1();
+            publishProgress("## Data Group1");
+            EPDataGroup1 dg1 = files.getDataGroup1();
             publishProgress(dg1.getMRZ());
 
             EPMRZ dg1Mrz = new EPMRZ(dg1.getMRZ());
@@ -144,26 +146,24 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("ep-date-of-expiry", dg1Mrz.getExpirationDate());
             obj.put("ep-mrz", dg1.getMRZ());
 
-            publishProgress("DG2読み取り開始");
-            EPDataGroup2 dg2 = dgs.getDataGroup2();
+            EPDataGroup2 dg2 = files.getDataGroup2();
             byte[] jpeg = dg2.getFaceJpeg();
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("ep-photo", src);
-            publishProgress("読み取り完了");
 
             obj.put("ep-bac-result", true);
-            publishProgress("Passive Authentication開始");
+            publishProgress("## Passive Authentication");
             try {
-                boolean paResult = ap.passiveAuthentication(dgs);
-                obj.put("ep-pa-result", paResult);
-                publishProgress("検証結果: " + paResult);
+                ValidationResult result = files.validate();
+                obj.put("ep-pa-result", result.isValid());
+                publishProgress("検証結果: " + result.isValid());
             } catch (UnsupportedOperationException e) {
                 publishProgress("libjeid-freeでは検証をスキップします");
             }
 
-            publishProgress("Active Authentication開始");
+            publishProgress("## Active Authentication");
             try {
-                boolean aaResult = ap.activeAuthentication(dgs);
+                boolean aaResult = ap.activeAuthentication(files);
                 obj.put("ep-aa-result", aaResult);
                 publishProgress("検証結果: " + aaResult);
             } catch (UnsupportedOperationException e) {
