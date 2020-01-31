@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.io.FileNotFoundException;
 
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.dl.*;
@@ -76,6 +77,12 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 return null;
             }
             DriverLicenseAP ap = reader.selectDriverLicenseAP();
+
+            // PINを入力せず共通データを読み出す場合は、
+            // DriverLicenseAP#getCommonData()を利用できます。
+            // 通常はPINを入力した後、
+            // DriverLicenseAP#readFiles()で全てを読み出した後に
+            // DriverLicenseFiles#getCommonData()を利用してください。
             DriverLicenseCommonData commonData = ap.getCommonData();
             publishProgress("## 共通データ要素");
             publishProgress(commonData.toString());
@@ -99,11 +106,12 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     return null;
                 }
             }
+            DriverLicenseFiles files = ap.readFiles();
 
             // 券面情報の取得
-            DriverLicenseEntries entries = ap.getEntries();
+            DriverLicenseEntries entries = files.getEntries();
             // 外字の取得
-            DriverLicenseExternalCharactors extChars = ap.getExternalCharactors();
+            DriverLicenseExternalCharactors extChars = files.getExternalCharactors();
             JSONObject obj = new JSONObject();
             obj.put("dl-name", entries.getNameHtml(extChars));
             obj.put("dl-kana", entries.getKana());
@@ -152,7 +160,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress(entries.toString());
 
             // 記載事項変更等(本籍除く）を取得
-            DriverLicenseChangedEntries changedEntries = ap.getChangedEntries();
+            DriverLicenseChangedEntries changedEntries = files.getChangedEntries();
             publishProgress(changedEntries.toString());
 
             JSONArray remarks = new JSONArray();
@@ -183,20 +191,16 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 }
             }
 
-            // 電子署名を取得
-            DriverLicenseSignature signature = ap.getSignature();
-            if (!pin2.isEmpty()) {
-                DriverLicenseRegisteredDomicile registeredDomicile = ap.getRegisteredDomicile();
-                if (registeredDomicile != null) {
-                    String value = registeredDomicile.getRegisteredDomicileHtml(extChars);
-                    if (value != null) {
-                        obj.put("dl-registered-domicile", value);
-                    }
+            try {
+                // 本籍を取得
+                DriverLicenseRegisteredDomicile registeredDomicile = files.getRegisteredDomicile();
+                String value = registeredDomicile.getRegisteredDomicileHtml(extChars);
+                if (value != null) {
+                    obj.put("dl-registered-domicile", value);
                 }
                 publishProgress(registeredDomicile.toString());
-
-                publishProgress("写真の読み取り中...");
-                DriverLicensePhoto photo = ap.getPhoto();
+                // 写真を取得
+                DriverLicensePhoto photo = files.getPhoto();
                 publishProgress("写真のデコード中...");
                 BitmapARGB argb = photo.getPhotoBitmapARGB();
                 Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
@@ -208,10 +212,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 byte[] jpeg = os.toByteArray();
                 String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
                 obj.put("dl-photo", src);
-                publishProgress(signature.toString());
-
                 // 記載事項変更（本籍）を取得
-                changedEntries = ap.getChangedRegisteredDomicile();
+                changedEntries = files.getChangedRegisteredDomicile();
                 if (changedEntries.isChanged()) {
                     for (String newRegDomicile : changedEntries.getNewRegisteredDomiciles()) {
                         JSONObject remarkObj = new JSONObject();
@@ -220,32 +222,27 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                         remarks.put(remarkObj);
                     }
                 }
+                // 電子署名を取得
+                DriverLicenseSignature signature = files.getSignature();
+                publishProgress(signature.toString());
+                String signatureSubject = signature.getSubject();
+                publishProgress("Subject: " + signatureSubject);
+                obj.put("dl-signature-subject", signatureSubject);
+                String signatureSKI = Hex.encode(signature.getSubjectKeyIdentifier(), ":");
+                publishProgress("Subject Key Identifier: " + signatureSKI);
+                obj.put("dl-signature-ski", signatureSKI);
 
-                // 電子署名検証
-                boolean verified = false;
-                try {
-                    signature.initVerify();
-                    signature.update(entries.getEncoded());
-                    signature.update(registeredDomicile.getEncoded());
-                    signature.update(photo.getEncoded());
-                    verified = signature.verify();
-                } catch (CertificateException ce) {
-                    // 有効な証明書が見つかりません
-                    // もしくは無償版を利用した場合にこの例外が返ります
-                    Log.e(TAG, ce.toString());
-                    verified = false;
-                }
-                obj.put("dl-verified", verified);
-                publishProgress("署名検証: " + verified);
+                // 真正性検証
+                ValidationResult result = files.validate();
+                obj.put("dl-verified", result.isValid());
+                publishProgress("真正性検証結果: " + result);
+            } catch(FileNotFoundException notfound) {
+                // PIN2を入力していないfilesオブジェクトは
+                // FileNotFoundExceptionをthrowします。
             }
+            // 記載事項変更等(本籍除く）と記載事項変更（本籍）合わせた
+            // オブジェクトをJSONに追加
             obj.put("dl-remarks", remarks);
-
-            String signatureSubject = signature.getSubject();
-            publishProgress("Subject: " + signatureSubject);
-            obj.put("dl-signature-subject", signatureSubject);
-            String signatureSKI = Hex.encode(signature.getSubjectKeyIdentifier(), ":");
-            publishProgress("Subject Key Identifier: " + signatureSKI);
-            obj.put("dl-signature-ski", signatureSKI);
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
