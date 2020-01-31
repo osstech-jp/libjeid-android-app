@@ -84,7 +84,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("cardType: " + cardType);
             publishProgress("## セキュアメッセージング(SM)用の鍵交換");
             try {
-                ap.startBAC(rckey, false, false);
+                ap.startBAC(rckey);
             } catch (InvalidBACKeyException e) {
                 publishProgress("失敗\n"
                         + "在留カード番号または特別永住者証明書番号が間違っています");
