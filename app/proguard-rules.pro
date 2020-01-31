@@ -30,3 +30,4 @@
 -keep class ucar.** { *; }
 -dontwarn ucar.**
 -dontwarn android.**
+-dontwarn module-info
