@@ -69,12 +69,12 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             return null;
         }
 
-        publishProgress("## 在留カードまたは特別永住者証明書の読み取り");
         try {
+            publishProgress("## カード種別");
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
             if (type != CardType.RC) {
-                publishProgress("在留カード等ではありません");
+                publishProgress("在留カード/特別永住者証明書ではありません");
                 return null;
             }
             ResidenceCardAP ap = reader.selectResidenceCardAP();
@@ -82,34 +82,38 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("commonData: " + commonData);
             RCCardType cardType = ap.readCardType();
             publishProgress("cardType: " + cardType);
-            publishProgress("Basic Access Control開始");
+            publishProgress("## セキュアメッセージング(SM)用の鍵交換");
             try {
                 ap.startBAC(rckey, false, false);
             } catch (InvalidBACKeyException e) {
-                publishProgress("Basic Access Control失敗\n"
+                publishProgress("失敗\n"
                         + "在留カード番号または特別永住者証明書番号が間違っています");
                 return null;
             }
-            publishProgress("Basic Access Control完了");
-            publishProgress("Verify SM開始");
+            publishProgress("完了");
+
+            publishProgress("## 在留カード等番号による認証");
             try {
                 ap.verifySM(rckey);
             } catch (IOException e) {
-                publishProgress("Verify SM失敗\n"
+                publishProgress("失敗\n"
                         + e.getMessage());
                 return null;
             }
-            publishProgress("Verify SM完了");
+            publishProgress("完了");
+
+            publishProgress("## カードから情報を取得します");
+            RCFiles files = ap.readFiles();
+            publishProgress("完了");
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
-            publishProgress("券面（表）イメージの読み取り中...");
-            RCCardEntries cardEntries = ap.readCardEntries();
+            RCCardEntries cardEntries = files.getCardEntries();
             byte[] png = cardEntries.toPng();
             String src = "data:image/png;base64," + Base64.encodeToString(png, Base64.DEFAULT);
             obj.put("rc-front-image", src);
 
-            publishProgress("顔写真の読み取り中...");
-            RCPhoto photo = ap.readPhoto();
+            publishProgress("## 写真のデコード");
+            RCPhoto photo = files.getPhoto();
             BitmapARGB argb = photo.getPhotoBitmapARGB();
             if (argb != null) {
                 Bitmap bitmap = Bitmap.createBitmap(argb.getData(),
@@ -122,35 +126,37 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
                 src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
                 obj.put("rc-photo", src);
             }
-            publishProgress("住居地（裏面追記）の読み取り開始");
-            RCAddress address = ap.readAddress();
+            publishProgress("完了");
+            publishProgress("## 住居地（裏面追記）");
+            RCAddress address = files.getAddress();
             publishProgress(address.toString());
 
-            publishProgress("裏面資格外活動包括許可欄の読み取り開始");
-            RCComprehensivePermission comprehensivePermission = ap.readComprehensivePermission();
+            publishProgress("## 裏面資格外活動包括許可欄");
+            RCComprehensivePermission comprehensivePermission = files.getComprehensivePermission();
             publishProgress(comprehensivePermission.toString());
 
-            publishProgress("裏面資格外活動個別許可欄の読み取り開始");
-            RCIndividualPermission individualPermission = ap.readIndividualPermission();
+            publishProgress("## 裏面資格外活動個別許可欄");
+            RCIndividualPermission individualPermission = files.getIndividualPermission();
             publishProgress(individualPermission.toString());
 
-            publishProgress("裏面在留期間等更新申請欄の読み取り開始");
-            RCUpdateStatus updateStatus = ap.readUpdateStatus();
+            publishProgress("## 裏面在留期間等更新申請欄");
+            RCUpdateStatus updateStatus = files.getUpdateStatus();
             publishProgress(updateStatus.toString());
 
-            publishProgress("電子署名の読み取り開始");
-            RCSignature signature = ap.readSignature();
+            publishProgress("## 電子署名");
+            RCSignature signature = files.getSignature();
             publishProgress(signature.toString());
 
             // チェックコードの検証
+            publishProgress("## チェックコードの検証");
             boolean checkcodeVerified = false;
             try {
                 checkcodeVerified = ap.verifySignature(signature, cardEntries, photo);
             } catch (IOException e) {
                 Log.e(TAG, e.toString());
-                publishProgress("チェックコードの検証中にエラー: " + e);
+                publishProgress("検証中にエラー: " + e);
             }
-            publishProgress("チェックコードの検証: " + checkcodeVerified);
+            publishProgress("検証結果: " + checkcodeVerified);
 
             return obj;
         } catch (Exception e) {
