@@ -142,7 +142,6 @@ hr {
 img#dl-photo {
   width: 192px;
   height: 240px;
-  //position: absolute;
 }
 
 .dl-sc {
@@ -194,14 +193,17 @@ img#dl-photo {
 }
 .dl-condition-label {
   display: inline-block;
-  width: 58px;
+  width: 50px;
   padding-left: 4px;
 }
 
 .dl-condition-value {
   display: inline-block;
   width: auto;
-  letter-spacing: 1px;
+  letter-spacing: -1px;
+}
+
+.dl-condition-value-long {
   transform: scale(0.5, 1);
   transform-origin: left;
 }
