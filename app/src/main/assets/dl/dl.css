@@ -135,13 +135,14 @@ hr {
 .dl-right {
   display: block;
   margin-top: 2px;
-  margin-right: 1px;
-  float: right;
+  margin-left: 420px;
+  position: absolute;
 }
 
 img#dl-photo {
   width: 192px;
   height: 240px;
+  //position: absolute;
 }
 
 .dl-sc {
@@ -173,40 +174,44 @@ img#dl-photo {
 
 .dl-title {
   display: inline-block;
-  margin-right: 10px;
+  margin-left: 390px;
   margin-top: 20px;
   width: 22px;
   font-size: 24px;
   color: #049be7;
-  float: right;
+  position: absolute;
 }
 
 .dl-condition-box {
   margin-top: 4px;
   font-size: 16px;
+  //width: 380px;
+  width: 100%;
 }
 .dl-condition-row {
   display: block;
   height: 22px;
 }
 .dl-condition-label {
-  width: 60px;
   display: inline-block;
+  width: 58px;
   padding-left: 4px;
 }
 
 .dl-condition-value {
   display: inline-block;
-  letter-spacing: -1px;
-  //transform: scale(0.5, 1);
-  //transform-origin: left;
+  width: auto;
+  letter-spacing: 1px;
+  transform: scale(0.5, 1);
+  transform-origin: left;
 }
 
 .dl-color-class {
   border: 3px solid #000000;
   border-radius: 6px;
   width: 40px;
-  margin: 4px;
+  margin-top: 50px;
+  margin-left: 4px;
   padding: 2px;
   text-align: center;
   position: absolute;

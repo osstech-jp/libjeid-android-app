@@ -12,7 +12,7 @@ var testData = {
     'dl-condition1': '眼鏡等',
     'dl-condition2': '中型車は中型車（８ｔ）に限る',
     'dl-condition3': '準中型で運転できる準中型車は準中型車（５ｔ）に限る',
-    'dl-condition4': '',
+    //'dl-condition4': '補聴器（使用しない場合は特定後写鏡で聴覚障害者標識を付けた普通車の乗用車に限る）',
     'dl-number': '123456789000',
     'dl-sc': '〇〇〇〇〇',
     'dl-registered-domicile': '〇〇〇〇〇',
