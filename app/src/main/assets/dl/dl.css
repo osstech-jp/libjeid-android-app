@@ -118,7 +118,7 @@ hr {
 }
 
 .dl-is-expired {
-  display: block;
+  display: none;
   position: absolute;
   top: 110px;
   left: 375px;
