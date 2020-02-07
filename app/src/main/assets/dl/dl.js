@@ -52,7 +52,7 @@ function render(json) {
             + 'まで有効';
     }
     if ('dl-is-expired' in data) {
-      if (data['dl-is-expired'] === 'true') {
+      if (data['dl-is-expired']) {
         document.getElementById("dl-is-expired").style.display ="block";
       }
     }

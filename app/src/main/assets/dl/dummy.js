@@ -8,7 +8,7 @@ var testData = {
     'dl-ref': '12345',
     'dl-color-class': '優良',
     'dl-expire': '平成24年07月01日',
-    'dl-is-expired': 'false',
+    'dl-is-expired': true,
     'dl-condition1': '眼鏡等',
     'dl-condition2': '中型車は中型車（８ｔ）に限る',
     'dl-condition3': '準中型で運転できる準中型車は準中型車（５ｔ）に限る',
