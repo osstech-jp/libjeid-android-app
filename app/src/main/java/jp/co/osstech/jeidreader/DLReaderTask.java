@@ -134,7 +134,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 calendar.set(Calendar.HOUR_OF_DAY, 23);
                 calendar.set(Calendar.MINUTE, 59);
                 calendar.set(Calendar.SECOND, 59);
-                obj.put("dl-is-expired", Boolean.toString(new Date().after(calendar.getTime())));
+                obj.put("dl-is-expired", new Date().after(calendar.getTime()));
             }
             obj.put("dl-number", entries.getLicenseNumber());
 
