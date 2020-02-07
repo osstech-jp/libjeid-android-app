@@ -129,12 +129,13 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             DriverLicenseDate expireDate = entries.getExpireDate();
             if (expireDate != null) {
                 obj.put("dl-expire", expireDate.toString());
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
-                calendar.setTime(expireDate.toDate());
-                calendar.set(Calendar.HOUR_OF_DAY, 23);
-                calendar.set(Calendar.MINUTE, 59);
-                calendar.set(Calendar.SECOND, 59);
-                obj.put("dl-is-expired", new Date().after(calendar.getTime()));
+                Calendar expireCal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
+                // 有効期限が1日までの場合、2日になった時点で有効期限切れとなる
+                expireCal.setTime(expireDate.toDate());
+                expireCal.add(Calendar.DAY_OF_MONTH, 1);
+                Date now = new Date();
+                boolean isExpired = now.compareTo(expireCal.getTime()) >= 0;
+                obj.put("dl-is-expired",  isExpired);
             }
             obj.put("dl-number", entries.getLicenseNumber());
 
