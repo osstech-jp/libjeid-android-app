@@ -286,15 +286,13 @@ function render(json) {
                 break;
             }
             var date = eraName + year + "年" + month + "月" + day + "日";
-
-            if (elm.innerHTML == "&nbsp;") {
-                elm.innerHTML = htmlEscape(date) + "<br>\n" + htmlEscape(label)+ "："
-                    + htmlEscape(value) + "<div class=\"dl-changes-seal\">" + htmlEscape(psc) + "</div>";
+            if (i == 0) {
+                date += "<br/>\n";
             } else {
-                elm.innerHTML += "<br/>\n";
-                elm.innerHTML += htmlEscape(date) + "&nbsp;" + htmlEscape(label) + "："
-                    + htmlEscape(text) + "<div class=\"dl-changes-seal\">" + htmlEscape(psc) + "</div>";
+                date += "&nbsp;";
             }
+            elm.innerHTML += date + htmlEscape(label) + "："
+                + htmlEscape(value) + "<div class=\"dl-changes-seal\">" + htmlEscape(psc) + "</div><br/>";
         }
     }
 }
