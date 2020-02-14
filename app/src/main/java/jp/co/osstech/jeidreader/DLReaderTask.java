@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.cert.CertificateException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -165,11 +166,13 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress(changedEntries.toString());
 
             JSONArray changesObj = new JSONArray();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.US);
             if (changedEntries.isChanged()) {
                 for (DriverLicenseChangedEntry entry : changedEntries.getNewAddrs()) {
                     JSONObject entryObj = new JSONObject();
                     entryObj.put("label", "新住所");
-                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("date", entry.getDate().toString());
+                    entryObj.put("ad", sdf.format(entry.getDate().toDate()));
                     entryObj.put("value", entry.getValue());
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
@@ -177,7 +180,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 for (DriverLicenseChangedEntry entry : changedEntries.getNewNames()) {
                     JSONObject entryObj = new JSONObject();
                     entryObj.put("label", "新氏名");
-                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("date", entry.getDate().toString());
+                    entryObj.put("ad", sdf.format(entry.getDate().toDate()));
                     entryObj.put("value", entry.getValue());
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
@@ -185,7 +189,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 for (DriverLicenseChangedEntry entry : changedEntries.getNewConditions()) {
                     JSONObject entryObj = new JSONObject();
                     entryObj.put("label", "新条件");
-                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("date", entry.getDate().toString());
+                    entryObj.put("ad", sdf.format(entry.getDate().toDate()));
                     entryObj.put("value", entry.getValue());
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
@@ -193,7 +198,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 for (DriverLicenseChangedEntry entry : changedEntries.getConditionCancellations()) {
                     JSONObject entryObj = new JSONObject();
                     entryObj.put("label", "条件解除");
-                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("date", entry.getDate().toString());
+                    entryObj.put("ad", sdf.format(entry.getDate().toDate()));
                     entryObj.put("value", entry.getValue());
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);

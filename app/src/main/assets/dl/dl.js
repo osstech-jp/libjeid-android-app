@@ -243,7 +243,7 @@ function render(json) {
     if ('dl-changes' in data) {
         var changes = data['dl-changes'];
         changes.sort(function(a, b) {
-            if (a['date'] > b['date']) {
+            if (a['ad'] > b['ad']) {
                 return 1;
             } else if (a['date'] < b['date']) {
                 return -1;
@@ -256,36 +256,7 @@ function render(json) {
             var label = changes[i]['label'];
             var value = changes[i]['value'];
             var psc = changes[i]['psc'];
-            var dateString = changes[i]['date'];
-            var dateNumber = dateString.replace(/[０-９]/g, function(s) {
-                return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-            });
-            var era = dateNumber / 1000000 | 0;
-            var year = dateNumber % 1000000 / 10000 | 0;
-            var month = dateNumber % 10000 / 100 | 0;
-            var day = dateNumber % 100;
-            var eraName;
-            switch (era) {
-            case 1:
-                eraName = '明治';
-                break;
-            case 2:
-                eraName = '大正';
-                break;
-            case 3:
-                eraName = '昭和';
-                break;
-            case 4:
-                eraName = '平成';
-                break;
-            case 5:
-                eraName = '令和';
-                break;
-            default:
-                eraName = '○○';
-                break;
-            }
-            var date = eraName + year + "年" + month + "月" + day + "日";
+            var date = changes[i]['date'];
             if (i == 0) {
                 date += "<br/>\n";
             } else {

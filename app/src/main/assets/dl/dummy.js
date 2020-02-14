@@ -18,7 +18,7 @@ var testData = {
     'dl-registered-domicile': '〇〇〇〇〇',
     'dl-verified': true,
     'dl-changes': [
-      {'label':'新住所', 'date':'４３００１０１', 'value':'東京都千代田区霞が関２−１−３', "psc":'東京都公安'},
+      {'label':'新住所', 'date':'平成30年01月01日', 'ad':'20180101', 'value':'東京都千代田区霞が関２−１−３', "psc":'東京都公安'},
     ],
     'dl-categories': [
         {"tag":0x22,"name":"二・小・原","date":"平成20年04月01日","licensed":true},
