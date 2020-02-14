@@ -335,7 +335,7 @@ img#dl-photo {
   content: "・";
 }
 
-.dl-remarks {
+.dl-changes {
   height: auto;
   min-height: 155px;
   margin: 25px;
@@ -348,7 +348,7 @@ img#dl-photo {
   background-color: #ffffff; //for old android bug
 }
 
-.dl-remarks-label {
+.dl-changes-label {
   display: inline-block;
   float: left;
   width: 100px;
@@ -362,13 +362,13 @@ img#dl-photo {
   line-height: 31px;
 }
 
-.dl-remarks-content {
+.dl-changes-content {
   padding-left: 5px;
   background: repeating-linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,0) 29px, #aaa 29px, #aaa 31px);
   background-color: #ffffff; //for old android bug
 }
 
-.dl-remarks-seal {
+.dl-changes-seal {
   display: inline-block;
   margin-right: -35px;
   padding: 0px;

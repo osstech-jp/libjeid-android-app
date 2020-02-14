@@ -164,31 +164,39 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             DriverLicenseChangedEntries changedEntries = files.getChangedEntries();
             publishProgress(changedEntries.toString());
 
-            JSONArray remarks = new JSONArray();
+            JSONArray changesObj = new JSONArray();
             if (changedEntries.isChanged()) {
-                for (String newAddr : changedEntries.getNewAddrs()) {
-                    JSONObject remarkObj = new JSONObject();
-                    remarkObj.put("label", "新住所");
-                    remarkObj.put("text", newAddr);
-                    remarks.put(remarkObj);
+                for (DriverLicenseChangedEntry entry : changedEntries.getNewAddrs()) {
+                    JSONObject entryObj = new JSONObject();
+                    entryObj.put("label", "新住所");
+                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("value", entry.getValue());
+                    entryObj.put("psc", entry.getPsc());
+                    changesObj.put(entryObj);
                 }
-                for (String newName : changedEntries.getNewNames()) {
-                    JSONObject remarkObj = new JSONObject();
-                    remarkObj.put("label", "新氏名");
-                    remarkObj.put("text", newName);
-                    remarks.put(remarkObj);
+                for (DriverLicenseChangedEntry entry : changedEntries.getNewNames()) {
+                    JSONObject entryObj = new JSONObject();
+                    entryObj.put("label", "新氏名");
+                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("value", entry.getValue());
+                    entryObj.put("psc", entry.getPsc());
+                    changesObj.put(entryObj);
                 }
-                for (String newCond : changedEntries.getNewConditions()) {
-                    JSONObject remarkObj = new JSONObject();
-                    remarkObj.put("label", "新条件");
-                    remarkObj.put("text", newCond);
-                    remarks.put(remarkObj);
+                for (DriverLicenseChangedEntry entry : changedEntries.getNewConditions()) {
+                    JSONObject entryObj = new JSONObject();
+                    entryObj.put("label", "新条件");
+                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("value", entry.getValue());
+                    entryObj.put("psc", entry.getPsc());
+                    changesObj.put(entryObj);
                 }
-                for (String condCancel : changedEntries.getConditionCancellations()) {
-                    JSONObject remarkObj = new JSONObject();
-                    remarkObj.put("label", "条件解除");
-                    remarkObj.put("text", condCancel);
-                    remarks.put(remarkObj);
+                for (DriverLicenseChangedEntry entry : changedEntries.getConditionCancellations()) {
+                    JSONObject entryObj = new JSONObject();
+                    entryObj.put("label", "条件解除");
+                    entryObj.put("date", entry.getDateString());
+                    entryObj.put("value", entry.getValue());
+                    entryObj.put("psc", entry.getPsc());
+                    changesObj.put(entryObj);
                 }
             }
 
@@ -216,11 +224,11 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 // 記載事項変更（本籍）を取得
                 changedEntries = files.getChangedRegisteredDomicile();
                 if (changedEntries.isChanged()) {
-                    for (String newRegDomicile : changedEntries.getNewRegisteredDomiciles()) {
-                        JSONObject remarkObj = new JSONObject();
-                        remarkObj.put("label", "新本籍");
-                        remarkObj.put("text", newRegDomicile);
-                        remarks.put(remarkObj);
+                    for (DriverLicenseChangedEntry newRegDomicile : changedEntries.getNewRegisteredDomiciles()) {
+                        JSONObject entryObj = new JSONObject();
+                        entryObj.put("label", "新本籍");
+                        entryObj.put("text", newRegDomicile.getValue());
+                        changesObj.put(entryObj);
                     }
                 }
                 // 電子署名を取得
@@ -243,7 +251,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             }
             // 記載事項変更等(本籍除く）と記載事項変更（本籍）合わせた
             // オブジェクトをJSONに追加
-            obj.put("dl-remarks", remarks);
+            obj.put("dl-changes", changesObj);
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);

@@ -239,67 +239,61 @@ function render(json) {
         }
     }
 
-    var elm = document.getElementById('dl-remarks');
-    if ('dl-remarks' in data) {
-        var remarks = data['dl-remarks'];
-        remarks.sort(function(a, b) {
-            var aDate = a['text'].substr(0, 7);
-            var bDate = b['text'].substr(0, 7);
-            if (aDate > bDate) {
+    var elm = document.getElementById('dl-changes');
+    if ('dl-changes' in data) {
+        var changes = data['dl-changes'];
+        changes.sort(function(a, b) {
+            if (a['date'] > b['date']) {
                 return 1;
-            } else if (aDate < bDate) {
+            } else if (a['date'] < b['date']) {
                 return -1;
             } else {
                 return 0;
             }
         });
-        for(var i=0; i<remarks.length; i++) {
-            var label = remarks[i]['label'];
-            var text = remarks[i]['text'];
-            var date = "";
-            if (/^[０-９]{7}/.test(text)) {
-                var dateNumber = text.substr(0, 7);
-                text = text.slice(7);
-                dateNumber = dateNumber.replace(/[０-９]/g, function(s) {
-                    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-                });
-                var era = dateNumber / 1000000 | 0;
-                var year = dateNumber % 1000000 / 10000 | 0;
-                var month = dateNumber % 10000 / 100 | 0;
-                var day = dateNumber % 100;
-                var eraName;
-                switch (era) {
-                    case 1:
-                        eraName = '明治';
-                        break;
-                    case 2:
-                        eraName = '大正';
-                        break;
-                    case 3:
-                        eraName = '昭和';
-                        break;
-                    case 4:
-                        eraName = '平成';
-                        break;
-                    case 5:
-                        eraName = '令和';
-                        break;
-                    default:
-                        eraName = '○○';
-                        break;
-                }
-                date = eraName + year + "年" + month + "月" + day + "日";
+        console.log(changes);
+        for(var i=0; i<changes.length; i++) {
+            var label = changes[i]['label'];
+            var value = changes[i]['value'];
+            var psc = changes[i]['psc'];
+            var dateString = changes[i]['date'];
+            var dateNumber = dateString.replace(/[０-９]/g, function(s) {
+                return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+            });
+            var era = dateNumber / 1000000 | 0;
+            var year = dateNumber % 1000000 / 10000 | 0;
+            var month = dateNumber % 10000 / 100 | 0;
+            var day = dateNumber % 100;
+            var eraName;
+            switch (era) {
+            case 1:
+                eraName = '明治';
+                break;
+            case 2:
+                eraName = '大正';
+                break;
+            case 3:
+                eraName = '昭和';
+                break;
+            case 4:
+                eraName = '平成';
+                break;
+            case 5:
+                eraName = '令和';
+                break;
+            default:
+                eraName = '○○';
+                break;
             }
-            var pscName = text.substr(-5, 5); //「psc」は公安委員会(Public Safety Commission)の略
-            text = text.slice(0, -5);
+            var date = eraName + year + "年" + month + "月" + day + "日";
 
             if (elm.innerHTML == "&nbsp;") {
                 elm.innerHTML = htmlEscape(date) + "<br>\n" + htmlEscape(label)+ "："
-                    + htmlEscape(text) + "<div class=\"dl-remarks-seal\">" + htmlEscape(pscName) + "</div>";
+                    + htmlEscape(value) + "<div class=\"dl-changes-seal\">" + htmlEscape(psc) + "</div>";
             } else {
-                elm.innerHTML += "<br>\n";
+                elm.innerHTML += "<br/>\n";
                 elm.innerHTML += htmlEscape(date) + "&nbsp;" + htmlEscape(label) + "："
-                    + htmlEscape(text) + "<div class=\"dl-remarks-seal\">" + htmlEscape(pscName) + "</div>";;
+                    + htmlEscape(text) + "<div class=\"dl-changes-seal\">" + htmlEscape(psc) + "</div>";
             }
         }
     }
