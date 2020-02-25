@@ -272,7 +272,7 @@ function render(json) {
         });
         for(var i=0; i<changes.length; i++) {
             var label = changes[i]['label'];
-            var value = changes[i]['value'];
+            var value = dlstr2html(changes[i]['value']);
             var psc = changes[i]['psc'];
             var date = changes[i]['date'];
             if (i == 0) {
