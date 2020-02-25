@@ -157,7 +157,7 @@ function render(json) {
     }
     if ('dl-addr' in data) {
         elm.innerHTML += "<tr><td>住所</td><td>" +
-            data['dl-addr'] +
+            dlstr2html(data['dl-addr']) +
             "</td></tr>\n";
     }
     if ('dl-registered-domicile' in data) {
