@@ -1,6 +1,7 @@
 
 var testData = {
-    'dl-name': '日本　花子',
+    //'dl-name': '日本　花子',
+    'dl-name': [{"type":"text/plain","value":"\u5bae"},{"type":"image/png","value":"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAAmElEQVR4nI3NMQrDMAwFUEGHbM0RfJGSXKtdGmiGLqU5Qq/SUKiuYeOhYzIGaqzakgIeOkTDf6APEpAM5BjVV+mopsApiUlUe/G9y0aApMWL2vNdh9eJavYTKwKPgw+iC4adl45djl/VseH0zN4AoHQgMv+8n1vxYESo1FpsdN+0G7SwX4VST9ITxU4k/r9Fq85qWPuHSvQDdmz739pgLJgAAAAASUVORK5CYII="},{"type":"text/plain","value":"\u3000"},{"type":"image/png","value":"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAAmElEQVR4nI3NMQrDMAwFUEGHbM0RfJGSXKtdGmiGLqU5Qq/SUKiuYeOhYzIGaqzakgIeOkTDf6APEpAM5BjVV+mopsApiUlUe/G9y0aApMWL2vNdh9eJavYTKwKPgw+iC4adl45djl/VseH0zN4AoHQgMv+8n1vxYESo1FpsdN+0G7SwX4VST9ITxU4k/r9Fq85qWPuHSvQDdmz739pgLJgAAAAASUVORK5CYII="},{"type":"image/png","value":"iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQAAAAA2RLUcAAAAmElEQVR4nI3NMQrDMAwFUEGHbM0RfJGSXKtdGmiGLqU5Qq/SUKiuYeOhYzIGaqzakgIeOkTDf6APEpAM5BjVV+mopsApiUlUe/G9y0aApMWL2vNdh9eJavYTKwKPgw+iC4adl45djl/VseH0zN4AoHQgMv+8n1vxYESo1FpsdN+0G7SwX4VST9ITxU4k/r9Fq85qWPuHSvQDdmz739pgLJgAAAAASUVORK5CYII="}],
     'dl-kana': 'ニホン　ハナコ',
     'dl-birth': '昭和50年 6月 1日',
     'dl-addr': '東京都千代田区霞が関２−１−２',
