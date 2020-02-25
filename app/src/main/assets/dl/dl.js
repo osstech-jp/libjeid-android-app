@@ -29,10 +29,13 @@ function full2half(str) {
     });
 }
 
-function dlstr2html(chars) {
+function dlstr2html(str) {
+    if (typeof str == "string") {
+        return str;
+    }
     var html = "";
     const style = 'height: 1em; position: relative; top: 0.14em;';
-    for (let c of chars) {
+    for (c of str) {
         if (c['type'] == 'text/plain') {
             html += htmlEscape(c['value']);
         } else if (c['type'] == 'image/png') {
@@ -55,7 +58,7 @@ function render(json) {
             + '生';
     }
     if ('dl-addr' in data) {
-        document.getElementById("dl-addr").innerHTML = data['dl-addr'];
+        document.getElementById("dl-addr").innerHTML = dlstr2html(data['dl-addr']);
     }
     if ('dl-issue' in data) {
         document.getElementById("dl-issue").innerHTML = htmlEscape(data['dl-issue']);
@@ -144,7 +147,7 @@ function render(json) {
     elm.innerHTML = '<tr><th style="width: 30%"></th><th style="width: 70%"></th></tr>\n';
     if ('dl-name' in data) {
         elm.innerHTML += '<tr><td>氏名</td><td>' +
-            data['dl-name'] +
+            dlstr2html(data['dl-name']) +
             '</td></tr>\n';
     }
     if ('dl-kana' in data) {
@@ -159,7 +162,7 @@ function render(json) {
     }
     if ('dl-registered-domicile' in data) {
         elm.innerHTML += "<tr><td>本籍</td><td>" +
-            data['dl-registered-domicile'] +
+            dlstr2html(data['dl-registered-domicile']) +
             "</td></tr>\n";
     }
 
