@@ -114,13 +114,13 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             // 外字の取得
             DriverLicenseExternalCharactors extChars = files.getExternalCharactors();
             JSONObject obj = new JSONObject();
-            obj.put("dl-name", entries.getNameHtml(extChars));
+            obj.put("dl-name", new JSONArray(entries.getName().toJSON()));
             obj.put("dl-kana", entries.getKana());
             DriverLicenseDate birthDate = entries.getBirthDate();
             if (birthDate != null) {
                 obj.put("dl-birth", birthDate.toString());
             }
-            obj.put("dl-addr", entries.getAddrHtml(extChars));
+            obj.put("dl-addr", new JSONArray(entries.getAddr().toJSON()));
             DriverLicenseDate issueDate = entries.getIssueDate();
             if (issueDate != null) {
                 obj.put("dl-issue", issueDate.toString());
@@ -173,7 +173,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     entryObj.put("label", "新住所");
                     entryObj.put("date", entry.getDate().toString());
                     entryObj.put("ad", sdf.format(entry.getDate().toDate()));
-                    entryObj.put("value", entry.getValue());
+                    entryObj.put("value", new JSONArray(entry.getValue().toJSON()));
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
                 }
@@ -182,7 +182,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     entryObj.put("label", "新氏名");
                     entryObj.put("date", entry.getDate().toString());
                     entryObj.put("ad", sdf.format(entry.getDate().toDate()));
-                    entryObj.put("value", entry.getValue());
+                    entryObj.put("value", new JSONArray(entry.getValue().toJSON()));
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
                 }
@@ -191,7 +191,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     entryObj.put("label", "新条件");
                     entryObj.put("date", entry.getDate().toString());
                     entryObj.put("ad", sdf.format(entry.getDate().toDate()));
-                    entryObj.put("value", entry.getValue());
+                    entryObj.put("value", new JSONArray(entry.getValue().toJSON()));
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
                 }
@@ -200,7 +200,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     entryObj.put("label", "条件解除");
                     entryObj.put("date", entry.getDate().toString());
                     entryObj.put("ad", sdf.format(entry.getDate().toDate()));
-                    entryObj.put("value", entry.getValue());
+                    entryObj.put("value", new JSONArray(entry.getValue().toJSON()));
                     entryObj.put("psc", entry.getPsc());
                     changesObj.put(entryObj);
                 }
@@ -209,9 +209,9 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             try {
                 // 本籍を取得
                 DriverLicenseRegisteredDomicile registeredDomicile = files.getRegisteredDomicile();
-                String value = registeredDomicile.getRegisteredDomicileHtml(extChars);
+                String value = registeredDomicile.getRegisteredDomicile().toJSON();
                 if (value != null) {
-                    obj.put("dl-registered-domicile", value);
+                    obj.put("dl-registered-domicile", new JSONArray(value));
                 }
                 publishProgress(registeredDomicile.toString());
                 // 写真を取得
@@ -230,10 +230,13 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 // 記載事項変更（本籍）を取得
                 changedEntries = files.getChangedRegisteredDomicile();
                 if (changedEntries.isChanged()) {
-                    for (DriverLicenseChangedEntry newRegDomicile : changedEntries.getNewRegisteredDomicileList()) {
+                    for (DriverLicenseChangedEntry entry : changedEntries.getNewRegisteredDomicileList()) {
                         JSONObject entryObj = new JSONObject();
                         entryObj.put("label", "新本籍");
-                        entryObj.put("text", newRegDomicile.getValue());
+                        entryObj.put("date", entry.getDate().toString());
+                        entryObj.put("ad", sdf.format(entry.getDate().toDate()));
+                        entryObj.put("value", new JSONArray(entry.getValue().toJSON()));
+                        entryObj.put("psc", entry.getPsc());
                         changesObj.put(entryObj);
                     }
                 }
