@@ -29,10 +29,26 @@ function full2half(str) {
     });
 }
 
+function dlstr2html(chars) {
+    var html = "";
+    const style = 'height: 1em; position: relative; top: 0.14em;';
+    for (let c of chars) {
+        if (c['type'] == 'text/plain') {
+            html += htmlEscape(c['value']);
+        } else if (c['type'] == 'image/png') {
+            html += '<img style="' + style + '" ' +
+                'src="data:image/png;base64,' + c['value'] +  '" />';
+        } else {
+            // missing
+        }
+    }
+    return html;
+}
+
 function render(json) {
     data = JSON.parse(json);
     if ('dl-name' in data) {
-        document.getElementById("dl-name").innerHTML = data['dl-name'];
+        document.getElementById("dl-name").innerHTML = dlstr2html(data['dl-name']);
     }
     if ('dl-birth' in data) {
         document.getElementById("dl-birth").innerHTML = htmlEscape(data['dl-birth'])
@@ -251,7 +267,6 @@ function render(json) {
                 return 0;
             }
         });
-        console.log(changes);
         for(var i=0; i<changes.length; i++) {
             var label = changes[i]['label'];
             var value = changes[i]['value'];
