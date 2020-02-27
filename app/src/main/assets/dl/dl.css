@@ -55,8 +55,14 @@ h1 {
   text-align: center;
   border-left: 1px solid #000000;
   border-right: 1px solid #000000;
-  letter-spacing: 24px;
+  letter-spacing: 22px;
 }
+
+.dl-name img {
+  border: 1px red solid;
+  padding-right: 22px;
+}
+
 /*
 .dl-external-charactor {
   height: 1em;
