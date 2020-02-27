@@ -10,8 +10,9 @@ function dlstr2html(str) {
         } else if (c['type'] == 'image/png') {
             html += '<img style="' + style + '" ' +
                 'src="data:image/png;base64,' + c['value'] +  '" />';
-        } else {
-            // missing
+        } else if (c['type'] == 'image/x-missing') {
+            // 欠字
+            html += "？";
         }
     }
     return html;
