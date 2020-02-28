@@ -255,10 +255,14 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 ValidationResult result = files.validate();
                 obj.put("dl-verified", result.isValid());
                 publishProgress("真正性検証結果: " + result);
-            } catch(FileNotFoundException notfound) {
+            } catch(FileNotFoundException e) {
                 // PIN2を入力していないfilesオブジェクトは
                 // FileNotFoundExceptionをthrowします。
+            } catch(UnsupportedOperationException e) {
+                // free版の場合、真正性検証処理で
+                // UnsupportedOperationException が返ります。
             }
+
             // 記載事項変更等(本籍除く）と記載事項変更（本籍）合わせた
             // オブジェクトをJSONに追加
             obj.put("dl-changes", changesObj);
