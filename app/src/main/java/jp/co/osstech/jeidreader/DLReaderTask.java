@@ -167,6 +167,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 
             JSONArray changesObj = new JSONArray();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.US);
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
             if (changedEntries.isChanged()) {
                 for (DriverLicenseChangedEntry entry : changedEntries.getNewAddrList()) {
                     JSONObject entryObj = new JSONObject();
