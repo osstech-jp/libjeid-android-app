@@ -53,12 +53,6 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
     protected JSONObject doInBackground(Void... args) {
         Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
 
-        if (rcNumber.isEmpty()) {
-            publishProgress("在留カード番号または特別永住者証明書番号を設定してください");
-            return null;
-        }
-        RCKey rckey = new RCKey(rcNumber);
-
         long start = System.currentTimeMillis();
         JeidReader reader;
         try {
@@ -82,6 +76,12 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("commonData: " + commonData);
             RCCardType cardType = ap.readCardType();
             publishProgress("cardType: " + cardType);
+
+            if (rcNumber.isEmpty()) {
+                publishProgress("在留カード番号または特別永住者証明書番号を設定してください");
+                return null;
+            }
+            RCKey rckey = new RCKey(rcNumber);
             publishProgress("## セキュアメッセージング(SM)用の鍵交換");
             try {
                 ap.startBAC(rckey);
