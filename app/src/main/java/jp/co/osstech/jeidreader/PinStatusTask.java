@@ -6,10 +6,10 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
-import jp.co.osstech.libjeid.CardEntriesAP;
-import jp.co.osstech.libjeid.CardInputHelperAP;
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.DriverLicenseAP;
+import jp.co.osstech.libjeid.INTextAP;
+import jp.co.osstech.libjeid.INVisualAP;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.ResidenceCardAP;
@@ -48,18 +48,18 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
             switch (type) {
             case IN:
                 publishProgress("カード種別: マイナンバーカード");
-                CardInputHelperAP helperAP = reader.selectCardInputHelperAP();
-                counter = helperAP.getPin();
+                INTextAP textAP = reader.selectINTextAP();
+                counter = textAP.getPin();
                 publishProgress("券面入力補助AP 暗証番号: " + counter);
-                counter = helperAP.getPinA();
+                counter = textAP.getPinA();
                 publishProgress("券面入力補助AP 照合番号A: " + counter);
-                counter = helperAP.getPinB();
+                counter = textAP.getPinB();
                 publishProgress("券面入力補助AP 照合番号B: " + counter);
 
-                CardEntriesAP entriesAP = reader.selectCardEntriesAP();
-                counter = entriesAP.getPinA();
+                INVisualAP visualAP = reader.selectINVisualAP();
+                counter = visualAP.getPinA();
                 publishProgress("券面AP 照合番号A: " + counter);
-                counter = entriesAP.getPinB();
+                counter = visualAP.getPinB();
                 publishProgress("券面AP 照合番号B: " + counter);
 
                 JPKIAP jpkiAP = reader.selectJPKIAP();
