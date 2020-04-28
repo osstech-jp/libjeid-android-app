@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import jp.co.osstech.libjeid.CardType;
-import jp.co.osstech.libjeid.InvalidBACKeyException;
+import jp.co.osstech.libjeid.InvalidACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.RCKey;
@@ -82,22 +82,12 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
                 return null;
             }
             RCKey rckey = new RCKey(rcNumber);
-            publishProgress("## セキュアメッセージング(SM)用の鍵交換");
+            publishProgress("## セキュアメッセージング用の鍵交換&認証");
             try {
-                ap.startBAC(rckey);
-            } catch (InvalidBACKeyException e) {
+                ap.startAC(rckey);
+            } catch (InvalidACKeyException e) {
                 publishProgress("失敗\n"
                         + "在留カード番号または特別永住者証明書番号が間違っています");
-                return null;
-            }
-            publishProgress("完了");
-
-            publishProgress("## 在留カード等番号による認証");
-            try {
-                ap.verifySM(rckey);
-            } catch (IOException e) {
-                publishProgress("失敗\n"
-                        + e.getMessage());
                 return null;
             }
             publishProgress("完了");
@@ -131,17 +121,19 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             RCAddress address = files.getAddress();
             publishProgress(address.toString());
 
-            publishProgress("## 裏面資格外活動包括許可欄");
-            RCComprehensivePermission comprehensivePermission = files.getComprehensivePermission();
-            publishProgress(comprehensivePermission.toString());
+            if ("1".equals(cardType.getType())) {
+                publishProgress("## 裏面資格外活動包括許可欄");
+                RCComprehensivePermission comprehensivePermission = files.getComprehensivePermission();
+                publishProgress(comprehensivePermission.toString());
 
-            publishProgress("## 裏面資格外活動個別許可欄");
-            RCIndividualPermission individualPermission = files.getIndividualPermission();
-            publishProgress(individualPermission.toString());
+                publishProgress("## 裏面資格外活動個別許可欄");
+                RCIndividualPermission individualPermission = files.getIndividualPermission();
+                publishProgress(individualPermission.toString());
 
-            publishProgress("## 裏面在留期間等更新申請欄");
-            RCUpdateStatus updateStatus = files.getUpdateStatus();
-            publishProgress(updateStatus.toString());
+                publishProgress("## 裏面在留期間等更新申請欄");
+                RCUpdateStatus updateStatus = files.getUpdateStatus();
+                publishProgress(updateStatus.toString());
+            }
 
             publishProgress("## 電子署名");
             RCSignature signature = files.getSignature();
