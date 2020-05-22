@@ -85,6 +85,9 @@ function render(json) {
         document.getElementById("cardinfo-mynumber-cell-3").innerHTML = htmlEscape(mynumber.substr(8, 4));
         document.getElementById("cardinfo-hojo-mynumber").innerHTML = mynumber;
     }
+    if ('textap-validation-result' in data) {
+        document.getElementById("textap-validation-result").innerHTML = data['textap-validation-result'];
+    }
     if ('cardinfo-cert-expire' in data) {
         var certExpire = data['cardinfo-cert-expire'];
         var year = certExpire.substr(0, 4);
@@ -121,6 +124,9 @@ function render(json) {
     }
     if ('cardinfo-mynumber-image' in data) {
         document.getElementById("cardinfo-kenmen-mynumber").src = data['cardinfo-mynumber-image'];
+    }
+    if ('visualap-validation-result' in data) {
+        document.getElementById("visualap-validation-result").innerHTML = data['visualap-validation-result'];
     }
 }
 

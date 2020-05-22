@@ -20,6 +20,7 @@ import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
+import jp.co.osstech.libjeid.ValidationResult;
 import jp.co.osstech.libjeid.in.INTextAttributes;
 import jp.co.osstech.libjeid.in.INTextFiles;
 import jp.co.osstech.libjeid.in.INTextMyNumber;
@@ -97,6 +98,11 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-addr", textAttrs.getAddr());
             publishProgress(textAttrs.toString());
 
+            publishProgress("## 券面入力補助APの真正性検証");
+            ValidationResult validationResult = textFiles.validate();
+            publishProgress(validationResult.toString());
+            obj.put("textap-validation-result", validationResult.isValid());
+
             publishProgress("## 券面APから情報を取得します");
             INVisualAP visualAp = reader.selectINVisualAP();
             visualAp.verifyPin(mPin);
@@ -125,6 +131,11 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             String src = "data:image/jpeg;base64," + Base64.encodeToString(jpeg, Base64.DEFAULT);
             obj.put("cardinfo-photo", src);
             publishProgress("完了");
+
+            publishProgress("## 券面APの真正性検証");
+            validationResult = visualFiles.validate();
+            publishProgress(validationResult.toString());
+            obj.put("visualap-validation-result", validationResult.isValid());
 
             INVisualMyNumber visualMyNumber = visualFiles.getMyNumber();
             obj.put("cardinfo-mynumber-image", "data:image/png;base64,"
