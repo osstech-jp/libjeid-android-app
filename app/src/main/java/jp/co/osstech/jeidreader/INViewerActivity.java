@@ -31,7 +31,7 @@ public class INViewerActivity
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadUrl("file:///android_asset/cardinfo/cardinfo.html");
+        webView.loadUrl("file:///android_asset/in/in.html");
         webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     render();
