@@ -6,13 +6,12 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.INTextAP;
 import jp.co.osstech.libjeid.INVisualAP;
@@ -28,7 +27,6 @@ import jp.co.osstech.libjeid.in.INVisualEntries;
 import jp.co.osstech.libjeid.in.INVisualFiles;
 import jp.co.osstech.libjeid.in.INVisualMyNumber;
 import jp.co.osstech.libjeid.util.BitmapARGB;
-
 import org.json.JSONObject;
 
 public class INReaderTask extends AsyncTask<Void, String, JSONObject>
@@ -87,8 +85,8 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             try {
                 INTextMyNumber textMyNumber = textFiles.getMyNumber();
                 obj.put("cardinfo-mynumber", textMyNumber.getMyNumber());
-            } catch (UnsupportedOperationException uoe) {
-                // 無償版では取得出来ません。
+            } catch (FileNotFoundException | UnsupportedOperationException ue) {
+                // 無償版では個人番号を取得出来ません。
             }
             publishProgress("## 4情報");
             INTextAttributes textAttrs = textFiles.getAttributes();
@@ -98,10 +96,14 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-addr", textAttrs.getAddr());
             publishProgress(textAttrs.toString());
 
-            publishProgress("## 券面入力補助APの真正性検証");
-            ValidationResult validationResult = textFiles.validate();
-            publishProgress(validationResult.toString());
-            obj.put("textap-validation-result", validationResult.isValid());
+            try {
+                publishProgress("## 券面入力補助APの真正性検証");
+                ValidationResult validationResult = textFiles.validate();
+                publishProgress("検証結果: " + validationResult.toString());
+                obj.put("textap-validation-result", validationResult.isValid());
+            } catch (UnsupportedOperationException ue) {
+                // 無償版では真正性検証をサポートしていません。
+            }
 
             publishProgress("## 券面APから情報を取得します");
             INVisualAP visualAp = reader.selectINVisualAP();
@@ -132,15 +134,22 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-photo", src);
             publishProgress("完了");
 
-            publishProgress("## 券面APの真正性検証");
-            validationResult = visualFiles.validate();
-            publishProgress(validationResult.toString());
-            obj.put("visualap-validation-result", validationResult.isValid());
+            try {
+                publishProgress("## 券面APの真正性検証");
+                ValidationResult validationResult = visualFiles.validate();
+                publishProgress("検証結果: " + validationResult.toString());
+                obj.put("visualap-validation-result", validationResult.isValid());
+            } catch (UnsupportedOperationException ue) {
+                // 無償版では真正性検証をサポートしていません。
 
-            INVisualMyNumber visualMyNumber = visualFiles.getMyNumber();
-            obj.put("cardinfo-mynumber-image", "data:image/png;base64,"
-                    + Base64.encodeToString(visualMyNumber.getMyNumber(), Base64.DEFAULT));
-
+            }
+            try {
+                INVisualMyNumber visualMyNumber = visualFiles.getMyNumber();
+                obj.put("cardinfo-mynumber-image", "data:image/png;base64,"
+                        + Base64.encodeToString(visualMyNumber.getMyNumber(), Base64.DEFAULT));
+            } catch (FileNotFoundException | UnsupportedOperationException ue) {
+                // 無償版では個人番号(画像)を取得できません。
+            }
             publishProgress("## ユーザー認証用証明書の有効期限を取得します");
             JPKIAP jpkiAP = reader.selectJPKIAP();
             JPKICertificate cert = jpkiAP.getAuthCert();
