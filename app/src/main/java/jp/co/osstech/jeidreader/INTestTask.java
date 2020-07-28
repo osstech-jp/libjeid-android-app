@@ -169,7 +169,7 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
     protected void onPostExecute(Boolean result) {
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         INTestActivity activity = (INTestActivity)mRef.get();
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if (result) {

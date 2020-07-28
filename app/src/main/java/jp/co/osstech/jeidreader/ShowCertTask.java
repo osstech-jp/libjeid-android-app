@@ -259,7 +259,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
 
         mProgress.dismiss();
         ShowCertActivity activity = (ShowCertActivity)mRef.get();
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if (ipe != null) {

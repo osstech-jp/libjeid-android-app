@@ -289,7 +289,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
         mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         DLReaderActivity activity = (DLReaderActivity)mRef.get();
-        if (activity == null) {
+        if (activity == null || activity.isFinishing()) {
             return;
         }
         if (ipe1 != null) {
