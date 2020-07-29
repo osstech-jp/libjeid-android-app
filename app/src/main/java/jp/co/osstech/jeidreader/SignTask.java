@@ -176,7 +176,9 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
     protected void onPostExecute(Boolean result) {
         mProgress.dismiss();
         SignActivity activity = (SignActivity)mRef.get();
-        if (activity == null || activity.isFinishing()) {
+        if (activity == null ||
+            activity.isFinishing() ||
+            activity.isDestroyed()) {
             return;
         }
         if (result) {

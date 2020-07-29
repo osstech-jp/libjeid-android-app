@@ -49,7 +49,9 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
     @Override
     protected void onPreExecute() {
         ShowCertActivity activity = (ShowCertActivity)mRef.get();
-        if (activity == null) {
+        if (activity == null ||
+            activity.isFinishing() ||
+            activity.isDestroyed()) {
             return;
         }
         activity.setMessage("# 読み取り開始、カードを離さないでください");

@@ -194,10 +194,11 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
         mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         EPReaderActivity activity = (EPReaderActivity)mRef.get();
-        if (activity == null || activity.isFinishing()) {
+        if (activity == null ||
+            activity.isFinishing() ||
+            activity.isDestroyed()) {
             return;
         }
-
         if (obj == null) {
             return;
         }
