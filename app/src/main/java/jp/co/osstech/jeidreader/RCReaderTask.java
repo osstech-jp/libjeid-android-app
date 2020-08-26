@@ -174,8 +174,7 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
         RCReaderActivity activity = (RCReaderActivity)mRef.get();
         if (activity == null ||
-            activity.isFinishing() ||
-            activity.isDestroyed()) {
+            activity.isFinishing()) {
             return;
         }
         if (obj == null) {

@@ -177,8 +177,7 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
         mProgress.dismiss();
         SignActivity activity = (SignActivity)mRef.get();
         if (activity == null ||
-            activity.isFinishing() ||
-            activity.isDestroyed()) {
+            activity.isFinishing()) {
             return;
         }
         if (result) {

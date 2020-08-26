@@ -117,8 +117,7 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
         mProgress.dismiss();
         PinStatusActivity activity = (PinStatusActivity)mRef.get();
         if (activity == null ||
-            activity.isFinishing() ||
-            activity.isDestroyed()) {
+            activity.isFinishing()) {
             return;
         }
         if (e != null) {

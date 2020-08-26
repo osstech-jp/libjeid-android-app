@@ -180,8 +180,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
         mProgress.dismiss();
         INReaderActivity activity = (INReaderActivity)mRef.get();
         if (activity == null ||
-            activity.isFinishing() ||
-            activity.isDestroyed()) {
+            activity.isFinishing()) {
             return;
         }
         if (ipe != null) {
