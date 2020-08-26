@@ -1,12 +1,12 @@
 package jp.co.osstech.jeidreader;
 
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.cert.X509Certificate;
-
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKISignature;
@@ -56,8 +55,9 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
         FileOutputStream writer = new FileOutputStream(file);
         writer.write(Base64.encode(data, Base64.DEFAULT));
         writer.close();
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file));
-        activity.sendBroadcast(intent);
+        MediaScannerConnection.scanFile(activity,
+                                        new String[]{file.getPath()},
+                                        null, null);
     }
 
     @Override
