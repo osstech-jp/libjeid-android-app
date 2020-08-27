@@ -3,8 +3,8 @@ package jp.co.osstech.jeidreader;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.View;
+import androidx.fragment.app.DialogFragment;
 
 public class ProgressDialogFragment extends DialogFragment {
 
