@@ -6,8 +6,8 @@ android {
         applicationId "jp.co.osstech.jeidreader"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 22
-        versionName "1.0.22"
+        versionCode 23
+        versionName "1.0.23"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
@@ -64,25 +64,24 @@ repositories {
                 password local.getProperty("libjeid.password")
             }
         }
-        /* for gradle 5.x
+        // for gradle 5.x
         content {
             includeGroup "jp.co.osstech"
         }
-        */
     }
 }
 
 dependencies {
     // LibJeID無償版を利用
-    //implementation 'jp.co.osstech:libjeid-free:20200605@aar'
+    implementation 'jp.co.osstech:libjeid-free:20200605@aar'
     // LibJeID製品版を利用
-    implementation 'jp.co.osstech:libjeid-full:20200605@aar'
+    //implementation 'jp.co.osstech:libjeid-full:20200605@aar'
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
     //implementation project(path: ':libjeid', configuration: 'full')
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.65'
