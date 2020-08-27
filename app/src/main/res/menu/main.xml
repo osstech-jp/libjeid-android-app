@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
       android:id="@+id/nfc_status_icon"
-      android:showAsAction="ifRoom"
+      app:showAsAction="ifRoom"
       android:icon="@drawable/ic_nfc_off"
       android:title="NFC Status" />
   <item
       android:id="@+id/nfc_settings_button"
-      android:showAsAction="ifRoom"
+      app:showAsAction="ifRoom"
       android:icon="@drawable/ic_settings"
       android:title="NFC Settings" />
 </menu>
