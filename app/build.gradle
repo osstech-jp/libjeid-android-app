@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "jp.co.osstech.jeidreader"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 22
         versionName "1.0.22"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
@@ -83,7 +83,6 @@ dependencies {
     //implementation project(path: ':libjeid', configuration: 'full')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.65'
 }
