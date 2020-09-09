@@ -177,7 +177,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
-        mProgress.dismiss();
+        mProgress.dismissAllowingStateLoss();
         INReaderActivity activity = (INReaderActivity)mRef.get();
         if (activity == null ||
             activity.isFinishing()) {

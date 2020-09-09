@@ -114,7 +114,7 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
 
     @Override
     protected void onPostExecute(Exception e) {
-        mProgress.dismiss();
+        mProgress.dismissAllowingStateLoss();
         PinStatusActivity activity = (PinStatusActivity)mRef.get();
         if (activity == null ||
             activity.isFinishing()) {

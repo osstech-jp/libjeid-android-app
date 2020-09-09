@@ -257,8 +257,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
     @Override
     protected void onPostExecute(JSONObject obj) {
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-
-        mProgress.dismiss();
+        mProgress.dismissAllowingStateLoss();
         ShowCertActivity activity = (ShowCertActivity)mRef.get();
         if (activity == null || activity.isFinishing()) {
             return;

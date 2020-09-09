@@ -191,8 +191,8 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
-        mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
+        mProgress.dismissAllowingStateLoss();
         EPReaderActivity activity = (EPReaderActivity)mRef.get();
         if (activity == null ||
             activity.isFinishing()) {

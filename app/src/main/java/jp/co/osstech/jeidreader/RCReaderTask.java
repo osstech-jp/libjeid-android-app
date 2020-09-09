@@ -170,8 +170,8 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 
     @Override
     protected void onPostExecute(JSONObject obj) {
-        mProgress.dismiss();
         Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
+        mProgress.dismissAllowingStateLoss();
         RCReaderActivity activity = (RCReaderActivity)mRef.get();
         if (activity == null ||
             activity.isFinishing()) {
