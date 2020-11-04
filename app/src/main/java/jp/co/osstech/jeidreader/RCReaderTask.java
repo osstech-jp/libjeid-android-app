@@ -6,18 +6,17 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import org.json.JSONObject;
 
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.InvalidACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
-import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.RCKey;
+import jp.co.osstech.libjeid.ResidenceCardAP;
+import jp.co.osstech.libjeid.ValidationResult;
 import jp.co.osstech.libjeid.rc.*;
 import jp.co.osstech.libjeid.rc.RCAddress;
 import jp.co.osstech.libjeid.util.BitmapARGB;
@@ -139,16 +138,11 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
             RCSignature signature = files.getSignature();
             publishProgress(signature.toString());
 
-            // チェックコードの検証
-            publishProgress("## チェックコードの検証");
-            boolean checkcodeVerified = false;
-            try {
-                checkcodeVerified = ap.verifySignature(signature, cardEntries, photo);
-            } catch (IOException e) {
-                Log.e(TAG, e.toString());
-                publishProgress("検証中にエラー: " + e);
-            }
-            publishProgress("検証結果: " + checkcodeVerified);
+            // 真正性検証
+            publishProgress("## 真正性検証");
+            ValidationResult result = files.validate();
+            obj.put("rc-valid", result.isValid());
+            publishProgress("真正性検証結果: " + result);
 
             return obj;
         } catch (Exception e) {
