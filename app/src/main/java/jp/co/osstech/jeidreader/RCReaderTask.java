@@ -140,10 +140,14 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 
             // 真正性検証
             publishProgress("## 真正性検証");
-            ValidationResult result = files.validate();
-            obj.put("rc-valid", result.isValid());
-            publishProgress("真正性検証結果: " + result);
-
+            try {
+                ValidationResult result = files.validate();
+                obj.put("rc-valid", result.isValid());
+                publishProgress("真正性検証結果: " + result);
+            } catch(UnsupportedOperationException e) {
+                // free版の場合、真正性検証処理で
+                // UnsupportedOperationException が返ります。
+            }
             return obj;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
