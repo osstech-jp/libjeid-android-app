@@ -1,5 +1,6 @@
 package jp.co.osstech.jeidreader;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -99,13 +100,25 @@ public abstract class BaseActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-        case R.id.nfc_settings_button:
+        case R.id.menu_nfc_settings:
+            // Android 4.1より前はNFC設定が無線の設定項目にある
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 intent = new Intent(Settings.ACTION_NFC_SETTINGS);
             } else {
                 intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
             }
             startActivity(intent);
+            break;
+        case R.id.menu_about:
+            StringBuilder sb = new StringBuilder();
+            sb.append("libjeid: " + jp.co.osstech.libjeid.BuildConfig.VERSION_NAME + "\n");
+            sb.append("\n");
+            sb.append("Developed by OSSTech\n");
+            new AlertDialog.Builder(this)
+                .setTitle("IDリーダー " + BuildConfig.VERSION_NAME)
+                .setMessage(sb.toString())
+                .setPositiveButton("閉じる", null)
+                .show();
             break;
         }
         return true;
