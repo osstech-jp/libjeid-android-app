@@ -12,7 +12,6 @@ public class MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-        setTitle(getTitle() + " " + BuildConfig.VERSION_NAME);
         findViewById(R.id.in_menu_button).setOnClickListener(this);
         findViewById(R.id.dl_reader_button).setOnClickListener(this);
         findViewById(R.id.ep_reader_button).setOnClickListener(this);
