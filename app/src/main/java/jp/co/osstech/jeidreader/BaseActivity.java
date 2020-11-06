@@ -113,7 +113,7 @@ public abstract class BaseActivity
             StringBuilder sb = new StringBuilder();
             sb.append("libjeid: " + jp.co.osstech.libjeid.BuildConfig.VERSION_NAME + "\n");
             sb.append("\n");
-            sb.append("Developed by OSSTech\n");
+            sb.append("Powered by OSSTech\n");
             new AlertDialog.Builder(this)
                 .setTitle("IDリーダー " + BuildConfig.VERSION_NAME)
                 .setMessage(sb.toString())
