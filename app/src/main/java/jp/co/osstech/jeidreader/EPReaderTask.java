@@ -87,7 +87,13 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("有効期限が8桁ではありません");
             return null;
         }
-        EPMRZ mrz = new EPMRZ(passportNumber, birthDate, expireDate);
+        EPMRZ mrz;
+        try {
+            mrz = new EPMRZ(passportNumber, birthDate, expireDate);
+        } catch (IllegalArgumentException e) {
+            publishProgress("旅券番号、生年月日または有効期限が間違っています\nエラー: " + e);
+            return null;
+        }
 
         long start = System.currentTimeMillis();
         JeidReader reader;
