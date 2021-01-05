@@ -4,7 +4,8 @@ function dlstr2html(str) {
     }
     var html = "";
     const style = 'height: 1em; position: relative; top: 0.14em;';
-    for (c of str) {
+    for (var i=0; i<str.length; i++) {
+        var c = str[i];
         if (c['type'] == 'text/plain') {
             html += htmlEscape(c['value']);
         } else if (c['type'] == 'image/png') {
