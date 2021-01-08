@@ -119,8 +119,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 }
             }
             // PINを入力した後、DriverLicenseAP#readFiles()を実行すると、
-            // 読み出し可能なファイルがすべて読み出されます。
-            // PIN1のみを入力した場合、読み出すのにPIN2が必要なファイルは読み出されません。
+            // 入力されたPINで読み出し可能なファイルがすべて読み出されます。
+            // PIN1のみを入力した場合、読み出すのにPIN2の入力が必要なファイルは読み出されません。
             DriverLicenseFiles files = ap.readFiles();
 
             // 券面情報の取得
