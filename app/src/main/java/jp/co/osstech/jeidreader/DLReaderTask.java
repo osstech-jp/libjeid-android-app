@@ -29,6 +29,7 @@ import org.json.JSONObject;
 public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 {
     private static final String TAG = MainActivity.TAG;
+    private static final String DPIN = "****";
     private WeakReference mRef;
     private Tag mNfcTag;
     private String pin1;
@@ -79,18 +80,25 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             }
             DriverLicenseAP ap = reader.selectDriverLicenseAP();
 
-            // PINを入力せず共通データを読み出す場合は、
+            // PINを入力せず共通データ要素を読み出す場合は、
             // DriverLicenseAP#getCommonData()を利用できます。
-            // 通常はPINを入力した後、
-            // DriverLicenseAP#readFiles()で全てを読み出した後に
-            // DriverLicenseFiles#getCommonData()を利用してください。
-            DriverLicenseCommonData commonData = ap.getCommonData();
+            // PIN1を入力せずにDriverLicenseAP#readFiles()を実行した場合、
+            // 共通データ要素と暗証番号(PIN)設定のみが読み出されます。
+            DriverLicenseFiles freeFiles = ap.readFiles();
+            DriverLicenseCommonData commonData = freeFiles.getCommonData();
+            DriverLicensePinSetting pinSetting = freeFiles.getPinSetting();
             publishProgress("## 共通データ要素");
             publishProgress(commonData.toString());
+            publishProgress("## 暗証番号(PIN)設定");
+            publishProgress(pinSetting.toString());
 
             if (pin1.isEmpty()) {
                 publishProgress("暗証番号1を設定してください");
                 return null;
+            }
+            if (!pinSetting.isTrue()) {
+                publishProgress("暗証番号(PIN)設定がfalseのため、デフォルトPINの「****」を暗証番号として使用します\n");
+                pin1 = DPIN;
             }
 
             try {
@@ -100,6 +108,9 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 return null;
             }
             if (!pin2.isEmpty()) {
+                if (!pinSetting.isTrue()) {
+                    pin2 = DPIN;
+                }
                 try {
                     ap.verifyPin2(pin2);
                 } catch (InvalidPinException e) {
@@ -107,6 +118,9 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     return null;
                 }
             }
+            // PINを入力した後、DriverLicenseAP#readFiles()を実行すると、
+            // 読み出し可能なファイルがすべて読み出されます。
+            // PIN1のみを入力した場合、読み出すのにPIN2が必要なファイルは読み出されません。
             DriverLicenseFiles files = ap.readFiles();
 
             // 券面情報の取得
