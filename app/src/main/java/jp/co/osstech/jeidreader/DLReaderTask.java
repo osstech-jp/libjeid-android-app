@@ -83,7 +83,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             // PINを入力せず共通データ要素を読み出す場合は、
             // DriverLicenseAP#getCommonData()を利用できます。
             // PIN1を入力せずにDriverLicenseAP#readFiles()を実行した場合、
-            // 共通データ要素と暗証番号(PIN)設定のみが読み出されます。
+            // 共通データ要素と暗証番号(PIN)設定のみを読み出します。
             DriverLicenseFiles freeFiles = ap.readFiles();
             DriverLicenseCommonData commonData = freeFiles.getCommonData();
             DriverLicensePinSetting pinSetting = freeFiles.getPinSetting();
@@ -119,8 +119,8 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 }
             }
             // PINを入力した後、DriverLicenseAP#readFiles()を実行すると、
-            // 入力されたPINで読み出し可能なファイルがすべて読み出されます。
-            // PIN1のみを入力した場合、読み出すのにPIN2の入力が必要なファイルは読み出されません。
+            // 入力されたPINで読み出し可能なファイルをすべて読み出します。
+            // PIN1のみを入力した場合、PIN2の入力が必要なファイル(本籍など)は読み出しません。
             DriverLicenseFiles files = ap.readFiles();
 
             // 券面情報の取得
