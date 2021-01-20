@@ -4,6 +4,12 @@
   padding : 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: content-box;
+}
+
 body {
   font-size: medium;
 }
@@ -30,9 +36,14 @@ h1 {
   padding: 10px;
   margin: 0px;
   font-size: 20px;
-  font-family: "Noto Sans"
+  font-family: "Noto Sans";
 }
 
+
+.dl-entries hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 .dl-head {
   display: block;
   border: 1px solid #000000;
@@ -58,6 +69,7 @@ h1 {
 
 .dl-name img {
   padding-right: 22px;
+  vertical-align: baseline;
 }
 
 /*
@@ -349,12 +361,13 @@ img#dl-photo {
   line-height: 31px;
   background: repeating-linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,0) 29px, #aaa 29px, #aaa 31px);
   background-color: #ffffff; /*for old android bug*/
+  box-sizing: border-box;
 }
 
 .dl-changes-label {
   display: inline-block;
   float: left;
-  width: 100px;
+  width: 80px;
   height: 29px;
   margin-top: -2px;
   margin-left: -2px;
@@ -363,6 +376,8 @@ img#dl-photo {
   text-align: center;
   font-size: 20px;
   line-height: 31px;
+  padding-left: 20px;
+  letter-spacing: 20px;
 }
 
 .dl-changes-content {
