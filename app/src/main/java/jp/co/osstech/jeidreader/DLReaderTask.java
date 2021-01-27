@@ -130,18 +130,18 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             JSONObject obj = new JSONObject();
             obj.put("dl-name", new JSONArray(entries.getName().toJSON()));
             obj.put("dl-kana", entries.getKana());
-            DriverLicenseDate birthDate = entries.getBirthDate();
+            DLDate birthDate = entries.getBirthDate();
             if (birthDate != null) {
                 obj.put("dl-birth", birthDate.toString());
             }
             obj.put("dl-addr", new JSONArray(entries.getAddr().toJSON()));
-            DriverLicenseDate issueDate = entries.getIssueDate();
+            DLDate issueDate = entries.getIssueDate();
             if (issueDate != null) {
                 obj.put("dl-issue", issueDate.toString());
             }
             obj.put("dl-ref", entries.getRefNumber());
             obj.put("dl-color-class", entries.getColorClass());
-            DriverLicenseDate expireDate = entries.getExpireDate();
+            DLDate expireDate = entries.getExpireDate();
             if (expireDate != null) {
                 obj.put("dl-expire", expireDate.toString());
                 Calendar expireCal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Tokyo"));
