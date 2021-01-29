@@ -86,7 +86,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             // 共通データ要素と暗証番号(PIN)設定のみを読み出します。
             DriverLicenseFiles freeFiles = ap.readFiles();
             DriverLicenseCommonData commonData = freeFiles.getCommonData();
-            DriverLicensePinSetting pinSetting = freeFiles.getPinSetting();
+            DLPinSetting pinSetting = freeFiles.getPinSetting();
             publishProgress("## 共通データ要素");
             publishProgress(commonData.toString());
             publishProgress("## 暗証番号(PIN)設定");
