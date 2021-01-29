@@ -176,6 +176,9 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("検証結果: " + aaResult);
             } catch (UnsupportedOperationException e) {
                 publishProgress("libjeid-freeでは検証をスキップします");
+            } catch (Exception e) {
+                publishProgress("Active Authenticationで不明なエラーが発生しました");
+                obj.put("ep-aa-result", false);
             }
             return obj;
         } catch (Exception e) {
