@@ -6,8 +6,8 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.KeyFactory;
@@ -18,13 +18,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.ep.*;
 import jp.co.osstech.libjeid.util.Hex;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 {
@@ -176,6 +175,10 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("検証結果: " + aaResult);
             } catch (UnsupportedOperationException e) {
                 publishProgress("libjeid-freeでは検証をスキップします");
+            } catch (FileNotFoundException e) {
+                publishProgress("Active Authenticationに非対応です");
+            } catch (IOException e) {
+                publishProgress("Active Authenticationで不明なエラーが発生しました");
             }
             return obj;
         } catch (Exception e) {
