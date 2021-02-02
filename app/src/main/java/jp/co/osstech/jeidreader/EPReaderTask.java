@@ -176,7 +176,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             } catch (UnsupportedOperationException e) {
                 publishProgress("libjeid-freeでは検証をスキップします");
             } catch (FileNotFoundException e) {
-                publishProgress("Active Authenticationに非対応です");
+                publishProgress("Active Authenticationに非対応なパスポートです");
             } catch (IOException e) {
                 publishProgress("Active Authenticationで不明なエラーが発生しました");
             }
