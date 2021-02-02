@@ -9,6 +9,7 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import android.nfc.TagLostException;
 import java.lang.ref.WeakReference;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -177,6 +178,8 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("libjeid-freeでは検証をスキップします");
             } catch (FileNotFoundException e) {
                 publishProgress("Active Authenticationに非対応なパスポートです");
+            } catch (TagLostException e) {
+                throw e;
             } catch (IOException e) {
                 publishProgress("Active Authenticationで不明なエラーが発生しました");
             }
