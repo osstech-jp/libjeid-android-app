@@ -96,7 +96,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 publishProgress("暗証番号1を設定してください");
                 return null;
             }
-            if (!pinSetting.isTrue()) {
+            if (!pinSetting.isPinSet()) {
                 publishProgress("暗証番号(PIN)設定がfalseのため、デフォルトPINの「****」を暗証番号として使用します\n");
                 pin1 = DPIN;
             }
@@ -108,7 +108,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 return null;
             }
             if (!pin2.isEmpty()) {
-                if (!pinSetting.isTrue()) {
+                if (!pinSetting.isPinSet()) {
                     pin2 = DPIN;
                 }
                 try {
