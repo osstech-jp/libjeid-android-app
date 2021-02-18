@@ -125,9 +125,9 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             }
             publishProgress("完了");
 
-            publishProgress("## パスポートから情報を取得します");
+            publishProgress("## パスポートから情報を読み取ります");
             EPFiles files = ap.readFiles();
-            publishProgress("完了");
+            publishProgress(files.toString());
 
             publishProgress("## Common Data");
             EPCommonData commonData = files.getCommonData();
