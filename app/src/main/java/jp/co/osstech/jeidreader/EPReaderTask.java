@@ -139,10 +139,6 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress(dg1.getMRZ());
 
             EPMRZ dg1Mrz = new EPMRZ(dg1.getMRZ());
-            if (!"JPN".equals(dg1Mrz.getIssuingCountry())) {
-                publishProgress("日本発行のパスポートではありません");
-                return null;
-            }
             obj.put("ep-type", dg1Mrz.getDocumentCode());
             obj.put("ep-issuing-country", dg1Mrz.getIssuingCountry());
             obj.put("ep-passport-number", dg1Mrz.getPassportNumber());
@@ -182,6 +178,11 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
                 throw e;
             } catch (IOException e) {
                 publishProgress("Active Authenticationで不明なエラーが発生しました");
+            }
+
+            if (!"JPN".equals(dg1Mrz.getIssuingCountry())) {
+                publishProgress("日本発行のパスポートではありません");
+                return null;
             }
             return obj;
         } catch (Exception e) {
