@@ -245,7 +245,7 @@ function render(json) {
         changes.sort(function(a, b) {
             if (a['ad'] > b['ad']) {
                 return 1;
-            } else if (a['date'] < b['date']) {
+            } else if (a['ad'] < b['ad']) {
                 return -1;
             } else {
                 return 0;
