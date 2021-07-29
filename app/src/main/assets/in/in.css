@@ -107,8 +107,8 @@ hr {
   height: 55px;
   margin-left: 5px;
   padding: 0px;
-  background-color: #ffffff; //for old android bug
-  white-space: nowrap; 
+  background-color: #ffffff; /* for old android bug */
+  white-space: nowrap;
   font-size: 21px;
   line-height: 26px;
 }
@@ -162,7 +162,7 @@ img#cardinfo-rabbit {
 
 .cardinfo-sex {
   display: inline-block;
-  margin: 5px: 
+  margin: 5px;
   text-align: left;
   letter-spacing: 0px;
   font-size: 19px;
