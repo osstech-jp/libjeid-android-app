@@ -108,7 +108,7 @@ hr {
   margin-left: 5px;
   padding: 0px;
   background-color: #ffffff; /* for old android bug */
-  white-space: nowrap;
+  word-break: break-all;
   font-size: 21px;
   line-height: 26px;
 }
