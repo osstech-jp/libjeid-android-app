@@ -14,13 +14,12 @@
       android:layout_height="wrap_content"
       android:text="カードをタッチしてください。"
       android:textSize="20sp" />
-
   <TextView
       android:id="@+id/text_pin"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
-      android:text="JPKI署名用パスワード(6-16桁)"
+      android:text="署名用パスワードを入力しますがデジタル署名操作は行いません。証明書の読み出しのみを行います。\n\nJPKI署名用パスワード(6-16桁)"
       android:textSize="20sp"
       android:visibility="gone" />
     <EditText
