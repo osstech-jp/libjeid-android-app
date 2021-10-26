@@ -75,7 +75,7 @@ dependencies {
     // LibJeID無償版を利用
     implementation 'jp.co.osstech:libjeid-free:20211026@aar'
     // LibJeID製品版を利用
-    //implementation 'jp.co.osstech:libjeid-full:20211025@aar'
+    //implementation 'jp.co.osstech:libjeid-full:20211026@aar'
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
