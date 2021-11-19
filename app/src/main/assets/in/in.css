@@ -292,7 +292,7 @@ img#cardinfo-photo {
   display: block;
   width: 100%;
   margin-top: 5px;
-  padding-left: 8px;
+  padding-left: 5px;
   font-size: 0px;
 }
 
@@ -300,16 +300,15 @@ img#cardinfo-photo {
   display: inline-block;
   padding: 0px;
   font-size: 11px;
-  white-space: nowrap;
+  letter-spacing: 0px;
   line-height: 15px;
 }
 
 .cardinfo-organ-donation-intention {
   display: inline-block;
   padding: 0px;
-  white-space: nowrap;
   font-size: 10px;
-  line-height: 12px;
+  letter-spacing: -0.1px;
 }
 
 .cardinfo-organ-donation-sign {
