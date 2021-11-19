@@ -28,6 +28,7 @@ public class DLViewerActivity
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setTextZoom(100);
         webView.loadUrl("file:///android_asset/dl/dl.html");
         webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
