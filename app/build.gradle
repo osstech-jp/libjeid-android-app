@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+// LibJeID製品版を利用の場合はlocal.propertiesにサブスクリプションIDを設定してください
+def local = new Properties()
+local.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -13,8 +17,6 @@ android {
     }
     signingConfigs {
         release {
-            def local = new Properties()
-            local.load(project.rootProject.file('local.properties').newDataInputStream())
             storeFile project.rootProject.file('release.keystore')
             storePassword local.getProperty("release.storePassword")
             keyAlias local.getProperty("release.keyAlias")
@@ -52,11 +54,19 @@ android {
     }
 }
 
+/*
+if (local.getProperty("libjeid.username") &&
+    local.getProperty("libjeid.password")) {
+    credentials {
+        username local.getProperty("libjeid.username")
+        password local.getProperty("libjeid.password")
+    }
+}
+*/
 repositories {
     maven {
         url 'https://www.osstech.co.jp/download/libjeid/m2/'
-        def local = new Properties()
-        local.load(project.rootProject.file('local.properties').newDataInputStream())
+
         if (local.getProperty("libjeid.username") &&
             local.getProperty("libjeid.password")) {
             credentials {
@@ -64,6 +74,7 @@ repositories {
                 password local.getProperty("libjeid.password")
             }
         }
+
         // for gradle 5.x
         content {
             includeGroup "jp.co.osstech"
@@ -71,11 +82,16 @@ repositories {
     }
 }
 
+
 dependencies {
-    // LibJeID無償版を利用
-    implementation 'jp.co.osstech:libjeid-free:20211026@aar'
-    // LibJeID製品版を利用
-    //implementation 'jp.co.osstech:libjeid-full:20211026@aar'
+
+    if (local.getProperty("libjeid.username")) {
+        // LibJeID製品版を利用
+        implementation 'jp.co.osstech:libjeid-full:20211026@aar'
+    } else {
+        // LibJeID無償版を利用
+        implementation 'jp.co.osstech:libjeid-free:20211026@aar'
+    }
 
     // ダウンロードしたaarファイルを利用
     //implementation project(path: ':libjeid', configuration: 'free')
