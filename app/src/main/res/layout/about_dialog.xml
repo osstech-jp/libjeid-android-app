@@ -26,12 +26,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="App version: "
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
     <TextView
         android:id="@+id/app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
   </LinearLayout>
   <LinearLayout
       android:layout_width="wrap_content"
@@ -41,16 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LibJeID version: "
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
     <TextView
         android:id="@+id/libjeid_version"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="18sp"/>
   </LinearLayout>
   <TextView
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:text="Powered by OSSTech"
-      android:textSize="20sp"/>
+      android:textSize="18sp"/>
 </LinearLayout>
