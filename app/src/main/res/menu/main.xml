@@ -8,6 +8,10 @@
       android:icon="@drawable/ic_nfc_off"
       android:title="NFC Status" />
   <item
+      android:id="@+id/nfc_mode"
+      app:showAsAction="ifRoom"
+      android:title="" />
+  <item
       android:id="@+id/menu_nfc_settings"
       android:title="NFC設定" />
   <item
