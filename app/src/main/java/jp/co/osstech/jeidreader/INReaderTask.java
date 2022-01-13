@@ -161,7 +161,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
 
             return obj;
         } catch (Exception e) {
-            Log.e(TAG, "error at CardInfoTask#doInBackground()", e);
+            Log.e(TAG, "error at INReaderTask#doInBackground()", e);
             publishProgress("エラー: " + e);
             return null;
         }
