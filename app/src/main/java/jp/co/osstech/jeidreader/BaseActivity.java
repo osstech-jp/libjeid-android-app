@@ -1,6 +1,5 @@
 package jp.co.osstech.jeidreader;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -110,15 +109,8 @@ public abstract class BaseActivity
             startActivity(intent);
             break;
         case R.id.menu_about:
-            StringBuilder sb = new StringBuilder();
-            sb.append("libjeid: " + jp.co.osstech.libjeid.BuildConfig.VERSION_NAME + "\n");
-            sb.append("\n");
-            sb.append("Powered by OSSTech\n");
-            new AlertDialog.Builder(this)
-                .setTitle("IDリーダー " + BuildConfig.VERSION_NAME)
-                .setMessage(sb.toString())
-                .setPositiveButton("閉じる", null)
-                .show();
+            AboutDialogFragment dialog = new AboutDialogFragment();
+            dialog.show(getSupportFragmentManager(), "about");
             break;
         }
         return true;
