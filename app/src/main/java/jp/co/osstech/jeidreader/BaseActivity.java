@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcB;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -19,11 +20,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public abstract class BaseActivity
     extends AppCompatActivity
+    implements NfcAdapter.ReaderCallback
 {
     public static final String TAG = "JeidReader";
 
@@ -47,26 +50,18 @@ public abstract class BaseActivity
         if (mNfcAdapter == null) {
             return;
         }
-        Intent intent = new Intent(this, this.getClass());
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Bundle options = new Bundle();
+        //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
+        mNfcAdapter.enableReaderMode(this,
+                                     (NfcAdapter.ReaderCallback)this,
+                                     NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
+                                     options
+                                     );
+    }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-            getApplicationContext(), 0, intent, 0);
-        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        try {
-            ndef.addDataType("*/*");
-        } catch (MalformedMimeTypeException e) {
-            throw new RuntimeException("fail", e);
-        }
-        IntentFilter[] filters = new IntentFilter[] {
-            ndef,
-        };
-        String[][] techLists = new String[][] {
-            new String[] { NfcB.class.getName() },
-            new String[] { IsoDep.class.getName() }
-        };
-        //mNfcAdapter.enableForegroundDispatch(this, pendingIntent, filters, techLists);
-        mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, techLists);
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        Toast.makeText(this, "ビューアを閉じてください", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -76,7 +71,7 @@ public abstract class BaseActivity
         if (mNfcAdapter == null) {
             return;
         }
-        mNfcAdapter.disableForegroundDispatch(this);
+        mNfcAdapter.disableReaderMode(this);
     }
 
     @Override

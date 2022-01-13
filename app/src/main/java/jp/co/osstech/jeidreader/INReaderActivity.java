@@ -23,9 +23,9 @@ public class INReaderActivity
         EditText editPin = findViewById(R.id.edit_pin);
     }
 
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
         if (isShowingDialog) {
             Log.d(TAG, getClass().getSimpleName() + "showing dialog");
             return;

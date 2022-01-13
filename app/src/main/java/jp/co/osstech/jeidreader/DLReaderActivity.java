@@ -27,10 +27,8 @@ public class DLReaderActivity
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
         if (isShowingDialog) {
             Log.d(TAG, getClass().getSimpleName() + "showing dialog");
             return;
