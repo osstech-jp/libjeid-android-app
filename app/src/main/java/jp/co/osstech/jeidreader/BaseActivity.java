@@ -52,6 +52,11 @@ public abstract class BaseActivity
         SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
         this.nfcMode = prefs.getInt("nfc_mode", 0);
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            // Android 4.4未満はForegroundDispatchを利用
+            this.nfcMode = 1;
+        }
+
         if(!this.enableNFC) {
             return;
         }
@@ -61,7 +66,7 @@ public abstract class BaseActivity
             return;
         }
 
-        if (nfcMode == 0) {
+        if (this.nfcMode == 0) {
             Log.d(TAG, "NFC mode: ReaderMode");
             Bundle options = new Bundle();
             //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
