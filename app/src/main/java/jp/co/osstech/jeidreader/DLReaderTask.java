@@ -257,7 +257,9 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 }
                 // 電子署名を取得
                 DriverLicenseSignature signature = files.getSignature();
-                publishProgress(signature.toString());
+                String signatureIssuer = signature.getIssuer();
+                publishProgress("Issuer: " + signatureIssuer);
+                obj.put("dl-signature-issuer", signatureIssuer);
                 String signatureSubject = signature.getSubject();
                 publishProgress("Subject: " + signatureSubject);
                 obj.put("dl-signature-subject", signatureSubject);
