@@ -29,6 +29,7 @@ public class SignActivity
         }
         TextView textView = (TextView)findViewById(R.id.message);
         EditText editPin = (EditText)findViewById(R.id.edit_pin);
+        this.enableNFC = true;
     }
 
     @Override
@@ -36,6 +37,16 @@ public class SignActivity
         super.onNewIntent(intent);
         Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        this.onTagDiscovered(tag);
+    }
+
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        if (!this.enableNFC) {
+            Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
+            return;
+        }
         SignTask task = new SignTask(this, tag);
         task.execute();
     }

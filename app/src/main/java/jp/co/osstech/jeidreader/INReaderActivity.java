@@ -14,20 +14,27 @@ import android.widget.TextView;
 public class INReaderActivity
     extends BaseActivity
 {
-    boolean isShowingDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_in_reader);
         super.onCreate(savedInstanceState);
         EditText editPin = findViewById(R.id.edit_pin);
+        this.enableNFC = true;
     }
 
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        if (isShowingDialog) {
-            Log.d(TAG, getClass().getSimpleName() + "showing dialog");
+        this.onTagDiscovered(tag);
+    }
+
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        if (!this.enableNFC) {
+            Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
         INReaderTask task = new INReaderTask(this, tag);
@@ -36,7 +43,7 @@ public class INReaderActivity
 
     protected void showInvalidPinDialog(String title, String msg) {
         Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        isShowingDialog = true;
+        this.enableNFC = false;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -46,7 +53,7 @@ public class INReaderActivity
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        isShowingDialog = false;
+                        enableNFC = true;
                     }
                 });
         AlertDialog dialog = builder.create();

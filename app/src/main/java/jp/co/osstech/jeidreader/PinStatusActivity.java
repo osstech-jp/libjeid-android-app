@@ -15,6 +15,7 @@ public class PinStatusActivity
               "#onCreate(" + savedInstanceState + ")");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pinstatus);
+        this.enableNFC = true;
     }
 
     @Override
@@ -22,10 +23,17 @@ public class PinStatusActivity
         super.onNewIntent(intent);
         Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-        PinStatusTask task = new PinStatusTask(this, tag);
-        task.execute();
-
+        this.onTagDiscovered(tag);
     }
 
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        if (!enableNFC) {
+            Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
+            return;
+        }
+        PinStatusTask task = new PinStatusTask(this, tag);
+        task.execute();
+    }
 }

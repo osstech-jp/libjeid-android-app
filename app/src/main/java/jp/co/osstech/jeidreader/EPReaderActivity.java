@@ -22,13 +22,12 @@ public class EPReaderActivity
     EditText passportNumber;
     EditText birthDate;
     EditText expireDate;
-    boolean isShowingDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_ep_reader);
         super.onCreate(savedInstanceState);
-
+        this.enableNFC = true;
         passportNumber = (EditText)findViewById(R.id.edit_ep_passport_number);
         birthDate = (EditText)findViewById(R.id.edit_ep_birth_date);
         expireDate = (EditText)findViewById(R.id.edit_ep_expire_date);
@@ -73,8 +72,14 @@ public class EPReaderActivity
         super.onNewIntent(intent);
         Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        if (isShowingDialog) {
-            Log.d(TAG, getClass().getSimpleName() + "showing dialog");
+        this.onTagDiscovered(tag);
+    }
+
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        if (!this.enableNFC) {
+            Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
         EPReaderTask task = new EPReaderTask(this, tag);
@@ -83,8 +88,8 @@ public class EPReaderActivity
 
     protected void showInvalidPinDialog(String title, String msg) {
         Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        isShowingDialog = true;
-
+        this.enableNFC = false;
+        
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -93,7 +98,7 @@ public class EPReaderActivity
             new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    isShowingDialog = false;
+                    enableNFC = true;
                 }
             });
         AlertDialog dialog = builder.create();

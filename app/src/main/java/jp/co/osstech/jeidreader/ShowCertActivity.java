@@ -12,12 +12,10 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-
 public class ShowCertActivity
     extends BaseActivity
 {
     private String mType;
-    boolean isShowingDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class ShowCertActivity
 
         TextView textView = (TextView)findViewById(R.id.message);
         TextView info = (TextView)findViewById(R.id.info);
-
+        this.enableNFC = true;
         Intent intent = getIntent();
         mType = intent.getStringExtra("TYPE");
         switch (mType) {
@@ -57,8 +55,14 @@ public class ShowCertActivity
         super.onNewIntent(intent);
         Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        if (isShowingDialog) {
-            Log.d(TAG, getClass().getSimpleName() + "showing dialog");
+        this.onTagDiscovered(tag);
+    }
+
+    @Override
+    public void onTagDiscovered(final Tag tag) {
+        Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+        if (!this.enableNFC) {
+            Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
         ShowCertTask task = new ShowCertTask(this, tag, mType);
@@ -67,7 +71,7 @@ public class ShowCertActivity
 
     protected void showInvalidPinDialog(String title, String msg) {
         Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        isShowingDialog = true;
+        this.enableNFC = false;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -77,7 +81,7 @@ public class ShowCertActivity
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        isShowingDialog = false;
+                        enableNFC = true;
                     }
                 });
         AlertDialog dialog = builder.create();
