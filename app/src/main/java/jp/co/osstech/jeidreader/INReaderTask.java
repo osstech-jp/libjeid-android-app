@@ -63,6 +63,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             return null;
         }
         try {
+            long startTime = System.currentTimeMillis();
             JeidReader reader = new JeidReader(mNfcTag);
             CardType type = reader.detectCardType();
             publishProgress("## カード種別" + type);
@@ -79,8 +80,11 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
                 ipe = e;
                 return null;
             }
+            long startReadTime = System.currentTimeMillis();
             INTextFiles textFiles = textAp.readFiles();
-            publishProgress("完了");
+            long endReadTime = System.currentTimeMillis();
+            long readTime = endReadTime - startReadTime;
+            publishProgress("完了: " + readTime + "ms");
             JSONObject obj = new JSONObject();
             try {
                 INTextMyNumber textMyNumber = textFiles.getMyNumber();
@@ -108,8 +112,12 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             publishProgress("## 券面APから情報を取得します");
             INVisualAP visualAp = reader.selectINVisualAP();
             visualAp.verifyPin(mPin);
+
+            startReadTime = System.currentTimeMillis();
             INVisualFiles visualFiles = visualAp.readFiles();
-            publishProgress("完了");
+            endReadTime = System.currentTimeMillis();
+            readTime = endReadTime - startReadTime;
+            publishProgress("完了: " + readTime + "ms");
 
             INVisualEntries visualEntries = visualFiles.getEntries();
             String expire = visualEntries.getExpire();
