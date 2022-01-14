@@ -14,7 +14,7 @@
           android:id="@+id/info"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:text="在留カード等の番号を入力し、在留カードまたは特別永住者証明書を読み取ります。"
+          android:text="在留カード等の番号を入力し、カードを読み取り位置にタッチしてください。特別永住者証明書も読み取れます。"
           android:textSize="20sp" />
       <TextView
           android:id="@+id/text_rc_number"

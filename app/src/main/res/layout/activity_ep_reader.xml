@@ -14,7 +14,7 @@
           android:id="@+id/info"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:text="旅券番号、生年月日、有効期限を入力し、パスポートを読み取ります。"
+          android:text="旅券番号、生年月日、有効期限を入力し、パスポートを読み取り位置にタッチしてください。"
           android:textSize="20sp" />
       <LinearLayout
           android:layout_width="fill_parent"
