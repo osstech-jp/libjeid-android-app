@@ -40,9 +40,6 @@ public abstract class BaseActivity
         Log.d(TAG, getClass().getSimpleName() +
               "#onCreate(" + savedInstanceState + ")");
         super.onCreate(savedInstanceState);
-
-        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        nfcMode = prefs.getInt("nfc_mode", 0);
     }
 
     @Override
@@ -51,6 +48,9 @@ public abstract class BaseActivity
         super.onResume();
 
         invalidateOptionsMenu();
+
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        this.nfcMode = prefs.getInt("nfc_mode", 0);
 
         if(!this.enableNFC) {
             return;
