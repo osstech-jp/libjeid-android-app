@@ -28,9 +28,12 @@ public abstract class BaseActivity
     implements NfcAdapter.ReaderCallback
 {
     public static final String TAG = "JeidReader";
-
     protected NfcAdapter mNfcAdapter;
     protected int nfcMode = 0;
+    // ビューアーやメニュー画面ではNFC読み取りを無効化する
+    // また、PIN間違いが発生してダイヤログを表示している間に
+    // 連続読み取りが発生することを防ぐ
+    protected boolean enableNFC = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +52,17 @@ public abstract class BaseActivity
 
         invalidateOptionsMenu();
 
+        if(!this.enableNFC) {
+            return;
+        }
+
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter == null) {
             return;
         }
 
         if (nfcMode == 0) {
+            Log.d(TAG, "NFC mode: ReaderMode");
             Bundle options = new Bundle();
             //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
             mNfcAdapter.enableReaderMode(this,
@@ -62,7 +70,7 @@ public abstract class BaseActivity
                                          NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
                                          options);
         } else {
-            Log.d(TAG, "NFC mode: ReaderMode");
+            Log.d(TAG, "NFC mode: ForegroundDispatch");
             Intent intent = new Intent(this, this.getClass());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
@@ -70,7 +78,6 @@ public abstract class BaseActivity
                 new String[] { NfcB.class.getName() },
                 new String[] { IsoDep.class.getName() }
             };
-            Log.d(TAG, "NFC mode: ForegroundDispatch");
             mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, techLists);
         }
     }
@@ -101,7 +108,9 @@ public abstract class BaseActivity
         getMenuInflater().inflate(R.menu.main, menu);
         // NFCステータスアイコンを切り替え
         if (mNfcAdapter == null) {
-            menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_nfc_no));
+            if (this.enableNFC) {
+                menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_nfc_no));
+            }
         } else {
             if (mNfcAdapter.isEnabled()) {
                 menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_nfc_on));
