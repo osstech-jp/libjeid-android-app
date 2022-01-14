@@ -55,9 +55,16 @@ public abstract class BaseActivity
         }
 
         if (nfcMode == 0) {
+            Bundle options = new Bundle();
+            //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
+            mNfcAdapter.enableReaderMode(this,
+                                         (NfcAdapter.ReaderCallback)this,
+                                         NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
+                                         options);
+        } else {
+            Log.d(TAG, "NFC mode: ReaderMode");
             Intent intent = new Intent(this, this.getClass());
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
             String[][] techLists = new String[][] {
                 new String[] { NfcB.class.getName() },
@@ -65,14 +72,6 @@ public abstract class BaseActivity
             };
             Log.d(TAG, "NFC mode: ForegroundDispatch");
             mNfcAdapter.enableForegroundDispatch(this, pendingIntent, null, techLists);
-        } else {
-            Bundle options = new Bundle();
-            //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
-            mNfcAdapter.enableReaderMode(this,
-                                         (NfcAdapter.ReaderCallback)this,
-                                         NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
-                                         options);
-            Log.d(TAG, "NFC mode: ReaderMode");
         }
     }
 
@@ -83,8 +82,11 @@ public abstract class BaseActivity
         if (mNfcAdapter == null) {
             return;
         }
-        mNfcAdapter.disableForegroundDispatch(this);
-        mNfcAdapter.disableReaderMode(this);
+        if (nfcMode == 0) {
+            mNfcAdapter.disableReaderMode(this);
+        } else {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     // ビューアーやメニューのActivityでこれが呼ばれます
@@ -109,9 +111,9 @@ public abstract class BaseActivity
         }
         // NFC modeを表示
         if (nfcMode == 0) {
-            menu.getItem(1).setTitle("F");
-        } else {
             menu.getItem(1).setTitle("R");
+        } else {
+            menu.getItem(1).setTitle("F");
         }
         return true;
     }
