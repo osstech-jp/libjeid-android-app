@@ -3,30 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppLayout">
-  <TextView
-      android:id="@+id/info"
+  <ScrollView
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:text="個人番号カードの券面事項を表示します。4桁の暗証番号を入力してカードをタッチしてください。"
-      android:textSize="20sp"/>
-  <TextView
-      android:id="@+id/text_pin"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
-      android:text="暗証番号(4桁)"
-      android:textSize="20sp" />
-  <EditText
-      android:id="@+id/edit_pin"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:textSize="28sp"
-      android:inputType="numberPassword"
-      android:maxLength="4"
-      android:layout_marginBottom="16dp"
-      android:hint="@null"
-      tools:ignore="Autofill"/>
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+      <TextView
+          android:id="@+id/info"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:text="個人番号カードの券面事項を表示します。4桁の暗証番号を入力してカードをタッチしてください。"
+          android:textSize="20sp"/>
+      <TextView
+          android:id="@+id/text_pin"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:text="暗証番号(4桁)"
+          android:textSize="20sp" />
+      <EditText
+          android:id="@+id/edit_pin"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:textSize="28sp"
+          android:inputType="numberPassword"
+          android:maxLength="4"
+          android:layout_marginBottom="16dp"
+          android:hint="@null"
+          tools:ignore="Autofill"/>
+    </LinearLayout>
+  </ScrollView>
   <ScrollView
       android:id="@+id/scroll"
       android:layout_width="fill_parent"
