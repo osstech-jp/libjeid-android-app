@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat;
 
 public abstract class BaseActivity
     extends AppCompatActivity
-    implements NfcAdapter.ReaderCallback
+    implements TagDiscoveredListener
 {
     public static final String TAG = "JeidReader";
     protected NfcAdapter mNfcAdapter;
@@ -71,7 +71,13 @@ public abstract class BaseActivity
             Bundle options = new Bundle();
             //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
             mNfcAdapter.enableReaderMode(this,
-                                         (NfcAdapter.ReaderCallback)this,
+                                         new NfcAdapter.ReaderCallback() {
+                                             @Override
+                                             public void onTagDiscovered(Tag tag) {
+                                                 Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered() inner");
+                                                 BaseActivity.this.onTagDiscovered(tag);
+                                             }
+                                         },
                                          NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
                                          options);
         } else {
