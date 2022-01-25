@@ -5,6 +5,8 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PinStatusActivity
     extends BaseActivity
@@ -33,7 +35,7 @@ public class PinStatusActivity
             Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
-        PinStatusTask task = new PinStatusTask(this, tag);
-        task.execute();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(new PinStatusTask(this, tag));
     }
 }

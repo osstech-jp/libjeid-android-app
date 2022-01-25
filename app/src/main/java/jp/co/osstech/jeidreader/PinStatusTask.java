@@ -1,11 +1,7 @@
 package jp.co.osstech.jeidreader;
 
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Log;
-
-import java.lang.ref.WeakReference;
-
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.DriverLicenseAP;
 import jp.co.osstech.libjeid.INTextAP;
@@ -15,33 +11,29 @@ import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.ResidenceCardAP;
 import jp.co.osstech.libjeid.rc.RCCardType;
 
-public class PinStatusTask extends AsyncTask<Void, String, Exception>
+public class PinStatusTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
-    private ProgressDialogFragment mProgress;
+    private PinStatusActivity activity;
+    private Tag nfcTag;
 
-    public PinStatusTask(PinStatusActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<PinStatusActivity>(activity);
-        mNfcTag = nfcTag;
+    public PinStatusTask(PinStatusActivity activity,
+                         Tag nfcTag) {
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        PinStatusActivity activity = (PinStatusActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.setMessage("");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
     }
 
-    @Override
-    protected Exception doInBackground(Void... args) {
+    public void run() {
+        this.activity.clear();
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
         try {
-            JeidReader reader = new JeidReader(mNfcTag);
+            JeidReader reader = new JeidReader(nfcTag);
             int counter;
 
             CardType type = reader.detectCardType();
@@ -67,7 +59,7 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
                 publishProgress("JPKI-AP ユーザー認証PIN: " + counter);
                 counter = jpkiAP.getSignPin();
                 publishProgress("JPKI-AP デジタル署名PIN: " + counter);
-                return null;
+                break;
             case DL:
                 publishProgress("カード種別: 運転免許証");
                 DriverLicenseAP dlAP = reader.selectDriverLicenseAP();
@@ -97,31 +89,11 @@ public class PinStatusTask extends AsyncTask<Void, String, Exception>
                 publishProgress("カード種別: 不明");
                 break;
             }
+            publishProgress("読み取り完了");
         } catch (Exception e) {
             Log.e(TAG, "error at " + getClass().getSimpleName(), e);
-            return e;
+            publishProgress(e.toString());
         }
-        return null;
-    }
-
-    protected void onProgressUpdate(String... values) {
-        PinStatusActivity activity = (PinStatusActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(Exception e) {
-        mProgress.dismissAllowingStateLoss();
-        PinStatusActivity activity = (PinStatusActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (e != null) {
-            activity.addMessage("エラー: " + e);
-        }
+        progress.dismissAllowingStateLoss();
     }
 }
