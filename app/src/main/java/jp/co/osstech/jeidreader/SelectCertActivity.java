@@ -28,28 +28,23 @@ public class SelectCertActivity
     @Override
     public void onClick(View view) {
         Intent intent;
-
-        switch (view.getId()) {
-        case R.id.show_auth_cert_button:
+        int id = view.getId();
+        if(id == R.id.show_auth_cert_button) {
             intent = new Intent(getApplication(), ShowCertActivity.class);
             intent.putExtra("TYPE", "AUTH");
             startActivity(intent);
-            break;
-        case R.id.show_sign_cert_button:
+        } else if (id == R.id.show_sign_cert_button) {
             intent = new Intent(getApplication(), ShowCertActivity.class);
             intent.putExtra("TYPE", "SIGN");
             startActivity(intent);
-            break;
-        case R.id.show_auth_ca_cert_button:
+        } else if (id == R.id.show_auth_ca_cert_button) {
             intent = new Intent(getApplication(), ShowCertActivity.class);
             intent.putExtra("TYPE", "AUTH_CA");
             startActivity(intent);
-            break;
-        case R.id.show_sign_ca_cert_button:
+        } else if (id == R.id.show_sign_ca_cert_button) {
             intent = new Intent(getApplication(), ShowCertActivity.class);
             intent.putExtra("TYPE", "SIGN_CA");
             startActivity(intent);
-            break;
         }
     }
 }

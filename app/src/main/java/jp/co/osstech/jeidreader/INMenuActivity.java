@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import jp.co.osstech.libjeid.JPKIAP;
 
 public class INMenuActivity
@@ -33,30 +32,25 @@ public class INMenuActivity
     @Override
     public void onClick(View view) {
         Intent intent;
-        switch (view.getId()) {
-        case R.id.cardinfo_button:
+        int id = view.getId();
+        if (id == R.id.cardinfo_button) {
             intent = new Intent(getApplication(), INReaderActivity.class);
             startActivity(intent);
-            break;
-        case R.id.selectcert_button:
+        } else if (id == R.id.selectcert_button) {
             intent = new Intent(getApplication(), SelectCertActivity.class);
             startActivity(intent);
-            break;
-        case R.id.sign_jpki_auth_button:
+        } else if (id == R.id.sign_jpki_auth_button) {
             intent = new Intent(getApplication(), SignActivity.class);
             intent.putExtra("TYPE", JPKIAP.TYPE_AUTH);
             startActivity(intent);
-            break;
-        case R.id.sign_jpki_sign_button:
+        } else if (id == R.id.sign_jpki_sign_button) {
             intent = new Intent(getApplication(), SignActivity.class);
             intent.putExtra("TYPE", JPKIAP.TYPE_SIGN);
             startActivity(intent);
-            break;
-        case R.id.in_test_button:
+        } else if (id == R.id.in_test_button) {
             intent = new Intent(getApplication(), INTestActivity.class);
             startActivity(intent);
-            break;
-        case R.id.in_dev_button:
+        } else if (id == R.id.in_dev_button) {
             if (!devBtnEnabled) {
                 long clickTime = System.currentTimeMillis();
                 if (clickTime - lastClick < REPEATED_TAP_MAX_INTERVAL) {
@@ -86,7 +80,6 @@ public class INMenuActivity
                     testBtn.setVisibility(View.GONE);
                 }
             }
-            break;
         }
     }
 }

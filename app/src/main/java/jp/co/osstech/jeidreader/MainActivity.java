@@ -22,27 +22,22 @@ public class MainActivity
     @Override
     public void onClick(View view) {
         Intent intent;
-        switch (view.getId()) {
-        case R.id.dl_reader_button:
+        int id = view.getId();
+        if (id == R.id.dl_reader_button) {
             intent = new Intent(getApplication(), DLReaderActivity.class);
             startActivity(intent);
-            break;
-        case R.id.in_menu_button:
+        } else if (id == R.id.in_menu_button) {
             intent = new Intent(getApplication(), INMenuActivity.class);
             startActivity(intent);
-            break;
-        case R.id.ep_reader_button:
+        } else if (id == R.id.ep_reader_button) {
             intent = new Intent(getApplication(), EPReaderActivity.class);
             startActivity(intent);
-            break;
-        case R.id.rc_reader_button:
+        } else if (id == R.id.rc_reader_button) {
             intent = new Intent(getApplication(), RCReaderActivity.class);
             startActivity(intent);
-            break;
-        case R.id.pinstatus_button:
+        } else if (id == R.id.pinstatus_button) {
             intent = new Intent(getApplication(), PinStatusActivity.class);
             startActivity(intent);
-            break;
         }
     }
 
