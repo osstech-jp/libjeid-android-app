@@ -3,10 +3,10 @@ package jp.co.osstech.jeidreader;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 public class NFCModeDialogFragment
@@ -42,7 +42,7 @@ public class NFCModeDialogFragment
         public void onClick(DialogInterface dialog, int which) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("nfc_mode", selectedMode);
-            editor.commit();
+            editor.apply();
             // 設定を反映するためActivityを再起動
             Intent intent = getActivity().getIntent();
             getActivity().finish();
