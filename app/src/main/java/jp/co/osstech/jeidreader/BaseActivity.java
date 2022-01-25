@@ -143,8 +143,8 @@ public abstract class BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()) {
-        case R.id.menu_nfc_settings:
+        int id = item.getItemId();
+        if (id == R.id.menu_nfc_settings) {
             // NFC設定画面を開きます
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 intent = new Intent(Settings.ACTION_NFC_SETTINGS);
@@ -153,15 +153,12 @@ public abstract class BaseActivity
                 intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
             }
             startActivity(intent);
-            break;
-        case R.id.menu_nfc_mode:
+        } else if (id == R.id.menu_nfc_mode) {
             new NFCModeDialogFragment()
                 .show(getSupportFragmentManager(), "nfc_mode");
-            break;
-        case R.id.menu_about:
+        } else if (id == R.id.menu_about) {
             AboutDialogFragment dialog = new AboutDialogFragment();
             dialog.show(getSupportFragmentManager(), "about");
-            break;
         }
         return true;
     }
