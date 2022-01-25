@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import android.os.Handler;
+import android.os.Looper;
 
 public abstract class BaseActivity
     extends AppCompatActivity
@@ -193,4 +195,27 @@ public abstract class BaseActivity
             });
     }
 
+    protected void clear() {
+        TextView view = (TextView)findViewById(R.id.message);
+        view.post(new Runnable() {
+                @Override
+                public void run() {
+                    view.setText("");
+                }
+            });
+    }
+
+    protected void print(String msg) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        TextView text = (TextView)findViewById(R.id.message);
+        ScrollView scroll = (ScrollView)findViewById(R.id.scroll);
+        handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    text.setText(text.getText().toString() + msg + "\n");
+                    // 一番下にスクロール
+                    scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
+    }
 }
