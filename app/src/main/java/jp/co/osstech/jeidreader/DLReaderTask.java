@@ -6,8 +6,8 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.cert.CertificateException;
@@ -16,13 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.io.FileNotFoundException;
-
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.dl.*;
-import jp.co.osstech.libjeid.util.Hex;
 import jp.co.osstech.libjeid.util.BitmapARGB;
-
+import jp.co.osstech.libjeid.util.Hex;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -95,21 +92,7 @@ public class DLReaderTask
             try {
                 ap.verifyPin1(pin1);
             } catch (InvalidPinException e) {
-                ipe1 = e;
-                int counter = ipe1.getCounter();
-                String title;
-                String msg;
-                if (ipe1.isBlocked()) {
-                    title = "暗証番号1がブロックされています";
-                    msg = "警察署でブロック解除の申請をしてください。";
-                } else {
-                    title = "暗証番号1が間違っています";
-                    msg = "暗証番号1を正しく入力してください。";
-                    msg += "のこり" + counter + "回間違えるとブロックされます。";
-                }
-                publishProgress(title);
-                publishProgress(msg);
-                activity.showDialog(title, msg);
+                activity.showInvalidPinDialog("暗証番号1", e);
                 return;
             }
 
@@ -120,21 +103,7 @@ public class DLReaderTask
                 try {
                     ap.verifyPin2(pin2);
                 } catch (InvalidPinException e) {
-                    ipe2 = e;
-                    int counter = ipe2.getCounter();
-                    String title;
-                    String msg;
-                    if (ipe2.isBlocked()) {
-                        title = "暗証番号2がブロックされています";
-                        msg = "警察署でブロック解除の申請をしてください。";
-                    } else {
-                        title = "暗証番号2が間違っています";
-                        msg = "暗証番号2を正しく入力してください。";
-                        msg += "のこり" + counter + "回間違えるとブロックされます。";
-                    }
-                    publishProgress(title);
-                    publishProgress(msg);
-                    activity.showDialog(title, msg);
+                    activity.showInvalidPinDialog("暗証番号2", e);
                     return;
                 }
             }

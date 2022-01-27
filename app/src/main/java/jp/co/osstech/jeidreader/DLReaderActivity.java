@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import jp.co.osstech.libjeid.InvalidPinException;
 
 public class DLReaderActivity
     extends BaseActivity
@@ -51,4 +52,21 @@ public class DLReaderActivity
         return editPin2.getText().toString();
     }
 
+    protected void showInvalidPinDialog(String name,
+                                        InvalidPinException e) {
+        int counter = e.getCounter();
+        String title;
+        String msg;
+        if (e.isBlocked()) {
+            title = name + "がブロックされています";
+            msg = "警察署でブロック解除の申請をしてください。";
+        } else {
+            title = name + "が間違っています";
+            msg = name + "を正しく入力してください。";
+            msg += "のこり" + counter + "回間違えるとブロックされます。";
+        }
+        this.print(title);
+        this.print(msg);
+        this.showDialog(title, msg);
+    }
 }
