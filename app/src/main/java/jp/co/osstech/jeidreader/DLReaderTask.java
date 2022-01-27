@@ -26,57 +26,48 @@ import jp.co.osstech.libjeid.util.BitmapARGB;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
+public class DLReaderTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
     private static final String DPIN = "****";
-    private WeakReference mRef;
-    private Tag mNfcTag;
+    private Tag nfcTag;
     private String pin1;
     private String pin2;
     private InvalidPinException ipe1;
     private InvalidPinException ipe2;
-    private ProgressDialogFragment mProgress;
+    private ProgressDialogFragment progress;
+    private DLReaderActivity activity;
+    public JSONObject result;
 
-    public DLReaderTask(DLReaderActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<DLReaderActivity>(activity);
-        mNfcTag = nfcTag;
+    public DLReaderTask(DLReaderActivity activity,
+                        Tag nfcTag) {
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        DLReaderActivity activity = (DLReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
+    }
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        this.activity.clear();
         pin1 = activity.getPin1();
         pin2 = activity.getPin2();
         activity.hideKeyboard();
         activity.setMessage("# 読み取り開始、カードを離さないでください");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
-    }
+        // 読み取り中ダイアログを表示
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
 
-    @Override
-    protected JSONObject doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
-
-        JeidReader reader;
         try {
-            reader = new JeidReader(mNfcTag);
-        } catch (IOException e) {
-            Log.e(TAG, "error", e);
-            publishProgress("エラー: " + e);
-            return null;
-        }
-
-        publishProgress("## 運転免許証の読み取り開始");
-        try {
+            JeidReader reader = new JeidReader(this.nfcTag);
+            publishProgress("## 運転免許証の読み取り開始");
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
             if (type != CardType.DL) {
                 publishProgress("運転免許証ではありません");
-                return null;
+                return;
             }
             DriverLicenseAP ap = reader.selectDriverLicenseAP();
 
@@ -94,7 +85,7 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
 
             if (pin1.isEmpty()) {
                 publishProgress("暗証番号1を設定してください");
-                return null;
+                return;
             }
             if (!pinSetting.isPinSet()) {
                 publishProgress("暗証番号(PIN)設定がfalseのため、デフォルトPINの「****」を暗証番号として使用します\n");
@@ -105,8 +96,23 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                 ap.verifyPin1(pin1);
             } catch (InvalidPinException e) {
                 ipe1 = e;
-                return null;
+                int counter = ipe1.getCounter();
+                String title;
+                String msg;
+                if (ipe1.isBlocked()) {
+                    title = "暗証番号1がブロックされています";
+                    msg = "警察署でブロック解除の申請をしてください。";
+                } else {
+                    title = "暗証番号1が間違っています";
+                    msg = "暗証番号1を正しく入力してください。";
+                    msg += "のこり" + counter + "回間違えるとブロックされます。";
+                }
+                publishProgress(title);
+                publishProgress(msg);
+                activity.showDialog(title, msg);
+                return;
             }
+
             if (!pin2.isEmpty()) {
                 if (!pinSetting.isPinSet()) {
                     pin2 = DPIN;
@@ -115,7 +121,21 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
                     ap.verifyPin2(pin2);
                 } catch (InvalidPinException e) {
                     ipe2 = e;
-                    return null;
+                    int counter = ipe2.getCounter();
+                    String title;
+                    String msg;
+                    if (ipe2.isBlocked()) {
+                        title = "暗証番号2がブロックされています";
+                        msg = "警察署でブロック解除の申請をしてください。";
+                    } else {
+                        title = "暗証番号2が間違っています";
+                        msg = "暗証番号2を正しく入力してください。";
+                        msg += "のこり" + counter + "回間違えるとブロックされます。";
+                    }
+                    publishProgress(title);
+                    publishProgress(msg);
+                    activity.showDialog(title, msg);
+                    return;
                 }
             }
             // PINを入力した後、DriverLicenseAP#readFiles()を実行すると、
@@ -282,73 +302,17 @@ public class DLReaderTask extends AsyncTask<Void, String, JSONObject>
             // 記載事項変更等(本籍除く）と記載事項変更（本籍）合わせた
             // オブジェクトをJSONに追加
             obj.put("dl-changes", changesObj);
-            return obj;
+            this.result = obj;
+            // ビューアーAvtivityを起動
+            Intent intent = new Intent(activity, DLViewerActivity.class);
+            intent.putExtra("json", obj.toString());
+            activity.startActivity(intent);
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return null;
+            this.result = null;
+        } finally {
+            progress.dismissAllowingStateLoss();
         }
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        Log.d(TAG, getClass().getSimpleName() + "#onProgressUpdate()");
-        DLReaderActivity activity = (DLReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(JSONObject obj) {
-        Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-        mProgress.dismissAllowingStateLoss();
-        DLReaderActivity activity = (DLReaderActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (ipe1 != null) {
-            int counter = ipe1.getCounter();
-            String title;
-            String msg;
-            if (ipe1.isBlocked()) {
-                title = "暗証番号1がブロックされています";
-                msg = "警察署でブロック解除の申請をしてください。";
-            } else {
-                title = "暗証番号1が間違っています";
-                msg = "暗証番号1を正しく入力してください。";
-                msg += "のこり" + counter + "回間違えるとブロックされます。";
-            }
-            activity.addMessage(title);
-            activity.addMessage(msg);
-            activity.showInvalidPinDialog(title, msg);
-            return;
-        }
-        if (ipe2 != null) {
-            int counter = ipe2.getCounter();
-            String title;
-            String msg;
-            if (ipe2.isBlocked()) {
-                title = "暗証番号2がブロックされています";
-                msg = "警察署でブロック解除の申請をしてください。";
-            } else {
-                title = "暗証番号2が間違っています";
-                msg = "暗証番号2を正しく入力してください。";
-                msg += "のこり" + counter + "回間違えるとブロックされます。";
-            }
-            activity.addMessage(title);
-            activity.addMessage(msg);
-            activity.showInvalidPinDialog(title, msg);
-            return;
-        }
-        if (obj == null) {
-            return;
-        }
-
-        Intent intent = new Intent(activity, DLViewerActivity.class);
-        intent.putExtra("json", obj.toString());
-        activity.startActivity(intent);
     }
 }
