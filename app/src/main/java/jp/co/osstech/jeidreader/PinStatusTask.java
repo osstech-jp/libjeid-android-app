@@ -29,11 +29,12 @@ public class PinStatusTask
     }
 
     public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
         this.activity.clear();
         ProgressDialogFragment progress = new ProgressDialogFragment();
         progress.show(activity.getSupportFragmentManager(), "progress");
         try {
-            JeidReader reader = new JeidReader(nfcTag);
+            JeidReader reader = new JeidReader(this.nfcTag);
             int counter;
 
             CardType type = reader.detectCardType();
