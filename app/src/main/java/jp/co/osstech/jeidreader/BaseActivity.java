@@ -1,9 +1,10 @@
 package jp.co.osstech.jeidreader;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter.MalformedMimeTypeException;
 import android.content.SharedPreferences;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -11,6 +12,8 @@ import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcB;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -22,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import android.os.Handler;
-import android.os.Looper;
 
 public abstract class BaseActivity
     extends AppCompatActivity
@@ -212,6 +213,31 @@ public abstract class BaseActivity
                     text.setText(text.getText().toString() + msg + "\n");
                     // 一番下にスクロール
                     scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
+    }
+
+    protected void showDialog(String title, String msg) {
+        Log.d(TAG, getClass().getSimpleName() + "#showDialog()");
+        this.enableNFC = false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setNeutralButton(
+            "戻る",
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    enableNFC = true;
+                }
+            });
+
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
     }
