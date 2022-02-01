@@ -40,8 +40,9 @@ public class DLReaderActivity
             Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
+        DLReaderTask task = new DLReaderTask(this, tag);
         ExecutorService exec = Executors.newSingleThreadExecutor();
-        exec.submit(new DLReaderTask(this, tag));
+        exec.submit(task);
     }
 
     protected String getPin1() {

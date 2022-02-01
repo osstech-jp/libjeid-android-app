@@ -30,8 +30,6 @@ public class DLReaderTask
     private Tag nfcTag;
     private String pin1;
     private String pin2;
-    private InvalidPinException ipe1;
-    private InvalidPinException ipe2;
     private DLReaderActivity activity;
 
     public DLReaderTask(DLReaderActivity activity,
