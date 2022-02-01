@@ -54,13 +54,13 @@ public class DLReaderActivity
 
     protected void showInvalidPinDialog(String name,
                                         InvalidPinException e) {
-        int counter = e.getCounter();
         String title;
         String msg;
         if (e.isBlocked()) {
             title = name + "がブロックされています";
             msg = "警察署でブロック解除の申請をしてください。";
         } else {
+            int counter = e.getCounter();
             title = name + "が間違っています";
             msg = name + "を正しく入力してください。";
             msg += "のこり" + counter + "回間違えるとブロックされます。";

@@ -3,7 +3,6 @@ package jp.co.osstech.jeidreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import java.io.ByteArrayOutputStream;
@@ -33,9 +32,7 @@ public class DLReaderTask
     private String pin2;
     private InvalidPinException ipe1;
     private InvalidPinException ipe2;
-    private ProgressDialogFragment progress;
     private DLReaderActivity activity;
-    public JSONObject result;
 
     public DLReaderTask(DLReaderActivity activity,
                         Tag nfcTag) {
@@ -46,13 +43,14 @@ public class DLReaderTask
     private void publishProgress(String msg) {
         this.activity.print(msg);
     }
+
     public void run() {
         Log.d(TAG, getClass().getSimpleName() + "#run()");
         this.activity.clear();
         pin1 = activity.getPin1();
         pin2 = activity.getPin2();
         activity.hideKeyboard();
-        activity.setMessage("# 読み取り開始、カードを離さないでください");
+        publishProgress("# 読み取り開始、カードを離さないでください");
         // 読み取り中ダイアログを表示
         ProgressDialogFragment progress = new ProgressDialogFragment();
         progress.show(activity.getSupportFragmentManager(), "progress");
@@ -271,7 +269,7 @@ public class DLReaderTask
             // 記載事項変更等(本籍除く）と記載事項変更（本籍）合わせた
             // オブジェクトをJSONに追加
             obj.put("dl-changes", changesObj);
-            this.result = obj;
+
             // ビューアーAvtivityを起動
             Intent intent = new Intent(activity, DLViewerActivity.class);
             intent.putExtra("json", obj.toString());
@@ -279,7 +277,6 @@ public class DLReaderTask
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            this.result = null;
         } finally {
             progress.dismissAllowingStateLoss();
         }

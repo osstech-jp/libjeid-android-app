@@ -77,7 +77,6 @@ public abstract class BaseActivity
                                          new NfcAdapter.ReaderCallback() {
                                              @Override
                                              public void onTagDiscovered(Tag tag) {
-                                                 Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered() inner");
                                                  BaseActivity.this.onTagDiscovered(tag);
                                              }
                                          },
