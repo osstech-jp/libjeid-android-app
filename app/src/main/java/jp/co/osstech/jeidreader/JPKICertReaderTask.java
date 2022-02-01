@@ -34,7 +34,6 @@ public class JPKICertReaderTask
     private JPKICertReaderActivity activity;
     private Tag nfcTag;
     private String type;
-    private InvalidPinException ipe;
 
     public JPKICertReaderTask(JPKICertReaderActivity activity, Tag nfcTag, String type) {
         this.activity = activity;
