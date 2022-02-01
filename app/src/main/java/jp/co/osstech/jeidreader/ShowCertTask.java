@@ -2,74 +2,66 @@ package jp.co.osstech.jeidreader;
 
 import android.content.Intent;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Log;
-
-import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.concurrent.Callable;
 import jp.co.osstech.libjeid.InvalidPinException;
 import jp.co.osstech.libjeid.JPKIAP;
 import jp.co.osstech.libjeid.JPKICertificate;
 import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.util.Hex;
-
 import org.bouncycastle.asn1.pkcs.RSAPublicKey;
 import org.bouncycastle.asn1.util.ASN1Dump;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
 import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
+import org.bouncycastle.asn1.x509.CRLDistPoint;
 import org.bouncycastle.asn1.x509.Certificate;
 import org.bouncycastle.asn1.x509.CertificatePolicies;
-import org.bouncycastle.asn1.x509.CRLDistPoint;
 import org.bouncycastle.asn1.x509.GeneralNames;
 import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.json.JSONObject;
 
-public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
+public class ShowCertTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
-    private ProgressDialogFragment mProgress;
-    private String mType;
+    private ShowCertActivity activity;
+    private Tag nfcTag;
+    private String type;
     private InvalidPinException ipe;
 
     public ShowCertTask(ShowCertActivity activity, Tag nfcTag, String type) {
-        mRef = new WeakReference<ShowCertActivity>(activity);
-        mNfcTag = nfcTag;
-        mType = type;
+        this.activity = activity;
+        this.nfcTag = nfcTag;
+        this.type = type;
+    }
+
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
     }
 
     @Override
-    protected void onPreExecute() {
-        ShowCertActivity activity = (ShowCertActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        activity.setMessage("# 読み取り開始、カードを離さないでください");
-        activity.hideKeyboard();
-        activity.setMessage("");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
-    }
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        this.activity.clear();
+        this.activity.hideKeyboard();
+        publishProgress("# 読み取り開始、カードを離さないでください");
 
-    @Override
-    protected JSONObject doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
-        ShowCertActivity activity = (ShowCertActivity)mRef.get();
+        // 読み取り中ダイアログを表示
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
 
         try {
-            JeidReader reader = new JeidReader(mNfcTag);
+            JeidReader reader = new JeidReader(nfcTag);
             JPKIAP jpkiAP = reader.selectJPKIAP();
             JPKICertificate cert = null;
-            switch (mType) {
+            switch (this.type) {
             case "AUTH":
                 cert = jpkiAP.getAuthCert();
                 break;
@@ -80,14 +72,14 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                 String password = activity.getPassword();
                 if (password.isEmpty()) {
                     publishProgress("パスワードを入力してください。");
-                    return null;
+                    return;
                 }
                 try {
                     jpkiAP.verifySignPin(password);
                     cert = jpkiAP.getSignCert();
                 } catch (InvalidPinException e) {
-                    ipe = e;
-                    return null;
+                    activity.showInvalidPasswordDialog(e);
+                    return;
                 }
                 break;
             case "SIGN_CA":
@@ -96,7 +88,7 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
             }
 
             if (cert == null) {
-                return null;
+                return;
             }
 
             JSONObject obj = new JSONObject();
@@ -237,55 +229,18 @@ public class ShowCertTask extends AsyncTask<Void, String, JSONObject>
                     break;
                 }
             }
-            return obj;
+
+            // ビューアーを表示
+            Intent intent = new Intent(activity, ShowCertViewerActivity.class);
+            intent.putExtra("json", obj.toString());
+            activity.startActivity(intent);
         } catch (Exception e) {
             Log.e(TAG, "error at " + getClass().getSimpleName() + "#doInBackground()", e);
             publishProgress("エラー: カードを読み取れませんでした" + e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        ShowCertActivity activity = (ShowCertActivity)mRef.get();
-        if (activity == null) {
             return;
+        } finally {
+            progress.dismissAllowingStateLoss();
         }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(JSONObject obj) {
-        Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-        mProgress.dismissAllowingStateLoss();
-        ShowCertActivity activity = (ShowCertActivity)mRef.get();
-        if (activity == null || activity.isFinishing()) {
-            return;
-        }
-        if (ipe != null) {
-            int counter = ipe.getCounter();
-            String title;
-            String msg;
-            if (ipe.isBlocked()) {
-                title = "パスワードがブロックされています";
-                msg = "市区町村窓口でブロック解除の申請をしてください。";
-            } else {
-                title = "パスワードが間違っています";
-                msg = "パスワードを正しく入力してください。";
-                msg += "のこり" + counter + "回間違えるとブロックされます。";
-            }
-            activity.addMessage(title);
-            activity.addMessage(msg);
-            activity.showInvalidPinDialog(title, msg);
-            return;
-        }
-        if (obj == null) {
-            activity.addMessage("エラー: カードを読み取れませんでした。");
-            return;
-        }
-        Intent intent = new Intent(activity, ShowCertViewerActivity.class);
-        intent.putExtra("json", obj.toString());
-        activity.startActivity(intent);
     }
 
     private String keyUsageToString(final boolean[] keyUsage) {

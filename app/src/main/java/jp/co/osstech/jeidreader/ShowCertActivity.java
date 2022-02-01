@@ -1,7 +1,5 @@
 package jp.co.osstech.jeidreader;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -11,6 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import jp.co.osstech.libjeid.InvalidPinException;
+import org.json.JSONObject;
 
 public class ShowCertActivity
     extends BaseActivity
@@ -61,31 +64,32 @@ public class ShowCertActivity
     @Override
     public void onTagDiscovered(final Tag tag) {
         Log.d(TAG, getClass().getSimpleName() + "#onTagDiscovered()");
+
         if (!this.enableNFC) {
             Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
+
         ShowCertTask task = new ShowCertTask(this, tag, mType);
-        task.execute();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
-    protected void showInvalidPinDialog(String title, String msg) {
-        Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        this.enableNFC = false;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setNeutralButton(
-                "戻る",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        enableNFC = true;
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    protected void showInvalidPasswordDialog(InvalidPinException e) {
+        String title;
+        String msg;
+        if (e.isBlocked()) {
+            title = "パスワードがブロックされています";
+            msg = "市区町村窓口でブロック解除の申請をしてください。";
+        } else {
+            int counter = e.getCounter();
+            title = "パスワードが間違っています";
+            msg = "パスワードを正しく入力してください。";
+            msg += "のこり" + counter + "回間違えるとブロックされます。";
+        }
+        this.print(title);
+        this.print(msg);
+        this.showDialog(title, msg);
     }
 
     protected String getPassword() {
