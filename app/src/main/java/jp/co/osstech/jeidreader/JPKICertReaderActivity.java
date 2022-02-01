@@ -96,22 +96,5 @@ public class JPKICertReaderActivity
         EditText edit = (EditText)findViewById(R.id.edit_pin);
         return edit.getText().toString();
     }
-
-    protected void setMessage(String message) {
-        TextView text = (TextView)findViewById(R.id.message);
-        text.setText(message);
-    }
-
-    protected void addMessage(String message) {
-        TextView text = (TextView)findViewById(R.id.message);
-        text.setText(text.getText().toString() + "\n" + message);
-        // 一番下にスクロール
-        final ScrollView scroll = (ScrollView)findViewById(R.id.scroll);
-        scroll.post(new Runnable() {
-                public void run() {
-                    scroll.fullScroll(ScrollView.FOCUS_DOWN);
-                }
-            });
-    }
 }
 

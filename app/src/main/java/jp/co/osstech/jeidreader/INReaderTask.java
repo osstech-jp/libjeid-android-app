@@ -48,6 +48,7 @@ public class INReaderTask
         Log.d(TAG, getClass().getSimpleName() + "#run()");
         publishProgress("# 読み取り開始、カードを離さないでください");
         activity.hideKeyboard();
+        activity.clear();
         pin = activity.getPin();
 
         if (pin.isEmpty() || pin.length() != 4) {

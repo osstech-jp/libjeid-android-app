@@ -6,19 +6,20 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class INTestActivity
     extends BaseActivity
 {
-
     EditText editAuthPin;
     EditText editSignPin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_test);
         super.onCreate(savedInstanceState);
         this.enableNFC = true;
-        setContentView(R.layout.activity_test);
 
         editAuthPin = (EditText)findViewById(R.id.edit_jpki_auth_pin);
         editSignPin = (EditText)findViewById(R.id.edit_jpki_sign_pin);
@@ -40,7 +41,8 @@ public class INTestActivity
             return;
         }
         INTestTask task = new INTestTask(this, tag);
-        task.execute();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
     protected String getAuthPin() {

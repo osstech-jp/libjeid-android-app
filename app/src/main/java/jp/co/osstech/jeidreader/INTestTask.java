@@ -1,106 +1,84 @@
 package jp.co.osstech.jeidreader;
 
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Log;
-
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.security.PublicKey;
 import java.security.Signature;
-
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.in.*;
 import jp.co.osstech.libjeid.util.Hex;
 
-public class INTestTask extends AsyncTask<Void, String, Boolean>
+public class INTestTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
+    private INTestActivity activity;
+    private Tag nfcTag;
     private String authPin;
     private String signPin;
 
     public INTestTask(INTestActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<INTestActivity>(activity);
-        mNfcTag = nfcTag;
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        INTestActivity activity = (INTestActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
+    }
+
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        activity.hideKeyboard();
+        activity.clear();
+        publishProgress("# テスト開始、カードを離さないでください");
         authPin = activity.getAuthPin();
         signPin = activity.getSignPin();
-        activity.hideKeyboard();
-        activity.setMessage("# テスト開始、カードを離さないでください");
-    }
-
-    @Override
-    protected Boolean doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
 
         if (authPin.isEmpty()) {
             publishProgress("暗証番号を設定してください");
-            return false;
+            return;
         }
 
         if (signPin.isEmpty()) {
             publishProgress("パスワードを設定してください");
-            return false;
+            return;
         }
 
         long start = System.currentTimeMillis();
-        JeidReader reader;
         try {
-            reader = new JeidReader(mNfcTag);
-        } catch (IOException e) {
-            Log.e(TAG, "error", e);
-            return false;
-        }
-
-        publishProgress("## 券面事項入力補助APのテスト");
-        try {
+            JeidReader reader = new JeidReader(nfcTag);
+            publishProgress("## 券面事項入力補助APのテスト");
             INTextAP textAp = reader.selectINTextAP();
             textAp.verifyPin(authPin);
-            INTextMyNumber textMyNumber = textAp.readMyNumber();
+            INTextFiles textFiles = textAp.readFiles();
+            INTextMyNumber textMyNumber = textFiles.getMyNumber();
             publishProgress("マイナンバー: " + textMyNumber.getMyNumber());
-            INTextAttributes textAttrs = textAp.readAttributes();
+            INTextAttributes textAttrs = textFiles.getAttributes();
             publishProgress("氏名: " + textAttrs.getName());
             publishProgress("性別: " + textAttrs.getSexString());
             publishProgress("生年月日: " + textAttrs.getBirth());
             publishProgress("住所: " + textAttrs.getAddr());
-        } catch (Exception e) {
-            Log.e(TAG, "error", e);
-            publishProgress("エラー: " + e);
-            return false;
-        }
 
-        publishProgress("## 公的個人認証APのテスト");
-        try {
+            publishProgress("## 公的個人認証APのテスト");
             JPKIAP jpki = reader.selectJPKIAP();
-
             JPKICertificate authCert = jpki.getAuthCert();
             publishProgress("認証用証明書: " + authCert.getSubjectX500Principal());
             jpki.verifySignPin(signPin);
             JPKICertificate signCert = jpki.getSignCert();
             publishProgress("署名用証明書: " + signCert.getSubjectX500Principal());
             JPKIAttributes attrs = signCert.getJPKIAttributes();
-            if (attrs == null) {
-                publishProgress("署名用証明書属性: null");
-            } else {
-                publishProgress("署名用証明書属性: ");
-                publishProgress("  氏名: " + attrs.getName());
-                publishProgress("  氏名(代替文字): "
-                                + attrs.getNameAltString());
-                publishProgress("  性別: " + attrs.getSexString());
-                publishProgress("  生年月日: " + attrs.getBirth());
-                publishProgress("  住所: " + attrs.getAddr());
-                publishProgress("  住所(代替文字): "
-                                + attrs.getAddrAltString());
-            }
+
+            publishProgress("署名用証明書属性: ");
+            publishProgress("  氏名: " + attrs.getName());
+            publishProgress("  氏名(代替文字): "
+                            + attrs.getNameAltString());
+            publishProgress("  性別: " + attrs.getSexString());
+            publishProgress("  生年月日: " + attrs.getBirth());
+            publishProgress("  住所: " + attrs.getAddr());
+            publishProgress("  住所(代替文字): "
+                            + attrs.getAddrAltString());
+
             JPKICertificate authCACert = jpki.getAuthCACert();
             publishProgress("認証用CA証明書: " + authCACert.getSubjectX500Principal());
             JPKICertificate signCACert = jpki.getSignCACert();
@@ -125,7 +103,7 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
                 publishProgress("認証用署名の検証: 成功");
             } else {
                 publishProgress("認証用署名の検証: 失敗");
-                return false;
+                return;
             }
 
             JPKISignature signSignature = jpki.getSignSignature("SHA1withRSA");
@@ -141,42 +119,16 @@ public class INTestTask extends AsyncTask<Void, String, Boolean>
                 publishProgress("署名用署名の検証: 成功");
             } else {
                 publishProgress("署名用署名の検証: 失敗");
-                return false;
+                return;
             }
 
             long end = System.currentTimeMillis();
             publishProgress("処理時間(sec): " + ((float)(end - start) / 1000));
+            publishProgress("# テスト結果: Passed");
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        Log.d(TAG, getClass().getSimpleName() + "#onProgressUpdate()");
-        INTestActivity activity = (INTestActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(Boolean result) {
-        Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-        INTestActivity activity = (INTestActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (result) {
-            activity.addMessage("# テスト結果: Passed");
-        } else {
-            activity.addMessage("# テスト結果: Failed");
+            publishProgress("# テスト結果: Failed");
         }
     }
 }
