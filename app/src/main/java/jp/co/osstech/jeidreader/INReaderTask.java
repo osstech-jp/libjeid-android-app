@@ -3,12 +3,10 @@ package jp.co.osstech.jeidreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -29,56 +27,54 @@ import jp.co.osstech.libjeid.in.INVisualMyNumber;
 import jp.co.osstech.libjeid.util.BitmapARGB;
 import org.json.JSONObject;
 
-public class INReaderTask extends AsyncTask<Void, String, JSONObject>
+public class INReaderTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
-    private String mPin;
-    private ProgressDialogFragment mProgress;
-    private InvalidPinException ipe;
+    private INReaderActivity activity;
+    private Tag nfcTag;
+    private String pin;
 
     public INReaderTask(INReaderActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<INReaderActivity>(activity);
-        mNfcTag = nfcTag;
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        INReaderActivity activity = (INReaderActivity)mRef.get();
-        if (activity == null) {
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
+    }
+
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        publishProgress("# 読み取り開始、カードを離さないでください");
+        activity.hideKeyboard();
+        pin = activity.getPin();
+
+        if (pin.isEmpty() || pin.length() != 4) {
+            publishProgress("4桁の暗証番号を入力してください。");
             return;
         }
-        activity.setMessage("# 読み取り開始、カードを離さないでください");
-        activity.hideKeyboard();
-        mPin = activity.getPin();
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
-    }
 
-    @Override
-    protected JSONObject doInBackground(Void... args) {
-        if (mPin.isEmpty() || mPin.length() != 4) {
-            publishProgress("4桁の暗証番号を入力してください。");
-            return null;
-        }
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
+
         try {
             long startTime = System.currentTimeMillis();
-            JeidReader reader = new JeidReader(mNfcTag);
+            JeidReader reader = new JeidReader(nfcTag);
             CardType type = reader.detectCardType();
             publishProgress("## カード種別" + type);
             publishProgress("CardType: " + type);
             if (type != CardType.IN) {
                 publishProgress("マイナンバーカードではありません");
-                return null;
+                return;
             }
             publishProgress("## 券面入力補助APから情報を取得します");
             INTextAP textAp = reader.selectINTextAP();
             try {
-                textAp.verifyPin(mPin);
+                textAp.verifyPin(pin);
             } catch (InvalidPinException e) {
-                ipe = e;
-                return null;
+                activity.showInvalidPinDialog(e);
+                return;
             }
             long startReadTime = System.currentTimeMillis();
             INTextFiles textFiles = textAp.readFiles();
@@ -111,7 +107,7 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
 
             publishProgress("## 券面APから情報を取得します");
             INVisualAP visualAp = reader.selectINVisualAP();
-            visualAp.verifyPin(mPin);
+            visualAp.verifyPin(pin);
 
             startReadTime = System.currentTimeMillis();
             INVisualFiles visualFiles = visualAp.readFiles();
@@ -167,54 +163,14 @@ public class INReaderTask extends AsyncTask<Void, String, JSONObject>
             obj.put("cardinfo-cert-expire", certExpireDate);
             publishProgress("完了");
 
-            return obj;
+            Intent intent = new Intent(activity, INViewerActivity.class);
+            intent.putExtra("json", obj.toString());
+            activity.startActivity(intent);
         } catch (Exception e) {
-            Log.e(TAG, "error at INReaderTask#doInBackground()", e);
+            Log.e(TAG, getClass().getSimpleName() + "#run()", e);
             publishProgress("エラー: " + e);
-            return null;
+        } finally {
+            progress.dismissAllowingStateLoss();
         }
-    }
-
-    protected void onProgressUpdate(String... values) {
-        INReaderActivity activity = (INReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(JSONObject obj) {
-        mProgress.dismissAllowingStateLoss();
-        INReaderActivity activity = (INReaderActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (ipe != null) {
-            int counter = ipe.getCounter();
-            String title;
-            String msg;
-            if (ipe.isBlocked()) {
-                title = "PINがブロックされています";
-                msg = "市区町村窓口でブロック解除の申請をしてください。";
-            } else {
-                title = "PINが間違っています";
-                msg = "PINを正しく入力してください。";
-                msg += "のこり" + counter + "回間違えるとブロックされます。";
-            }
-            activity.addMessage(title);
-            activity.addMessage(msg);
-            activity.showInvalidPinDialog(title, msg);
-            return;
-        }
-        if (obj == null) {
-            activity.addMessage("エラー: カードを読み取れませんでした。");
-            return;
-        }
-
-        Intent intent = new Intent(activity, INViewerActivity.class);
-        intent.putExtra("json", obj.toString());
-        activity.startActivity(intent);
     }
 }

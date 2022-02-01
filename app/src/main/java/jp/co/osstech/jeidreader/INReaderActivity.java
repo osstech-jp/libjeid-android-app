@@ -1,7 +1,5 @@
 package jp.co.osstech.jeidreader;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -10,6 +8,9 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import jp.co.osstech.libjeid.InvalidPinException;
 
 public class INReaderActivity
     extends BaseActivity
@@ -20,7 +21,6 @@ public class INReaderActivity
         setContentView(R.layout.activity_in_reader);
         super.onCreate(savedInstanceState);
         EditText editPin = findViewById(R.id.edit_pin);
-        this.enableNFC = true;
     }
 
     protected void onNewIntent(Intent intent) {
@@ -38,47 +38,30 @@ public class INReaderActivity
             return;
         }
         INReaderTask task = new INReaderTask(this, tag);
-        task.execute();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
-    protected void showInvalidPinDialog(String title, String msg) {
+    protected void showInvalidPinDialog(InvalidPinException e) {
         Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        this.enableNFC = false;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setNeutralButton(
-                "戻る",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        enableNFC = true;
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        String title;
+        String msg;
+        if (e.isBlocked()) {
+            title = "暗証番号(4桁)がブロックされています";
+            msg = "市区町村窓口でブロック解除の申請をしてください。";
+        } else {
+            int counter = e.getCounter();
+            title = "暗証番号(4桁)が間違っています";
+            msg = "暗証番号(4桁)を正しく入力してください。";
+            msg += "のこり" + counter + "回間違えるとブロックされます。";
+        }
+        this.print(title);
+        this.print(msg);
+        this.showDialog(title, msg);
     }
 
     protected String getPin() {
         EditText edit = findViewById(R.id.edit_pin);
         return edit.getText().toString();
-    }
-
-    protected void setMessage(String message) {
-        TextView view = findViewById(R.id.message);
-        view.setText(message);
-    }
-
-    protected void addMessage(String message) {
-        TextView text = (TextView)findViewById(R.id.message);
-        text.setText(text.getText().toString() + "\n" + message);
-        // 一番下にスクロール
-        final ScrollView scroll = (ScrollView)findViewById(R.id.scroll);
-        scroll.post(new Runnable() {
-                public void run() {
-                    scroll.fullScroll(ScrollView.FOCUS_DOWN);
-                }
-            });
     }
 }
