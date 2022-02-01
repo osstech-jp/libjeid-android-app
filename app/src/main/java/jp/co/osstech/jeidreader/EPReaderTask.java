@@ -3,14 +3,12 @@ package jp.co.osstech.jeidreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
-import android.os.AsyncTask;
+import android.nfc.TagLostException;
 import android.util.Base64;
 import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import android.nfc.TagLostException;
-import java.lang.ref.WeakReference;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.PublicKey;
@@ -19,99 +17,89 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import jp.co.osstech.libjeid.*;
 import jp.co.osstech.libjeid.ep.*;
 import jp.co.osstech.libjeid.util.Hex;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
+public class EPReaderTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
+    private EPReaderActivity activity;
+    private Tag nfcTag;
     private String passportNumber;
     private String birthDate;
     private String expireDate;
-    private ProgressDialogFragment mProgress;
 
-    public EPReaderTask(EPReaderActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<EPReaderActivity>(activity);
-        mNfcTag = nfcTag;
+    public EPReaderTask(EPReaderActivity activity,
+                        Tag nfcTag) {
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        EPReaderActivity activity = (EPReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
+    }
+
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        this.activity.clear();
+        activity.hideKeyboard();
+
         passportNumber = activity.getPassportNumber();
         birthDate = activity.getBirthDate();
         expireDate = activity.getExpireDate();
 
-        activity.hideKeyboard();
-        activity.setMessage("# 読み取り開始、カードを離さないでください");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
-    }
-
-    @Override
-    protected JSONObject doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
+        publishProgress("# 読み取り開始、カードを離さないでください");
 
         if (passportNumber.isEmpty()) {
             publishProgress("旅券番号を設定してください");
-            return null;
+            return;
         }
 
         if (birthDate.isEmpty()) {
             publishProgress("生年月日を設定してください");
-            return null;
+            return;
         }
         if (birthDate.length() == 8) {
             birthDate = birthDate.substring(2);
         } else if (birthDate.length() != 6) {
             publishProgress("生年月日が8桁ではありません");
-            return null;
+            return;
         }
 
         if (expireDate.isEmpty()) {
             publishProgress("有効期限を設定してください");
-            return null;
+            return;
         }
         if (expireDate.length() == 8) {
             expireDate = expireDate.substring(2);
         } else if (expireDate.length() != 6) {
             publishProgress("有効期限が8桁ではありません");
-            return null;
+            return;
         }
         EPMRZ mrz;
         try {
             mrz = new EPMRZ(passportNumber, birthDate, expireDate);
         } catch (IllegalArgumentException e) {
             publishProgress("旅券番号、生年月日または有効期限が間違っています\nエラー: " + e);
-            return null;
+            return;
         }
+
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
 
         long start = System.currentTimeMillis();
-        JeidReader reader;
         try {
-            reader = new JeidReader(mNfcTag);
-        } catch (IOException e) {
-            Log.e(TAG, "error", e);
-            publishProgress("エラー: " + e);
-            return null;
-        }
-
-        try {
+            JeidReader reader = new JeidReader(nfcTag);
             publishProgress("## カード種別");
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
             if (type != CardType.EP) {
                 publishProgress("パスポートではありません");
-                return null;
+                return;
             }
 
             PassportAP ap = reader.selectPassportAP();
@@ -121,7 +109,7 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
             } catch (InvalidBACKeyException e) {
                 publishProgress("失敗\n"
                         + "旅券番号、生年月日または有効期限が間違っています");
-                return null;
+                return;
             }
             publishProgress("完了");
 
@@ -182,40 +170,16 @@ public class EPReaderTask extends AsyncTask<Void, String, JSONObject>
 
             if (!"JPN".equals(dg1Mrz.getIssuingCountry())) {
                 publishProgress("日本発行のパスポートではありません");
-                return null;
+                return;
             }
-            return obj;
+            Intent intent = new Intent(activity, EPViewerActivity.class);
+            intent.putExtra("json", obj.toString());
+            activity.startActivity(intent);
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return null;
+        } finally {
+            progress.dismissAllowingStateLoss();
         }
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        Log.d(TAG, getClass().getSimpleName() + "#onProgressUpdate()");
-        EPReaderActivity activity = (EPReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(JSONObject obj) {
-        Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-        mProgress.dismissAllowingStateLoss();
-        EPReaderActivity activity = (EPReaderActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (obj == null) {
-            return;
-        }
-        Intent intent = new Intent(activity, EPViewerActivity.class);
-        intent.putExtra("json", obj.toString());
-        activity.startActivity(intent);
     }
 }

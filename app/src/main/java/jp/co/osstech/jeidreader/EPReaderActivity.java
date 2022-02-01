@@ -1,7 +1,5 @@
 package jp.co.osstech.jeidreader;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
@@ -13,8 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class EPReaderActivity
     extends BaseActivity
@@ -83,26 +82,8 @@ public class EPReaderActivity
             return;
         }
         EPReaderTask task = new EPReaderTask(this, tag);
-        task.execute();
-    }
-
-    protected void showInvalidPinDialog(String title, String msg) {
-        Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        this.enableNFC = false;
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setNeutralButton(
-            "戻る",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    enableNFC = true;
-                }
-            });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
     protected String getPassportNumber() {
