@@ -3,14 +3,10 @@ package jp.co.osstech.jeidreader;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import org.json.JSONObject;
-
 import jp.co.osstech.libjeid.CardType;
 import jp.co.osstech.libjeid.InvalidACKeyException;
 import jp.co.osstech.libjeid.JeidReader;
@@ -20,55 +16,42 @@ import jp.co.osstech.libjeid.ValidationResult;
 import jp.co.osstech.libjeid.rc.*;
 import jp.co.osstech.libjeid.rc.RCAddress;
 import jp.co.osstech.libjeid.util.BitmapARGB;
+import org.json.JSONObject;
 
-public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
+public class RCReaderTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
+    private RCReaderActivity activity;
+    private Tag nfcTag;
     private String rcNumber;
-    private ProgressDialogFragment mProgress;
 
     public RCReaderTask(RCReaderActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<RCReaderActivity>(activity);
-        mNfcTag = nfcTag;
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        RCReaderActivity activity = (RCReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
+    }
+
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
         rcNumber = activity.getRcNumber();
-
         activity.hideKeyboard();
-        activity.setMessage("# 読み取り開始、カードを離さないでください");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
-    }
-
-    @Override
-    protected JSONObject doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
-
+        activity.clear();
+        publishProgress("# 読み取り開始、カードを離さないでください");
+        ProgressDialogFragment progress = new ProgressDialogFragment();
+        progress.show(activity.getSupportFragmentManager(), "progress");
         long start = System.currentTimeMillis();
-        JeidReader reader;
         try {
-            reader = new JeidReader(mNfcTag);
-        } catch (IOException e) {
-            Log.e(TAG, "error", e);
-            publishProgress("エラー: " + e);
-            return null;
-        }
-
-        try {
+            JeidReader reader = new JeidReader(nfcTag);
             publishProgress("## カード種別");
             CardType type = reader.detectCardType();
             publishProgress("CardType: " + type);
             if (type != CardType.RC) {
                 publishProgress("在留カード/特別永住者証明書ではありません");
-                return null;
+                return;
             }
             ResidenceCardAP ap = reader.selectResidenceCardAP();
             RCCommonData commonData = ap.readCommonData();
@@ -78,22 +61,19 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
 
             if (rcNumber.isEmpty()) {
                 publishProgress("在留カード番号または特別永住者証明書番号を設定してください");
-                return null;
+                return;
             }
             RCKey rckey = new RCKey(rcNumber);
             publishProgress("## セキュアメッセージング用の鍵交換&認証");
             try {
                 ap.startAC(rckey);
             } catch (InvalidACKeyException e) {
-                publishProgress("失敗\n"
-                        + "在留カード番号または特別永住者証明書番号が間違っています");
-                return null;
+                publishProgress("在留カード番号または特別永住者証明書番号が間違っています");
+                return;
             }
-            publishProgress("完了");
 
             publishProgress("## カードから情報を取得します");
             RCFiles files = ap.readFiles();
-            publishProgress("完了");
             JSONObject obj = new JSONObject();
             obj.put("rc-card-type", cardType.getType());
             RCCardEntries cardEntries = files.getCardEntries();
@@ -148,38 +128,15 @@ public class RCReaderTask extends AsyncTask<Void, String, JSONObject>
                 // free版の場合、真正性検証処理で
                 // UnsupportedOperationException が返ります。
             }
-            return obj;
+            // Viewerを起動
+            Intent intent = new Intent(activity, RCViewerActivity.class);
+            intent.putExtra("json", obj.toString());
+            activity.startActivity(intent);
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return null;
+        } finally {
+            progress.dismissAllowingStateLoss();
         }
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        Log.d(TAG, getClass().getSimpleName() + "#onProgressUpdate()");
-        RCReaderActivity activity = (RCReaderActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    @Override
-    protected void onPostExecute(JSONObject obj) {
-        Log.d(TAG, getClass().getSimpleName() + "#onPostExecute()");
-        mProgress.dismissAllowingStateLoss();
-        RCReaderActivity activity = (RCReaderActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (obj == null) {
-            return;
-        }
-        Intent intent = new Intent(activity, RCViewerActivity.class);
-        intent.putExtra("json", obj.toString());
-        activity.startActivity(intent);
     }
 }

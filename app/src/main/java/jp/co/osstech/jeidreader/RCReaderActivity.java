@@ -1,13 +1,13 @@
 package jp.co.osstech.jeidreader;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RCReaderActivity
     extends BaseActivity
@@ -38,26 +38,8 @@ public class RCReaderActivity
             return;
         }
         RCReaderTask task = new RCReaderTask(this, tag);
-        task.execute();
-    }
-
-    protected void showInvalidPinDialog(String title, String msg) {
-        Log.d(TAG, getClass().getSimpleName() + "#showInvalidPinDialog()");
-        this.enableNFC = false;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setNeutralButton(
-            "戻る",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    enableNFC = true;
-                }
-            });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
     protected String getRcNumber() {

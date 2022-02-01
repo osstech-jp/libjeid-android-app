@@ -8,7 +8,6 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.security.cert.CertificateException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -268,7 +267,7 @@ public class DLReaderTask
             // オブジェクトをJSONに追加
             obj.put("dl-changes", changesObj);
 
-            // ビューアーAvtivityを起動
+            // Viewerを起動
             Intent intent = new Intent(activity, DLViewerActivity.class);
             intent.putExtra("json", obj.toString());
             activity.startActivity(intent);

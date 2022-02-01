@@ -164,6 +164,7 @@ public class INReaderTask
             obj.put("cardinfo-cert-expire", certExpireDate);
             publishProgress("完了");
 
+            // Viewerを起動
             Intent intent = new Intent(activity, INViewerActivity.class);
             intent.putExtra("json", obj.toString());
             activity.startActivity(intent);
