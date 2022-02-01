@@ -6,13 +6,13 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import jp.co.osstech.libjeid.JPKIAP;
 
-public class SignActivity
+public class JPKISignActivity
     extends BaseActivity
 {
     private int type;
@@ -47,8 +47,9 @@ public class SignActivity
             Log.d(TAG, getClass().getSimpleName() + ": NFC disabled.");
             return;
         }
-        SignTask task = new SignTask(this, tag);
-        task.execute();
+        JPKISignTask task = new JPKISignTask(this, tag);
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.submit(task);
     }
 
     protected int getType() {
@@ -68,22 +69,5 @@ public class SignActivity
     protected String getSignAlgo() {
         Spinner spinner = (Spinner)findViewById(R.id.sign_algo_spinner);
         return spinner.getSelectedItem().toString();
-    }
-
-    protected void setMessage(String message) {
-        TextView text = (TextView)findViewById(R.id.message);
-        text.setText(message);
-    }
-
-    protected void addMessage(String message) {
-        TextView text = (TextView)findViewById(R.id.message);
-        text.setText(text.getText().toString() + "\n" + message);
-        // 一番下にスクロール
-        final ScrollView scroll = (ScrollView)findViewById(R.id.scroll);
-        scroll.post(new Runnable() {
-                public void run() {
-                    scroll.fullScroll(ScrollView.FOCUS_DOWN);
-                }
-            });
     }
 }

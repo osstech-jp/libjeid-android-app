@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.nfc.Tag;
-import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -21,36 +19,26 @@ import jp.co.osstech.libjeid.JPKISignature;
 import jp.co.osstech.libjeid.JeidReader;
 import jp.co.osstech.libjeid.util.Hex;
 
-public class SignTask extends AsyncTask<Void, String, Boolean>
+public class JPKISignTask
+    implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private WeakReference mRef;
-    private Tag mNfcTag;
-    private String mPin;
-    private byte[] mInput;
-    private ProgressDialogFragment mProgress;
+    private JPKISignActivity activity;
+    private Tag nfcTag;
+    private String pin;
+    private byte[] input;
 
-    public SignTask(SignActivity activity, Tag nfcTag) {
-        mRef = new WeakReference<SignActivity>(activity);
-        mNfcTag = nfcTag;
+    public JPKISignTask(JPKISignActivity activity, Tag nfcTag) {
+        this.activity = activity;
+        this.nfcTag = nfcTag;
     }
 
-    @Override
-    protected void onPreExecute() {
-        SignActivity activity;
-        activity = (SignActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        mPin = activity.getPin();
-        mInput = activity.getText().getBytes();
-        activity.hideKeyboard();
-        activity.setMessage("");
-        mProgress = new ProgressDialogFragment();
-        mProgress.show(activity.getSupportFragmentManager(), "progress");
+    private void publishProgress(String msg) {
+        this.activity.print(msg);
     }
 
-    private void outputFile(SignActivity activity, String filename, byte[] data) throws IOException {
+    private void outputFile(JPKISignActivity activity, String filename, byte[] data)
+        throws IOException {
         File file = new File(activity.getExternalFilesDir(null), filename);
         FileOutputStream writer = new FileOutputStream(file);
         writer.write(Base64.encode(data, Base64.DEFAULT));
@@ -60,43 +48,41 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
                                         null, null);
     }
 
-    @Override
-    protected Boolean doInBackground(Void... args) {
-        Log.d(TAG, getClass().getSimpleName() + "#doInBackground()");
-
-        SignActivity activity = (SignActivity)mRef.get();
-        if (activity == null) {
-            return false;
-        }
+    public void run() {
+        Log.d(TAG, getClass().getSimpleName() + "#run()");
+        pin = activity.getPin();
+        input = activity.getText().getBytes();
+        activity.hideKeyboard();
+        activity.clear();
 
         String signAlgo = activity.getSignAlgo();
-
         int type = activity.getType();
+
         if (type == JPKIAP.TYPE_AUTH) {
             publishProgress("認証用署名を開始");
         } else {
             publishProgress("署名用署名を開始");
         }
 
-        if (mPin.isEmpty()) {
+        if (pin.isEmpty()) {
             publishProgress("暗証番号を入力してください。");
-            return false;
+            return;
         }
 
         try {
-            publishProgress("input: " + Hex.encode(mInput));
+            publishProgress("input: " + Hex.encode(input));
 
             publishProgress("write input file: input.txt");
-            outputFile(activity, "input.txt", mInput);
+            outputFile(activity, "input.txt", input);
 
-            JeidReader reader = new JeidReader(mNfcTag);
+            JeidReader reader = new JeidReader(nfcTag);
             JPKIAP jpki = reader.selectJPKIAP();
 
             X509Certificate cert;
             if (type == JPKIAP.TYPE_AUTH) {
                 cert = jpki.getAuthCert();
             } else {
-                jpki.verifySignPin(mPin);
+                jpki.verifySignPin(pin);
                 cert = jpki.getSignCert();
             }
             byte[] certDer;
@@ -104,7 +90,7 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
                 certDer = cert.getEncoded();
             } catch (Exception e) {
                 publishProgress("DERエンコードエラー");
-                return false;
+                return;
             }
             publishProgress("write cert file: cert.txt");
             outputFile(activity, "cert.txt", certDer);
@@ -115,12 +101,12 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
             byte[] signed;
             if (type == JPKIAP.TYPE_AUTH) {
                 signature = jpki.getAuthSignature(signAlgo);
-                signature.update(mInput);
-                signed = signature.sign(mPin);
+                signature.update(input);
+                signed = signature.sign(pin);
             } else {
                 signature = jpki.getSignSignature(signAlgo);
-                signature.update(mInput);
-                signed = signature.sign(mPin);
+                signature.update(input);
+                signed = signature.sign(pin);
             }
             //publishProgress("signed: " + Hex.encode(signed));
             publishProgress("write signed file: signed.txt");
@@ -137,53 +123,23 @@ public class SignTask extends AsyncTask<Void, String, Boolean>
             PublicKey pubkey = cert.getPublicKey();
             Signature verifier = Signature.getInstance(signAlgo);
             verifier.initVerify(pubkey);
-            verifier.update(mInput);
+            verifier.update(input);
             if (verifier.verify(signed)) {
                 publishProgress("署名の検証: 成功");
             } else {
                 publishProgress("署名の検証: 失敗");
-                return false;
             }
 
         } catch (NoSuchAlgorithmException e) {
             publishProgress("ダイジェストエラー");
-            return false;
         } catch (InvalidPinException e) {
             publishProgress("エラー: PINが間違っています。のこり: " + e.getCounter());
-            return false;
         } catch (IOException e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return false;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
             publishProgress("エラー: " + e);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    protected void onProgressUpdate(String... values) {
-        SignActivity activity = (SignActivity)mRef.get();
-        if (activity == null) {
-            return;
-        }
-        activity.addMessage(values[0]);
-    }
-
-    protected void onPostExecute(Boolean result) {
-        mProgress.dismissAllowingStateLoss();
-        SignActivity activity = (SignActivity)mRef.get();
-        if (activity == null ||
-            activity.isFinishing()) {
-            return;
-        }
-        if (result) {
-            activity.addMessage("成功");
-        } else {
-            activity.addMessage("失敗");
         }
     }
 }

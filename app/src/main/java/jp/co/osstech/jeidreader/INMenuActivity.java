@@ -40,11 +40,11 @@ public class INMenuActivity
             intent = new Intent(getApplication(), JPKICertSelectActivity.class);
             startActivity(intent);
         } else if (id == R.id.sign_jpki_auth_button) {
-            intent = new Intent(getApplication(), SignActivity.class);
+            intent = new Intent(getApplication(), JPKISignActivity.class);
             intent.putExtra("TYPE", JPKIAP.TYPE_AUTH);
             startActivity(intent);
         } else if (id == R.id.sign_jpki_sign_button) {
-            intent = new Intent(getApplication(), SignActivity.class);
+            intent = new Intent(getApplication(), JPKISignActivity.class);
             intent.putExtra("TYPE", JPKIAP.TYPE_SIGN);
             startActivity(intent);
         } else if (id == R.id.in_test_button) {
