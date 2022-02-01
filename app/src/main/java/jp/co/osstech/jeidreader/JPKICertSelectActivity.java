@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class SelectCertActivity
+public class JPKICertSelectActivity
     extends BaseActivity
     implements View.OnClickListener
 {
@@ -30,19 +30,19 @@ public class SelectCertActivity
         Intent intent;
         int id = view.getId();
         if(id == R.id.show_auth_cert_button) {
-            intent = new Intent(getApplication(), ShowCertActivity.class);
+            intent = new Intent(getApplication(), JPKICertReaderActivity.class);
             intent.putExtra("TYPE", "AUTH");
             startActivity(intent);
         } else if (id == R.id.show_sign_cert_button) {
-            intent = new Intent(getApplication(), ShowCertActivity.class);
+            intent = new Intent(getApplication(), JPKICertReaderActivity.class);
             intent.putExtra("TYPE", "SIGN");
             startActivity(intent);
         } else if (id == R.id.show_auth_ca_cert_button) {
-            intent = new Intent(getApplication(), ShowCertActivity.class);
+            intent = new Intent(getApplication(), JPKICertReaderActivity.class);
             intent.putExtra("TYPE", "AUTH_CA");
             startActivity(intent);
         } else if (id == R.id.show_sign_ca_cert_button) {
-            intent = new Intent(getApplication(), ShowCertActivity.class);
+            intent = new Intent(getApplication(), JPKICertReaderActivity.class);
             intent.putExtra("TYPE", "SIGN_CA");
             startActivity(intent);
         }

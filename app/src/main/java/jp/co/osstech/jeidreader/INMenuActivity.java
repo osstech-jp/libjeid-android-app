@@ -37,7 +37,7 @@ public class INMenuActivity
             intent = new Intent(getApplication(), INReaderActivity.class);
             startActivity(intent);
         } else if (id == R.id.selectcert_button) {
-            intent = new Intent(getApplication(), SelectCertActivity.class);
+            intent = new Intent(getApplication(), JPKICertSelectActivity.class);
             startActivity(intent);
         } else if (id == R.id.sign_jpki_auth_button) {
             intent = new Intent(getApplication(), SignActivity.class);

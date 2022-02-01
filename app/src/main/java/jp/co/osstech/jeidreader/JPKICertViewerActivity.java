@@ -9,10 +9,9 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import org.json.JSONObject;
 
-public class ShowCertViewerActivity
+public class JPKICertViewerActivity
     extends BaseActivity
 {
     private static final String TAG = MainActivity.TAG;

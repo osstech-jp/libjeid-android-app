@@ -27,16 +27,16 @@ import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.json.JSONObject;
 
-public class ShowCertTask
+public class JPKICertReaderTask
     implements Runnable
 {
     private static final String TAG = MainActivity.TAG;
-    private ShowCertActivity activity;
+    private JPKICertReaderActivity activity;
     private Tag nfcTag;
     private String type;
     private InvalidPinException ipe;
 
-    public ShowCertTask(ShowCertActivity activity, Tag nfcTag, String type) {
+    public JPKICertReaderTask(JPKICertReaderActivity activity, Tag nfcTag, String type) {
         this.activity = activity;
         this.nfcTag = nfcTag;
         this.type = type;
@@ -231,7 +231,7 @@ public class ShowCertTask
             }
 
             // ビューアーを表示
-            Intent intent = new Intent(activity, ShowCertViewerActivity.class);
+            Intent intent = new Intent(activity, JPKICertViewerActivity.class);
             intent.putExtra("json", obj.toString());
             activity.startActivity(intent);
         } catch (Exception e) {

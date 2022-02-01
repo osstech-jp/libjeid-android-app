@@ -15,10 +15,10 @@ import java.util.concurrent.Future;
 import jp.co.osstech.libjeid.InvalidPinException;
 import org.json.JSONObject;
 
-public class ShowCertActivity
+public class JPKICertReaderActivity
     extends BaseActivity
 {
-    private String mType;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class ShowCertActivity
         TextView info = (TextView)findViewById(R.id.info);
         this.enableNFC = true;
         Intent intent = getIntent();
-        mType = intent.getStringExtra("TYPE");
-        switch (mType) {
+        type = intent.getStringExtra("TYPE");
+        switch (type) {
         case "AUTH":
             info.setText(getString(R.string.show_auth_cert) + "を表示します。");
             break;
@@ -70,7 +70,7 @@ public class ShowCertActivity
             return;
         }
 
-        ShowCertTask task = new ShowCertTask(this, tag, mType);
+        JPKICertReaderTask task = new JPKICertReaderTask(this, tag, type);
         ExecutorService exec = Executors.newSingleThreadExecutor();
         exec.submit(task);
     }
