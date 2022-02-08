@@ -32,10 +32,15 @@ public abstract class BaseActivity
 {
     public static final String TAG = "JeidReader";
     protected NfcAdapter mNfcAdapter;
-    protected int nfcMode = 0;
+
+    // NFC読み取りモード
+    private final int NFC_AUTO_MODE = 0;
+    private final int NFC_READER_MODE = 1;
+    private final int NFC_FD_MODE = 2;
+    protected int nfcMode;
     // ビューアーやメニュー画面ではNFC読み取りを無効化する
     // また、PIN間違いが発生してダイヤログを表示している間に
-    // 連続読み取りが発生することを防ぐ
+    // 連続読み取りが発生することを防ぐためのフラグ
     protected boolean enableNFC = false;
 
     @Override
@@ -43,6 +48,19 @@ public abstract class BaseActivity
         Log.d(TAG, getClass().getSimpleName() +
               "#onCreate(" + savedInstanceState + ")");
         super.onCreate(savedInstanceState);
+
+        // NFC読み取りモードの設定値を取得
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        this.nfcMode = prefs.getInt("nfc_mode", NFC_AUTO_MODE);
+        if (this.nfcMode == NFC_AUTO_MODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Android 8.0以上はReaderModeを利用
+                this.nfcMode = NFC_READER_MODE;
+            } else {
+                // Android 8.0未満はForegroundDispatchを利用
+                this.nfcMode = NFC_FD_MODE;
+            }
+        }
     }
 
     @Override
@@ -51,14 +69,6 @@ public abstract class BaseActivity
         super.onResume();
 
         invalidateOptionsMenu();
-
-        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        this.nfcMode = prefs.getInt("nfc_mode", 0);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            // Android 4.4未満はForegroundDispatchを利用
-            this.nfcMode = 1;
-        }
 
         if(!this.enableNFC) {
             return;
@@ -69,7 +79,7 @@ public abstract class BaseActivity
             return;
         }
 
-        if (this.nfcMode == 0) {
+        if (this.nfcMode == NFC_READER_MODE) {
             Log.d(TAG, "NFC mode: ReaderMode");
             Bundle options = new Bundle();
             //options.putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 500);
@@ -102,7 +112,7 @@ public abstract class BaseActivity
         if (mNfcAdapter == null) {
             return;
         }
-        if (nfcMode == 0) {
+        if (nfcMode == NFC_READER_MODE) {
             mNfcAdapter.disableReaderMode(this);
         } else {
             mNfcAdapter.disableForegroundDispatch(this);
@@ -132,7 +142,9 @@ public abstract class BaseActivity
             }
         }
         // NFC modeを表示
-        if (nfcMode == 0) {
+        if (nfcMode == NFC_AUTO_MODE) {
+            menu.getItem(1).setTitle("A");
+        } else if (nfcMode == NFC_READER_MODE) {
             menu.getItem(1).setTitle("R");
         } else {
             menu.getItem(1).setTitle("F");

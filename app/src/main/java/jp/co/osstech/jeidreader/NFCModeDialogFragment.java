@@ -19,6 +19,7 @@ public class NFCModeDialogFragment
         prefs = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         int nfcMode = prefs.getInt("nfc_mode", 0);
         String[] items = {
+            "auto",
             "ReaderMode",
             "ForegroundDispatch",
         };
