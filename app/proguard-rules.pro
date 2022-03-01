@@ -25,9 +25,7 @@
     public static *** d(...)        ;
 }
 
--keep class org.** { *; }
--dontwarn org.**
+-keep class org.bouncycastle.** { *; }
 -keep class ucar.** { *; }
--dontwarn ucar.**
 -dontwarn android.**
 -dontwarn module-info
