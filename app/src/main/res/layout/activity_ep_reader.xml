@@ -42,7 +42,7 @@
           android:layout_marginTop="8dp"
           android:ems="10"
           android:textSize="20sp"
-          android:inputType="text"
+          android:inputType="textVisiblePassword"
           android:maxLength="9"
           android:hint="@null"
           tools:ignore="Autofill"
