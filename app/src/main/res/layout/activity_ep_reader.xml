@@ -61,7 +61,7 @@
           android:layout_marginTop="8dp"
           android:ems="10"
           android:textSize="20sp"
-          android:inputType="text"
+          android:inputType="number"
           android:maxLength="8"
           android:hint="YYYYMMDD"
           tools:ignore="Autofill" />
@@ -79,7 +79,7 @@
           android:layout_marginTop="8dp"
           android:ems="10"
           android:textSize="20sp"
-          android:inputType="text"
+          android:inputType="number"
           android:maxLength="8"
           android:hint="YYYYMMDD"
           tools:ignore="Autofill" />
