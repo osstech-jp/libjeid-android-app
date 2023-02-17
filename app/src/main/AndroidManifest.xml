@@ -17,7 +17,8 @@
     <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <action android:name="android.intent.action.VIEW"/>
@@ -27,82 +28,97 @@
     <activity
         android:name=".INMenuActivity"
         android:label="@string/in_menu"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".INReaderActivity"
         android:label="@string/in_reader"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".INViewerActivity"
         android:label="@string/in_viewer"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".JPKICertSelectActivity"
         android:label="@string/show_cert"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".JPKICertReaderActivity"
         android:label="@string/show_cert"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".JPKICertViewerActivity"
         android:label="@string/show_cert_vewer"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".JPKISignActivity"
         android:label="@string/sign"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:exported="false">
     </activity>
     <activity
         android:name=".PinStatusActivity"
         android:label="@string/pinstatus"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".INTestActivity"
         android:label="@string/in_test"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:exported="false">
     </activity>
     <activity
         android:name=".DLReaderActivity"
         android:label="@string/dl_reader"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:exported="false">
     </activity>
     <activity
         android:name=".DLViewerActivity"
         android:label="@string/dl_viewer"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".EPReaderActivity"
         android:label="@string/ep_reader"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:exported="false">
     </activity>
     <activity
         android:name=".EPViewerActivity"
         android:label="@string/ep_viewer"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
     <activity
         android:name=".RCReaderActivity"
         android:label="@string/rc_reader"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+        android:exported="false">
     </activity>
     <activity
         android:name=".RCViewerActivity"
         android:label="@string/rc_viewer"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:exported="false">
     </activity>
   </application>
 </manifest>
