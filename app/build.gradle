@@ -5,11 +5,11 @@ def local = new Properties()
 local.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "jp.co.osstech.jeidreader"
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 39
         versionName "1.0." + versionCode
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
