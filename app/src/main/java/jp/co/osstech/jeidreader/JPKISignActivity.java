@@ -36,7 +36,7 @@ public class JPKISignActivity
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d(TAG, getClass().getSimpleName() + "#onNewIntent()");
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag.class);
         this.onTagDiscovered(tag);
     }
 
