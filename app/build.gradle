@@ -31,6 +31,9 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
@@ -78,10 +81,10 @@ repositories {
 dependencies {
     if (local.getProperty("libjeid.username")) {
         // LibJeID製品版を利用
-        implementation 'jp.co.osstech:libjeid-full:20240214@aar'
+        implementation 'jp.co.osstech:libjeid-full:20240807@aar'
     } else {
         // LibJeID無償版を利用
-        implementation 'jp.co.osstech:libjeid-free:20240214@aar'
+        implementation 'jp.co.osstech:libjeid-free:20240807@aar'
     }
 
     // ダウンロードしたaarファイルを利用
