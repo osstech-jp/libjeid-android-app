@@ -29,3 +29,4 @@
 -keep class ucar.** { *; }
 -dontwarn android.**
 -dontwarn module-info
+-dontwarn javax.naming.**
